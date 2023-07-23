@@ -38,3 +38,5 @@
 * 行ったルーティーンや翌朝の調子を掲示板で投稿できる機能
 * 管理画面
 
+### 画面遷移図
+https://www.figma.com/file/bmEKoCUcQYfbsgaDZuOmAs/%E7%84%A1%E9%A1%8C?type=design&node-id=0%3A1&mode=design&t=aPuI4j8tnYk7N9ia-1

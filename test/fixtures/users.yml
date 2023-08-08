@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email: MyString
+  password_digest: MyString
+  bedtime: 2023-08-08 16:26:41
+  wake_up_time: 2023-08-08 16:26:41
+  notification_time: 2023-08-08 16:26:41
+
+two:
+  name: MyString
+  email: MyString
+  password_digest: MyString
+  bedtime: 2023-08-08 16:26:41
+  wake_up_time: 2023-08-08 16:26:41
+  notification_time: 2023-08-08 16:26:41

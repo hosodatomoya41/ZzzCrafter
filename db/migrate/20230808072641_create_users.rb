@@ -10,7 +10,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.time :notification_time
 
 
-      t.timestamps, null: false
+      t.timestamps null: false
     end
   end
 end

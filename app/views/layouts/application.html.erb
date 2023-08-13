@@ -10,10 +10,8 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
+  <body style="background-color: white;">
     <%= render 'shared/header' %>
-    <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
-    </main>
   </body>
 </html>

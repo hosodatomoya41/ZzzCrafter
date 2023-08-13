@@ -1,0 +1,33 @@
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+    <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+
+      <h1 class="text-3xl font-bold">新規登録ページ</h1>
+      
+      <%= form_with model: @user, local: true, class: "w-full max-w-lg mt-5" do |form| %>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3">
+            <%= form.label :name, class: "tracking-wide text-gray-700 text-xs font-bold mb-2" %>
+            <%= form.text_field :name, class: "w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white" %>
+          </div>
+          <div class="w-full px-3">
+            <%= form.label :email, class: "tracking-wide text-gray-700 text-xs font-bold mb-2" %>
+            <%= form.email_field :email, class: "w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white" %>
+          </div>
+          <div class="w-full px-3">
+            <%= form.label :password, class: "tracking-wide text-gray-700 text-xs font-bold mb-2" %>
+            <%= form.password_field :password, class: "w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white" %>
+          </div>
+          <div class="w-full px-3">
+            <%= form.label :password_confirmation, "Password Confirmation", class: "tracking-wide text-gray-700 text-xs font-bold mb-2" %>
+            <%= form.password_field :password_confirmation, class: "w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white" %>
+          </div>
+          <div class="w-full px-3 mt-3 text-center">
+            <%= form.submit "新規登録", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</section>

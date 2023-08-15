@@ -1,0 +1,29 @@
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+    <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+      <h1 class="title-font font-medium text-3xl text-gray-900">ZzzCrafterログインページ</h1>
+      <p class="leading-relaxed mt-4">ZzzCrafterへのログイン </p>
+      <br>
+      <p> 新規登録はこちらから！ </p>
+      </br>
+      <br>
+<%= link_to '新規登録', new_user_path, class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+      </br>
+    </div>
+    <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Sign In</h2>
+      <%= form_with url: login_path, local: true do |f| %>
+      <div class="relative mb-4">
+        <%= f.label :email, class: 'tracking-wide text-gray-700 text-xs font-bold mb-2' %>
+        <%= f.email_field :email, placeholder: "メールアドレスを入力してください", class: 'w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white' %>
+      </div>
+      <div class="relative mb-4">
+        <%= f.label :password, class: 'tracking-wide text-gray-700 text-xs font-bold mb-2' %>
+        <%= f.password_field :password, placeholder: "パスワードを入力してください", class: 'w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white' %>
+      </div>
+      <%= f.submit "ログイン", class: 'text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg' %>
+    <% end %>
+      <p class="text-xs text-gray-500 mt-3">パスワードを忘れた方はこちら</p>
+    </div>
+  </div>
+</section>

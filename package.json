@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "daisyui": "^3.5.1"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^7.3.0"
+  }
+}

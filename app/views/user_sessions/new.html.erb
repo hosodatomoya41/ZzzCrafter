@@ -12,15 +12,17 @@
     </div>
     <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
       <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Sign In</h2>
+      <%= form_with url: login_path, local: true do |f| %>
       <div class="relative mb-4">
-        <label for="Name" class="leading-7 text-sm text-gray-600">Email</label>
-        <input type="text" id="Name" name="Name" placeholder="Emailを入力してください" class="input input-bordered w-full max-w-xs bg-white">
+        <%= f.label :email, class: 'tracking-wide text-gray-700 text-xs font-bold mb-2' %>
+        <%= f.email_field :email, placeholder: "メールアドレスを入力してください", class: 'w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white' %>
       </div>
       <div class="relative mb-4">
-        <label for="email" class="leading-7 text-sm text-gray-600">Password</label>
-        <input type="email" id="email" name="email" placeholder="Passwordを入力してください" class="input input-bordered w-full max-w-xs bg-white">
+        <%= f.label :password, class: 'tracking-wide text-gray-700 text-xs font-bold mb-2' %>
+        <%= f.password_field :password, placeholder: "パスワードを入力してください", class: 'w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 focus:outline-none focus:bg-white' %>
       </div>
-      <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">ログイン</button>
+      <%= f.submit "ログイン", class: 'text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg' %>
+    <% end %>
       <p class="text-xs text-gray-500 mt-3">パスワードを忘れた方はこちら</p>
     </div>
   </div>

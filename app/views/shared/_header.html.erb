@@ -4,7 +4,7 @@
   <%= link_to '睡眠時間の管理', '#', class: 'btn btn-outline btn-accent text-xl mr-4' %>
   <%= link_to 'ルーティーン一覧', '#', class: 'btn btn-ghost btn-outline btn-secondary text-xl mr-4' %>
   <% if logged_in? %>
-    <%= link_to "ログアウト", logout_path, data: { turbo_method: :delete }, class: 'btn btn-ghost btn btn-outline text-xl' %>
+    <%= link_to 'ユーザーページ', user_path(current_user), class: 'btn btn-ghost btn btn-outline text-xl' %>
   <% else %>
     <%= link_to 'ログイン', login_path, class: 'btn btn-ghost btn btn-outline text-xl' %>
   <% end %>

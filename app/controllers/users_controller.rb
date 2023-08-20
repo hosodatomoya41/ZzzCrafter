@@ -5,6 +5,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @total_routine_count = @user.sleep_records.count
+    @total_date_count = @user.sleep_records.count
   end
 
   def create

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find(current_user.id)
     @total_routine_count = @user.sleep_records.count
     @total_date_count = @user.sleep_records.count
   end

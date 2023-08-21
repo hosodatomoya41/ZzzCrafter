@@ -1,0 +1,16 @@
+<section class="text-gray-600 bg-white-200 body-font">
+  <h1 class='my-10 text-4xl text-center'><%= @user.name %>さんのユーザーページ</h1>
+  <div class="container px-5 py-5 flex flex-col items-center text-2xl">
+    <div class="flex justify-center mb-10">
+      <p class="mr-20">ルーティーンを実施した回数: <%= @total_routine_count %>回</p>
+      <p class="ml-20 pl-20">ルーティーンを実施した日数: <%= @total_date_count %>日</p>
+    </div>
+    <div class="py-20 ml-10 flex items-center sm:flex-row flex-col mx-auto">
+      <%= link_to "あなたにおすすめのルーティーンを見る", '#', class: 'btn mx-20 text-2xl' %>
+      <%= link_to "登録したルーティーンと翌朝の調子を見る", '#', class: 'btn mx-20 text-2xl' %>
+    </div>
+  </div>
+  <div class="container px-5 py-5 text-right ml-auto">
+    <%= link_to "ログアウト", logout_path, data: { turbo_method: :delete }, class: 'btn btn-ghost btn btn-outline text-xl text-gray-600' %>
+  </div>
+</section>

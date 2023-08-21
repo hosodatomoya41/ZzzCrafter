@@ -3,6 +3,12 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def show
+    @user = User.find(current_user.id)
+    @total_routine_count = @user.sleep_records.count
+    @total_date_count = @user.sleep_records.count
+  end
+
   def create
     @user = User.new(user_params)
     if @user.save

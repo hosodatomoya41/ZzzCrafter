@@ -1,0 +1,20 @@
+<h1>Routines</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Recommend Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @routines.each do |routine| %>
+      <tr>
+        <td><%= routine.name %></td>
+        <td><%= routine.description %></td>
+        <td><%= routine.recommend_time.strftime("%H:%M") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

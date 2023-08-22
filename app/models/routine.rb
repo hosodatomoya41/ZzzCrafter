@@ -5,4 +5,6 @@ class Routine < ApplicationRecord
   has_many :sleep_records, dependent: :destroy
 
   validates :name, :description, :recommend_time, presence: true
+
+  enum recommend_time: { before0: 0, before1: 1, before3: 3 }
 end

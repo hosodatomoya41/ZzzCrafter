@@ -1,5 +1,7 @@
 class RoutinesController < ApplicationController
   def index
-    @routines = Routine.all
+    @routines_before0 = Routine.where(recommend_time: 'before0')
+    @routines_before1 = Routine.where(recommend_time: 'before1')
+    @routines_before3 = Routine.where(recommend_time: 'before3')
   end
 end

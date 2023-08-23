@@ -1,0 +1,24 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl mb-4">睡眠記録一覧</h1>
+  <table class="min-w-full bg-white rounded-md shadow overflow-hidden">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2">日付</th>
+        <th class="px-4 py-2">調子</th>
+        <th class="px-4 py-2">就寝時間</th>
+        <th class="px-4 py-2">起床時間</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sleep_records.each do |record| %>
+        <tr>
+          <td class="border px-4 py-2"><%= record.record_date %></td>
+          <td class="border px-4 py-2"><%= ['良い', '普通', '悪い'][record.morning_condition - 1] %></td>
+          <td class="border px-4 py-2"><%= record.user.bedtime %></td> <!-- ユーザーの就寝時間 -->
+          <td class="border px-4 py-2"><%= record.user.wake_up_time %></td> <!-- ユーザーの起床時間 -->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "睡眠と目標の起床時間を設定", new_sleep_record_path %>
+</div>

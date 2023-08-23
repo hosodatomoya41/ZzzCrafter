@@ -1,0 +1,13 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl mb-4">新しい睡眠記録</h1>
+  <%= form_with(model: @sleep_record, local: true, class: 'bg-white p-4 rounded shadow') do |form| %>
+    <div class="mb-4">
+      <%= form.label :record_date, '日付', class: 'block text-sm font-medium text-gray-600' %>
+      <%= form.date_field :record_date, class: 'mt-1 p-2 w-full border rounded-md' %>
+    </div>
+    <div class="mb-4">
+    </div>
+    <!-- 他のフィールドもここに追加 -->
+    <%= form.submit '保存', class: 'btn btn-primary' %>
+  <% end %>
+</div>

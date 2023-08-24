@@ -4,11 +4,13 @@ class SleepRecordsController < ApplicationController
   end
 
   def new
-    @sleep_record = SleepRecord.new
+    @user = current_user
+    @sleep_record = @user.sleep_records.build
   end
 
   def create
-    @sleep_record = Sleeprecord.new(sleep_record_params)
+    @user = current_user
+    @sleep_record = @user.sleep_records.build(sleep_record_params)
     if @sleep_record.save
       flash[:success] = "睡眠記録が保存されました"
       redirect_to sleep_records_path
@@ -21,6 +23,6 @@ class SleepRecordsController < ApplicationController
   private
 
   def sleep_record_params
-    params.require(:sleep_record).permit(:record_date, :user_id)
+    params.require(:sleep_record).permit(:record_date, :wake_up_time)
   end
   end

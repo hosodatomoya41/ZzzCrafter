@@ -13,9 +13,9 @@
       <% @sleep_records.each do |record| %>
         <tr>
           <td class="border px-4 py-2"><%= record.record_date %></td>
-          <td class="border px-4 py-2"><%= ['良い', '普通', '悪い'][record.morning_condition - 1] %></td>
+          <td class="border px-4 py-2"><%= record.morning_condition ? ['良い', '普通', '悪い'][record.morning_condition - 1] : '未設定' %></td>
           <td class="border px-4 py-2"><%= record.user.bedtime %></td> <!-- ユーザーの就寝時間 -->
-          <td class="border px-4 py-2"><%= record.user.wake_up_time %></td> <!-- ユーザーの起床時間 -->
+          <td class="border px-4 py-2"><%= record.wake_up_time %></td> <!-- ユーザーの起床時間 -->
         </tr>
       <% end %>
     </tbody>

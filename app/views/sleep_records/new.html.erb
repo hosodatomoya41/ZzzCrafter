@@ -8,8 +8,8 @@
       <%= form.date_field :record_date, class: 'mt-1 p-2 w-full border rounded-md' %>
     </div>
     <div class="mb-4">
-      <%= form.label :bedtime, '就寝時間', class: 'block text-sm font-medium text-gray-600' %>
-      <%= form.time_field :bedtime,  class: 'mt-1 p-2 w-full border rounded-md' %>
+      <%= label_tag :bedtime, '就寝時間', class: 'block text-sm font-medium text-gray-600' %>
+      <%= time_field_tag :bedtime, @user.bedtime&.strftime("%H:%M"), class: 'mt-1 p-2 w-full border rounded-md' %>
     </div>
     <div class="mb-4">
       <%= form.label :wake_up_time, '起床時間', class: 'block text-sm font-medium text-gray-600' %>

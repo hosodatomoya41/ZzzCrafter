@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_22_023526) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_24_111006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_023526) do
     t.bigint "user_id", null: false
     t.bigint "routine_id", null: false
     t.date "record_date", null: false
-    t.integer "morning_condition", null: false
+    t.integer "morning_condition"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["routine_id"], name: "index_sleep_records_on_routine_id"

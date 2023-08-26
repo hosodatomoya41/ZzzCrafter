@@ -1,8 +1,9 @@
 class SleepRecordsController < ApplicationController
+  before_action :require_login
   before_action :set_user, only: [:new, :create]
 
   def index
-    @sleep_records = SleepRecord.all
+    @sleep_records = current_user.sleep_records
   end
 
   def new

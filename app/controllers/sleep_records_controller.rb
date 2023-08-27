@@ -3,7 +3,7 @@ class SleepRecordsController < ApplicationController
   before_action :set_user, only: [:new, :create]
 
   def index
-    @sleep_records = current_user.sleep_records
+    @sleep_records = current_user.sleep_records.order(record_date: :desc)
   end
 
   def new
@@ -13,7 +13,7 @@ class SleepRecordsController < ApplicationController
   def create
     @user.update(bedtime: Time.parse(params[:bedtime]))
     @sleep_record = @user.sleep_records.build(sleep_record_params)
-
+    @sleep_record.record_date = Date.current
     if @sleep_record.save
       flash[:success] = "睡眠記録が保存されました"
       redirect_to sleep_records_path

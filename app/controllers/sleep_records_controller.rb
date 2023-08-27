@@ -11,7 +11,6 @@ class SleepRecordsController < ApplicationController
   end
 
   def create
-    @user.update(bedtime: Time.parse(params[:bedtime]))
     @sleep_record = @user.sleep_records.build(sleep_record_params)
     @sleep_record.record_date = Date.current
     if @sleep_record.save
@@ -30,6 +29,6 @@ class SleepRecordsController < ApplicationController
   end
 
   def sleep_record_params
-    params.require(:sleep_record).permit(:record_date, :wake_up_time)
+    params.require(:sleep_record).permit(:record_date, :wake_up_time, :bedtime)
   end
 end

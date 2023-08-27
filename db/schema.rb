@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_115334) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.time "wake_up_time"
+    t.time "bedtime"
     t.index ["routine_id"], name: "index_sleep_records_on_routine_id"
     t.index ["user_id"], name: "index_sleep_records_on_user_id"
   end
@@ -66,7 +67,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_115334) do
     t.string "email", null: false
     t.string "crypted_password"
     t.string "salt"
-    t.time "bedtime"
     t.time "notification_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

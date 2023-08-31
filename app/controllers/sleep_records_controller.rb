@@ -4,6 +4,7 @@ class SleepRecordsController < ApplicationController
 
   def index
     @sleep_records = current_user.sleep_records.order(record_date: :desc)
+    @last_record = @sleep_records.last
   end
 
   def new

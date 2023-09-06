@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
       data_id = data;
     })
     .then(() => {
-      window.location = '/static_pages';
+      window.location = '/';
     });
   });
 });

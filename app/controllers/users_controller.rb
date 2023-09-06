@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     user = User.find_by(line_user_id: line_user_id)
     if user.nil?
       user = User.create(line_user_id: line_user_id)
-    elsif (session[:user_id] = user.id)
+    elsif session[:user_id] == user.id
       render json: user
     end
   end

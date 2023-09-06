@@ -1,5 +1,5 @@
 <section class="text-gray-600 bg-white-200 body-font">
-  <h1 class='my-10 text-4xl text-center'><%= @user.name %>さんのユーザーページ</h1>
+  <h1 class='my-10 text-4xl text-center'>ユーザーページ</h1>
   <div class="container px-5 py-5 flex flex-col items-center text-2xl">
     <div class="flex justify-center mb-10">
       <p class="mr-20">ルーティーンを実施した回数: <%= @total_routine_count %>回</p>
@@ -11,6 +11,5 @@
     </div>
   </div>
   <div class="container px-5 py-5 text-right ml-auto">
-    <%= link_to "ログアウト", logout_path, data: { turbo_method: :delete }, class: 'btn btn-ghost btn btn-outline text-xl text-gray-600' %>
   </div>
 </section>

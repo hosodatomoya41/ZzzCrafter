@@ -1,6 +1,5 @@
 // DOMが読み込まれたら処理が走る
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("Turbo:load event fired");
   // csrf-tokenを取得
   const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   // LIFF_IDを使ってLIFFの初期化

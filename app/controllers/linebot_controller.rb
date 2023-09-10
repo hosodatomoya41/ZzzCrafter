@@ -7,7 +7,7 @@ class LinebotController < ApplicationController
 
     signature = request.env['HTTP_X_LINE_SIGNATURE']
     unless client.validate_signature(body, signature)
-      error 400 do 'Bad Request' end
+      return head :bad_request
     end
   
     events = client.parse_events_from(body)
@@ -21,10 +21,6 @@ class LinebotController < ApplicationController
             text: event.message['text']
           }
           client.reply_message(event['replyToken'], message)
-        when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-          response = client.get_message_content(event.message['id'])
-          tf = Tempfile.open("content")
-          tf.write(response.body)
         end
       end
     end

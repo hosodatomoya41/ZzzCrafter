@@ -3,8 +3,12 @@ Rails.application.routes.draw do
 
   post '/callback' => 'linebot#callback'
   
+  get '/logout', to: 'users#destroy'
+  get '/logout_success', to: 'users#logout_success'
+  
   resources :users, only: %i[new create show]
   resources :routines, only: %i[index]
   resources :sleep_records, only: %i[index new create]
   
 end
+  

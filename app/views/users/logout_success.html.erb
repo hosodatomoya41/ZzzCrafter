@@ -1,0 +1,16 @@
+<script>
+  // LIFFの初期化
+  liff.init({ liffId: LIFF_ID }).then(() => {
+    console.log('liff.init成功');
+    if (liff.isLoggedIn()) {
+      console.log('logout処理を実行');
+      liff.logout();
+    }
+  else {
+    console.log('logout処理に失敗');
+  }
+    // その他の処理（例えば、トップページにリダイレクトするなど）
+  }).catch((err) => {
+    console.error('LIFF Initialization failed ', err);
+  });
+</script>

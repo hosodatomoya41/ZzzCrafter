@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (liff.isLoggedIn()) {
         console.log('logout success');
         liff.logout();
-        window.location.href = '/logout'; // RailsのログアウトURLに遷移
+        window.location.href = '/logout'; // ログアウトURLに遷移
       }
     });
   }).catch((err) => {

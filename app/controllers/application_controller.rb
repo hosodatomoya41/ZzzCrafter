@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
+  helper_method :current_user
 
-  def not_authenticated
-    flash[:danger] = "ログインが必要です"
-    redirect_to login_path
+  private
+
+  def current_user
+    @current_user ||= User.find_by(line_user_id: session[:line_user_id]) if session[:line_user_id]
   end
 end

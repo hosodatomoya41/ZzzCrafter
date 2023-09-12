@@ -10,11 +10,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(line_user_id: session[:line_user_id])
-    if @user.nil?
-      redirect_to new_user_path
-      return
-    end
-    session[:user_id] = @user.id
     @total_routine_count = @user.sleep_records.count
     @total_date_count = @user.sleep_records.count
   end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get '/logout_success', to: 'users#logout_success'
   
   resources :users, only: %i[new create show]
-  resources :routines, only: %i[index]
+  resources :routines, only: %i[index show]
   resources :sleep_records, only: %i[index new create]
   
 end

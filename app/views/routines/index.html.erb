@@ -2,16 +2,12 @@
   <div class="grid grid-cols-3 gap-4">
     <% [@routines_before0, @routines_before1, @routines_before3].zip(['就寝直前におすすめのルーティーン', '就寝1時間前におすすめのルーティーン', '就寝3時間以上前におすすめのルーティーン']).each do |routines, title| %>
       <div>
-        <h2 class="text-xl font-semibold mb-2"><%= title %></h2>
+        <h2 class="font-semibold mb-2"><%= title %></h2>
         <% routines.each do |routine| %>
           <div class="card bordered mb-5">
-            <figure>
-              <!-- イメージ -->
-            </figure>
             <%= link_to routine_path(routine) do %>
               <div class="card-body">
                 <h2 class="card-title"><%= routine.name %></h2>
-                <p><%= routine.description %></p>
               </div>
             <% end %>
           </div>

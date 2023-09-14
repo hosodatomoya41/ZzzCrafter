@@ -10,10 +10,14 @@
     <%= javascript_importmap_tags %>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     
+    <script type="text/javascript">
+      const LIFF_ID = "<%= ENV['LIFF_ID'] %>";
+    </script>
+    
   </head>
 
   <body style="background-color: white;">
-    <% if session[:line_user_id] %>
+    <% if logged_in? %>
       <%= render 'shared/header' %>
     <% else %>
       <%= render 'shared/before_login_header' %>

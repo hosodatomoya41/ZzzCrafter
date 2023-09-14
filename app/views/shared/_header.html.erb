@@ -3,8 +3,6 @@
   <div class="flex-grow"></div>
   <%= link_to '睡眠の記録', sleep_records_path, class: 'btn btn-outline btn-accent text-xl mr-4' %>
   <%= link_to 'ルーティーン一覧', routines_path, class: 'btn btn-ghost btn-outline btn-secondary text-xl mr-4' %>
-  <% if session[:line_user_id] %>
   <%= link_to 'ユーザーページ', profile_path, class: 'btn btn-ghost btn btn-outline text-xl' %>
-  <% end %>
 </div>
 </div>

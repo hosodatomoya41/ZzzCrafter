@@ -1,6 +1,6 @@
 class LinebotController < ApplicationController
   require 'line/bot'
-  protect_from_forgery except: [:callback]
+  protect_from_forgery except: [:callback, :send_message]
   
   def callback
     body = request.body.read
@@ -24,6 +24,24 @@ class LinebotController < ApplicationController
         end
       end
     end
+  end
+  
+  def send_message
+    line_user_id = params[:line_user_id]
+    message = params[:message]
+
+    client = Line::Bot::Client.new { |config|
+      config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+    }
+
+    message = {
+      type: 'text',
+      text: message
+    }
+
+    response = client.push_message(line_user_id, message)
+    render json: { status: 'success' }
   end
   
   private

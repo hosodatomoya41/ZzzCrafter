@@ -1,13 +1,10 @@
 <div class="container mx-auto p-10">
-  <!-- 上半分: カードブロック -->
   <div class="grid grid-cols-2 gap-4 card bordered">
-    <!-- 左側: ルーティーン名 -->
     <div class="card-body">
       <h2 class="card-title text-2xl font-semibold">
         <%= @routine.name %>
       </h2>
     </div>
-    <!-- 右側: ルーティーンの詳細説明 -->
     <div class="card-body">
       <p class="text-lg">
         <%= @routine.description %>
@@ -15,9 +12,16 @@
     </div>
   </div>
 
-  <!-- 下半分: LINEへの追加ボタン -->
+  <script type="text/javascript">
+    const line_user_id = "<%= @user.line_user_id if @user %>";
+  </script>
+
+<script type="module">
+  import "send_line_message";
+</script>
+
   <div class="mt-10">
-    <button class="btn btn-success">
+    <button class="btn btn-success" onclick="sendMessage()">
       LINEへの追加はこちら
     </button>
   </div>

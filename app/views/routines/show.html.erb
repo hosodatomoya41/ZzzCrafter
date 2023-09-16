@@ -12,6 +12,28 @@
     </div>
   </div>
 
+  <div class="mt-10 mx-auto"> 
+    <button class="btn btn-success" onclick="modal.showModal()">
+    LINEへの追加はこちら
+    </button>
+  <dialog id="modal" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl h-[500px] flex flex-col">
+      <div class=" text-center flex-grow">
+      <h3 class="font-bold text-lg">LINEで追加する</h3>
+      <p class="py-10 text-center">お手持ちのスマートフォンで読み取ってください</p>
+      </div>
+      <div id="qrCode" class="flex justify-center items-center"></div>
+      <div class="modal-action self-end justify-self-end">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+  </div>
+
+</div>
+
   <script type="text/javascript">
     const line_user_id = "<%= @user.line_user_id if @user %>";
   </script>
@@ -20,9 +42,6 @@
   import "send_line_message";
 </script>
 
-  <div class="mt-10">
-    <button class="btn btn-success" onclick="sendMessage()">
-      LINEへの追加はこちら
-    </button>
-  </div>
-</div>
+<script type="module">
+  import "qrcode";
+</script>

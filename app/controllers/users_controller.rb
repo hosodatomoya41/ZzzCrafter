@@ -26,11 +26,4 @@ class UsersController < ApplicationController
     session[:line_user_id] = line_user_id
     render json: user
   end
-  
-  def logout_success; end
-  
-  def destroy
-    session.delete(:line_user_id)
-    redirect_to logout_success_path
-  end
 end

@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
+  const regExp = /^\/routines\/\d+$/;  // "/routines/" で始まり、数字で終わるパスにマッチ
+  const path = window.location.pathname;
+
+  if (regExp.test(path)) {
+
   const $qrCodeElement = document.getElementById('qrCode');
   
   const lineId = "@112nzsun";
@@ -46,4 +51,5 @@ const qrCode = new QRCodeStyling({
 /// 要素に生成されたQRコードを表示
 qrCode.append($qrCodeElement);
 }
+  }
 });

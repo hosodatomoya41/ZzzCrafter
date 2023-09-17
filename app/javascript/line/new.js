@@ -1,5 +1,7 @@
 // DOMが読み込まれたら処理が走る
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.pathname === '/users/new') {
+
   let data_id;
   
   // csrf-tokenを取得
@@ -48,4 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }).catch((err) => {
     console.log(err);
   });
+
+}
 });

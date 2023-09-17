@@ -7,6 +7,5 @@ class RoutinesController < ApplicationController
   
   def show
     @routine = Routine.find(params[:id])
-    @user = User.find_by(line_user_id: session[:line_user_id])
   end
 end

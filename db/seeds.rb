@@ -1,6 +1,6 @@
 Routine.delete_all
 routines = [
-  { name: "瞑想", description: "5分間瞑想をします", recommend_time: :before0 },
+  { name: "瞑想", description: "5分間瞑想をします", line_text: "瞑想を追加しました", recommend_time: :before0 },
   { name: "ストレッチ", description: "寝る前のストレッチ", recommend_time: :before0 },
   { name: "アロマを焚く", description: "ラベンダー、バラ、オレンジ、ピーチ等の香りを嗅ぐと悪夢を見る確率が減少すると言われている。", recommend_time: :before0 },
   { name: "日記を書く", description: "不満や明日やること等、考えを書き出す。4日以上続けることでネガティブ感情やストレスが整理されてリラックスできます。", recommend_time: :before1 },

@@ -23,7 +23,7 @@
       <h3 class="font-bold text-lg">LINEで追加する</h3>
       <p class="py-10 text-center">お手持ちのスマートフォンで読み取ってください</p>
       </div>
-      <div id="qrCode" class="flex justify-center"></div>
+      <div id="qrCode" data-line-text="<%= @routine.line_text %>", class="flex justify-center"></div>
       <div class="modal-action self-end justify-self-end">
         <form method="dialog">
           <button class="btn">Close</button>
@@ -32,14 +32,6 @@
     </div>
   </dialog>
 </div>
-
-<script type="text/javascript">
-  const line_user_id = "<%= @user.line_user_id if @user %>";
-</script>
-
-<script type="module">
-  import "send_line_message";
-</script>
 
 <script type="module">
   import "qrcode";

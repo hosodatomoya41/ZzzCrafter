@@ -1,9 +1,18 @@
+document.addEventListener("DOMContentLoaded", function() {
+  const $qrCodeElement = document.getElementById('qrCode');
+  
+  const lineId = "@112nzsun";
+  const lineText = $qrCodeElement.getAttribute('data-line-text'); 
+
+  const encodedLineId = encodeURIComponent(lineId);
+  const encodedLineText = encodeURIComponent(lineText);
+
 /// 画像埋め込みされたQRコード生成
 const qrCode = new QRCodeStyling({
   width: 250,
   height: 250,
   type: "canvas",
-  data: "https://hogehoge.com",
+  data: `https://line.me/R/oaMessage/${encodedLineId}/?${encodedLineText}`,
   qrOptions: {
     errorCorrectionLevel: 'H'
   },
@@ -27,5 +36,5 @@ const qrCode = new QRCodeStyling({
 });
 
 /// 要素に生成されたQRコードを表示
-const $qrCode = document.getElementById('qrCode');
-qrCode.append($qrCode);
+qrCode.append($qrCodeElement);
+});

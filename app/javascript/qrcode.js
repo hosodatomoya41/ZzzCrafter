@@ -7,6 +7,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const encodedLineId = encodeURIComponent(lineId);
   const encodedLineText = encodeURIComponent(lineText);
 
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // スマホの場合、buttonに直接URL遷移を設定
+    document.querySelector(".btn.btn-success.text-lg").addEventListener("click", function() {
+      window.location.href = `https://line.me/R/oaMessage/${encodedLineId}/?${encodedLineText}`;
+    });
+  } else {
 /// 画像埋め込みされたQRコード生成
 const qrCode = new QRCodeStyling({
   width: 250,
@@ -37,4 +45,5 @@ const qrCode = new QRCodeStyling({
 
 /// 要素に生成されたQRコードを表示
 qrCode.append($qrCodeElement);
+}
 });

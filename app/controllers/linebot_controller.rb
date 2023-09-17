@@ -44,10 +44,6 @@ class LinebotController < ApplicationController
     render json: { status: 'success' }
   end
   
-  def qr_code
-    @routines = Routine.all
-  end
-  
   private
 
   def client

@@ -28,6 +28,7 @@ def calculate_recommend_time(bedtime, recommend_time)
           when :before0 then 0
           when :before1 then 1 * 60 * 60
           when :before3 then 3 * 60 * 60
+          when :before10 then 10 * 60 * 60
           else 0
           end
   (bedtime - offset).strftime("%H:%M")
@@ -44,9 +45,17 @@ end
     received_text = event.message['text']
     routine = Routine.find_by(line_text: received_text)
     recommend_time = calculate_recommend_time(bedtime, routine.recommend_time.to_sym)
+        
+    UserRoutine.create(
+      user_id: user.id,
+      routine_id: routine.id,
+      choose_date: Date.today
+    )
       message = {
         type: "text",
-        text: "最適な実践時間は #{recommend_time} です"
+        text: "登録が完了しました。\n
+就寝時間から逆算すると、 #{recommend_time}頃までには実践するのがオススメです！
+睡眠の質を高められるように頑張ってくださいね！"
       }
       client.reply_message(event['replyToken'], message)
   end

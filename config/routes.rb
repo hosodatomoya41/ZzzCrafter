@@ -1,8 +1,17 @@
 Rails.application.routes.draw do
-  root 'static_pages#index'
+  root 'static_pages#top'
+
+  post '/callback' => 'linebot#callback'
+  post '/send_line_message', to: 'linebot#send_message'
   
-  resources :users, only: %i[new create show]
-  resources :routines, only: %i[index]
+  get '/profile', to: 'users#show', as: 'profile'
+
+  get '/logout', to: 'users#destroy'
+  get '/logout_success', to: 'users#logout_success'
+  
+  resources :users, only: %i[new create]
+  resources :routines, only: %i[index show]
   resources :sleep_records, only: %i[index new create]
   
 end
+  

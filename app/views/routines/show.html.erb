@@ -1,0 +1,36 @@
+<div class="container mx-auto p-10">
+  <div class="grid grid-cols-2 gap-4 card bordered">
+    <div class="card-body">
+      <h2 class="card-title text-2xl font-semibold">
+        <%= @routine.name %>
+      </h2>
+    </div>
+    <div class="card-body">
+      <p class="text-lg">
+        <%= @routine.description %>
+      </p>
+    </div>
+  </div>
+
+<% if logged_in? %>
+  <div class="mt-10 flex justify-center"> 
+    <button class="btn btn-success text-lg" onclick="modal.showModal()">
+    LINEへの追加はこちら
+    </button>
+  </div>
+  <dialog id="modal" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl h-[500px] flex flex-col">
+      <div class=" text-center flex-grow">
+      <h3 class="font-bold text-lg">LINEで追加する</h3>
+      <p class="py-10 text-center">お手持ちのスマートフォンで読み取ってください</p>
+      </div>
+      <div id="qrCode" data-line-text="<%= @routine.line_text %>", class="flex justify-center"></div>
+      <div class="modal-action self-end justify-self-end">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+<% end %>
+</div>

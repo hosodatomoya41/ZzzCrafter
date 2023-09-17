@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(line_user_id: session[:line_user_id])
-    @total_routine_count = @user.sleep_records.count
+    @total_routine_count = @user.user_routines.count
     @total_date_count = @user.sleep_records.count
   end
 
@@ -25,5 +25,10 @@ class UsersController < ApplicationController
     end
     session[:line_user_id] = line_user_id
     render json: user
+  end
+  
+  def routine_records
+    @user = User.find_by(line_user_id: session[:line_user_id])
+    @grouped_user_routines = UserRoutine.all.group_by { |ur| ur.choose_date }
   end
 end

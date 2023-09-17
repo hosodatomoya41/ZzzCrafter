@@ -1,0 +1,22 @@
+<section class="text-gray-600 body-font overflow-hidden">
+  <h1 class='py-3 mb-10 text-4xl text-center'>登録したルーティーン一覧</h1>
+  <div class="container mx-auto py-4">
+    <% @grouped_user_routines.each do |date, routines| %>
+      <div class="mb-8">
+        <div class="flex items-start">
+          <span class="font-semibold text-gray-700 text-2xl w-1/4"><%= date %></span>
+          <div class="flex flex-wrap w-3/4">
+            <% routines.each do |user_routine| %>
+              <%= link_to routine_path(user_routine.routine), data: { turbo: "false" }, class: "card bordered w-1/4 m-2" do %>
+                <div class="card-body">
+                  <h2 class="card-title text-lg"><%= user_routine.routine.name %></h2>
+              </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <hr class="my-4">
+      </div>
+    <% end %>
+  </div>
+</section>

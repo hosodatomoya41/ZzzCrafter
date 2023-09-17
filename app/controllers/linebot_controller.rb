@@ -9,9 +9,6 @@ class LinebotController < ApplicationController
     unless client.validate_signature(body, signature)
       return head :bad_request
     end
-    
-    validation_result = client.validate_signature(body, signature)
-    Rails.logger.info "Validation result: #{validation_result}" 
   
     events = client.parse_events_from(body)
     events.each do |event|
@@ -25,30 +22,33 @@ class LinebotController < ApplicationController
     end
   end
   
-  def calculate_recommend_time(bedtime)
-  # 最適な実践時間を計算（例：就寝時間の2時間前）
-    (bedtime - 2 * 60 * 60).strftime("%H:%M")
-  end
+# 就寝時間とrecommend_timeに基づいて、推奨実践時間を計算
+def calculate_recommend_time(bedtime, recommend_time)
+  offset = case recommend_time
+          when :before0 then 0
+          when :before1 then 1 * 60 * 60
+          when :before3 then 3 * 60 * 60
+          else 0
+          end
+  (bedtime - offset).strftime("%H:%M")
+end
   
   private
 
   def handle_message(event)
     line_user_id = event['source']['userId']
     user = User.find_by(line_user_id: line_user_id)
-    Rails.logger.info "User ID: #{user&.id}"
-  
     sleep_record = SleepRecord.where(user_id: user&.id).order("created_at DESC").first
-    Rails.logger.info "Sleep Record: #{sleep_record.inspect}"
     bedtime = sleep_record&.bedtime
-
-    if event.message['text'] == "瞑想を追加しました"
-      recommend_time = calculate_recommend_time(bedtime)
+    
+    received_text = event.message['text']
+    routine = Routine.find_by(line_text: received_text)
+    recommend_time = calculate_recommend_time(bedtime, routine.recommend_time.to_sym)
       message = {
         type: "text",
         text: "最適な実践時間は #{recommend_time} です"
       }
       client.reply_message(event['replyToken'], message)
-    end
   end
   
   def client

@@ -1,6 +1,6 @@
 <div class="container mx-auto text-gray-700 p-4 flex justify-center">
 <div class="w-auto">
-  <h1 class="text-4xl mb-10 text-center">睡眠の記録</h1>
+  <h1 class="text-4xl my-10 text-center">睡眠の記録</h1>
   <% if @last_record %>
     <div class="text-3xl mb-10 text-center flex justify-center">
       <div class="mr-10">
@@ -33,7 +33,7 @@
       <% end %>
     </tbody>
   </table>
-  <%= link_to edit_user_path(@user), class: "text-4xl text-center mt-10 my-10 px-5 py-5 bg-orange-500 rounded-lg block" do %>
+  <%= link_to edit_user_path(@user), class: "text-4xl text-center my-20 px-5 py-5 bg-orange-500 rounded-lg block" do %>
     就寝時間と目標の起床時間を設定
   <% end %>
 </div>

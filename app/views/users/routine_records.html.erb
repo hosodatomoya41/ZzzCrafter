@@ -4,20 +4,17 @@
     <% @grouped_user_routines.each do |date, routines| %>
       <div class="mb-8">
         <div class="flex items-start">
-          <!-- 日付とmorning_conditionを囲むdiv -->
           <div class="w-1/4">
             <div class="font-semibold text-gray-700 text-2xl mb-2"><%= date %></div>
             <!-- morning_conditionの表示 -->
             <div>
-              <% if @grouped_sleep_records[date]&.first %>
-                <span class="text-gray-700">朝のコンディション: <%= @grouped_sleep_records[date].first.morning_condition %></span>
-              <% else %>
-                <span class="text-gray-700">朝のコンディション: 記録なし</span>
-              <% end %>
-            </div>
-            <!-- ここまで -->
+            <% if @grouped_sleep_records[date]&.first&.morning_condition %>
+              <span class="text-gray-700">朝のコンディション: <%= ['良い！', '普通', '悪い・・・'][SleepRecord.morning_conditions[@grouped_sleep_records[date].first.morning_condition]] %></span>
+            <% else %>
+              <span class="text-gray-700">朝のコンディション: 記録なし</span>
+            <% end %>
           </div>
-          <!-- ルーティーン一覧 -->
+          </div>
           <div class="flex flex-wrap w-3/4">
             <% routines.each do |user_routine| %>
               <%= link_to routine_path(user_routine.routine), data: { turbo: "false" }, class: "card bordered w-1/4 m-2" do %>

@@ -6,7 +6,7 @@
       <div class="mr-10">
       <p>目標の就寝時間: <%= @last_record.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
       </div>
-      <p>目標の起床時間: <%= @last_record.wake_up_time&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
+      <p>目標の起床時間: <%= @user.notification_time&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
     </div>
   <% end %> <table class="text-2xl bg-white rounded-md shadow overflow-hidden mx-auto">
     <thead class="bg-gray-100">
@@ -22,7 +22,7 @@
         <tr>
           <td class="border px-4 py-2"><%= record.record_date.strftime %></td>
           <td class="border px-4 py-2"><%= record.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></td>
-          <td class="border px-4 py-2"><%= record.wake_up_time&.in_time_zone("Tokyo").strftime("%H:%M") %></td>
+          <td class="border px-4 py-2"><%= record.wake_up_time ? record.wake_up_time.in_time_zone("Tokyo").strftime("%H:%M") : '未設定' %></td>
           <td class="border px-4 py-2"><%= record.morning_condition ? ['良い', '普通', '悪い'][record.morning_condition - 1] : '未設定' %></td>
         </tr>
       <% end %>

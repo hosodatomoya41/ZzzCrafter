@@ -5,6 +5,7 @@ class SleepRecordsController < ApplicationController
   def index
     @sleep_records = current_user.sleep_records.order(record_date: :desc)
     @last_record = @sleep_records.last
+    @user = User.find_by(line_user_id: session[:line_user_id])
   end
 
   def new
@@ -14,7 +15,8 @@ class SleepRecordsController < ApplicationController
   def create
     @sleep_record = @user.sleep_records.build(sleep_record_params)
     @sleep_record.record_date = Date.current
-    if @sleep_record.save
+    @user.notification_time = params[:notification_time]
+    if @sleep_record.save && @user.save
       flash[:success] = "睡眠記録が保存されました"
       redirect_to sleep_records_path
     else

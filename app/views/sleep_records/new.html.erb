@@ -7,9 +7,9 @@
       <%= form.time_field :bedtime, value: '00:00', class: 'mt-1 p-3 w-3/4 border rounded-md text-lg' %>
     </div>
     <div class="mb-10 flex flex-col items-center">
-      <%= form.label :wake_up_time, '起床時間', class: 'block text-lg font-medium text-gray-600' %>
-      <%= form.time_field :wake_up_time, value: '07:00', class: 'mt-1 p-3 w-3/4 border rounded-md text-lg' %>
-    </div>
+    <%= label_tag :notification_time, '起床時間', class: 'block text-lg font-medium text-gray-600' %>
+    <%= time_field_tag :notification_time, @user.notification_time&.strftime("%H:%M") || '07:00', class: 'mt-1 p-3 w-3/4 border rounded-md text-lg' %>
+  </div>
     <div class="flex justify-center">
       <%= form.submit '保存', class: 'btn btn-primary text-lg py-2 px-4' %>
     </div>

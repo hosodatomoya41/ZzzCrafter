@@ -1,5 +1,8 @@
-<div class="navbar bg-blue-700 py-4">
-  <%= link_to 'ZzzCrafter', root_path, class: 'btn btn-ghost normal-case text-3xl text-green-500' %>
+<div class="mb-10 py-5 navbar bg-blue-700">
+<%= link_to root_path, class: 'flex items-center btn btn-ghost normal-case text-3xl text-green-500' do %>
+  <%= image_tag 'logo.png', class: 'w-14 h-15 rounded-full mr-2' %>
+  ZzzCrafter
+<% end %>
   <div class="flex-grow"></div>
   <%= link_to 'ルーティーン一覧', routines_path, class: 'btn btn-ghost btn-outline btn-secondary text-xl mr-4' %>
 <%= link_to 'ログイン', new_user_path, data: { turbo: false }, class: 'btn btn-ghost btn btn-outline text-xl' %>

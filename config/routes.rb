@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#show', as: 'profile'
   get '/profile/routine_records', to: 'users#routine_records', as: 'profile_routine_records'
 
-  resources :users, only: %i[new create]
+  resources :users, only: %i[new create edit update]
   resources :routines, only: %i[index show]
   resources :sleep_records, only: %i[index new create]
   

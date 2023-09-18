@@ -44,7 +44,13 @@ class UsersController < ApplicationController
   
   def routine_records
     @user = User.find_by(line_user_id: session[:line_user_id])
-    @grouped_user_routines = UserRoutine.all.group_by { |ur| ur.choose_date }
+    
+    @grouped_user_routines = UserRoutine.order('choose_date DESC')
+                                        .group_by { |ur| ur.choose_date }
+  
+    @grouped_sleep_records = SleepRecord.where(user_id: current_user.id)
+                                        .order('record_date DESC')
+                                        .group_by { |record| record.record_date }
   end
   
   private

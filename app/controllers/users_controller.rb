@@ -13,6 +13,21 @@ class UsersController < ApplicationController
     @total_routine_count = @user.user_routines.count
     @total_date_count = @user.sleep_records.count
   end
+  
+  def edit
+    @user = User.find_by(line_user_id: session[:line_user_id])
+  end
+
+  def update
+    @user = User.find_by(line_user_id: session[:line_user_id])
+    if @user.update(user_params)
+      flash[:success] = "睡眠記録が保存されました"
+      redirect_to sleep_records_path
+    else
+      flash.now[:danger] = "睡眠記録の保存に失敗しました"
+      render :edit, status: :unprocessable_entity
+    end
+  end
 
   def create
     id_token = params[:idToken]
@@ -30,5 +45,11 @@ class UsersController < ApplicationController
   def routine_records
     @user = User.find_by(line_user_id: session[:line_user_id])
     @grouped_user_routines = UserRoutine.all.group_by { |ur| ur.choose_date }
+  end
+  
+  private
+
+  def user_params
+    params.require(:user).permit(:bedtime, :notification_time)
   end
 end

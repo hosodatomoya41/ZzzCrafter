@@ -4,16 +4,16 @@
   <% if @last_record %>
     <div class="text-3xl mb-10 text-center flex justify-center">
       <div class="mr-10">
-      <p>目標の就寝時間: <%= @last_record.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
+      <p>目標の就寝時間: <%= @user.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
       </div>
       <p>目標の起床時間: <%= @user.notification_time&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
     </div>
-  <% end %> <table class="text-2xl bg-white rounded-md shadow overflow-hidden mx-auto">
+  <% end %>
+  <table class="text-2xl bg-white rounded-md shadow overflow-hidden mx-auto">
     <thead class="bg-gray-100">
       <tr>
         <th class="px-10 py-2">日付</th>
-        <th class="px-10 py-2">就寝時間</th>
-        <th class="px-10 py-2">起床時間</th>
+        <th class="px-10 py-2">記録時間</th>
         <th class="px-10 py-2">調子</th>
       </tr>
     </thead>
@@ -21,14 +21,13 @@
       <% @sleep_records.each do |record| %>
         <tr>
           <td class="border px-4 py-2"><%= record.record_date.strftime %></td>
-          <td class="border px-4 py-2"><%= record.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></td>
           <td class="border px-4 py-2"><%= record.wake_up_time ? record.wake_up_time.in_time_zone("Tokyo").strftime("%H:%M") : '未設定' %></td>
           <td class="border px-4 py-2"><%= record.morning_condition ? ['良い', '普通', '悪い'][record.morning_condition - 1] : '未設定' %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= link_to new_sleep_record_path, class: "text-4xl text-center mt-10 my-10 px-5 py-5 bg-orange-500 rounded-lg block" do %>
+  <%= link_to edit_user_path(@user), class: "text-4xl text-center mt-10 my-10 px-5 py-5 bg-orange-500 rounded-lg block" do %>
     就寝時間と目標の起床時間を設定
   <% end %>
 </div>

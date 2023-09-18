@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_16_141924) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_18_071433) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,7 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_141924) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.time "wake_up_time"
-    t.time "bedtime"
     t.index ["routine_id"], name: "index_sleep_records_on_routine_id"
     t.index ["user_id"], name: "index_sleep_records_on_user_id"
   end
@@ -68,6 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_141924) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "line_user_id", null: false
+    t.time "bedtime"
   end
 
   add_foreign_key "issue_routines", "routines"

@@ -1,6 +1,6 @@
 class LinebotController < ApplicationController
   require 'line/bot'
-  protect_from_forgery except: [:callback, :send_message]
+  protect_from_forgery except: [:callback]
   
   def callback
     body = request.body.read
@@ -39,26 +39,71 @@ end
   def handle_message(event)
     line_user_id = event['source']['userId']
     user = User.find_by(line_user_id: line_user_id)
+    received_text = event.message['text']
+  
+    if received_text == "調子は良い" || received_text == "調子は普通" || received_text == "調子は悪い"
+      record_morning_condition(user, received_text, event)
+    else
+      register_routine(user, received_text, event)
+    end
+  end
+  
+  def register_routine(user, received_text, event)
     sleep_record = SleepRecord.where(user_id: user&.id).order("created_at DESC").first
     bedtime = sleep_record&.bedtime
-    
-    received_text = event.message['text']
     routine = Routine.find_by(line_text: received_text)
-    recommend_time = calculate_recommend_time(bedtime, routine.recommend_time.to_sym)
-        
+
     UserRoutine.create(
       user_id: user.id,
       routine_id: routine.id,
       choose_date: Date.today
     )
+    
+    SleepRecord.create(
+      user_id: user.id,
+      record_date: Date.today,
+      morning_condition: nil
+    )
+  
+    if bedtime.nil?
       message = {
         type: "text",
-        text: "登録が完了しました。\n
-就寝時間から逆算すると、 #{recommend_time}頃までには実践するのがオススメです！
-睡眠の質を高められるように頑張ってくださいね！"
+        text: "登録が完了しました！\nまだ就寝時間の設定が完了していないようです！\nぜひ公式ページから設定をお願いします！"
       }
       client.reply_message(event['replyToken'], message)
+      return
+    end
+  
+    recommend_time = calculate_recommend_time(bedtime, routine.recommend_time.to_sym)
+
+    message = {
+      type: "text",
+      text: "登録が完了しました。\n
+就寝時間から逆算すると、 #{recommend_time}頃までには実践するのがオススメです！\n
+睡眠の質を高められるように頑張ってくださいね！"
+    }
+    client.reply_message(event['replyToken'], message)
   end
+  
+  def record_morning_condition(user, received_text, event)
+    condition = case received_text
+                when "調子は良い" then "good"
+                when "調子は普通" then "normal"
+                when "調子は悪い" then "bad"
+                end
+
+    record = SleepRecord.find_by(user_id: user.id, record_date: Date.yesterday, morning_condition: nil)
+    if record
+      record.update(morning_condition: condition)
+    end
+  
+    message = {
+      type: "text",
+      text: "調子を記録しました。今日も一日頑張りましょう！"
+    }
+    client.reply_message(event['replyToken'], message)
+  end
+  
   
   def client
     @client ||= Line::Bot::Client.new { |config|

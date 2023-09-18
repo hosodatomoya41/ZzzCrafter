@@ -1,8 +1,43 @@
 <section class="text-gray-700">
   <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
-      <h1 class="title-font font-medium text-3xl">ZzzCrafterへようこそ！</h1> 
-      <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
-        ZzzCrafterの説明
+    <!-- タイトル -->
+    <div class="w-full mb-10">
+      <h1 class="title-font font-medium text-3xl">ZzzCrafter 自分に合う寝る前の習慣を見つけよう</h1>
+    </div>
+
+    <!-- イントロダクション -->
+    <div class="w-full">
+      <div class="text-xl mb-10">
+      <p>スマホやゲームなど、現代の娯楽は多様にあり、思うように寝ることができない悩みはありませんか？</p>
+      <p>ZzzCrafterは、そんなあなたに睡眠に役立つ様々な習慣を紹介し、グッスリ寝られるように睡眠の質の改善をサポートするアプリです。</p>
       </div>
+    </div>
+
+    <!-- アプリの使い方 -->
+    <div class="w-full mb-10">
+      <h2 class="text-2xl mb-4">アプリの使い方</h2>
+      <p class="text-2xl mb-5">①まずは、右上のログインからLINEログインと、下のQRコードから友達登録をお願いします</p>
+      <%= image_tag 'lineQR.png', class: 'w-48 h-48 mb-5 mx-auto' %>
+
+      
+      <h3 class="text-2xl mb-2">②ルーティーン追加</h3>
+      <p class="text-xl">次に、ルーティーンを追加しましょう。</p>
+      <p class="text-xl">ルーティーン一覧から気になるルーティーンをクリックすると、詳細が確認できます。</p>
+      <%= image_tag 'routine_sample.png', class: "mb-5" %>
+      
+      <div class="flex justify-between items-center">
+      <p class="text-xl flex-1">[LINEへの追加はこちら]をクリックすると、実践する目安の時間が案内されます。</p>
+      <%= image_tag 'line_push.jpg', style: 'width: 312px; height: 564px;', class: "mb-5 flex-shrink-0" %>
+    </div>
+    
+    <div class="flex justify-between items-center flex-row-reverse">
+      <h3 class="text-2xl mb-2 ml-10 flex-1">③翌朝にLINE通知が来るので、今の気分を記録</h3>
+      <%= image_tag 'line_morning.jpg', style: 'width: 312px; height: 564px;', class: "mb-10 mr-10 flex-shrink-0" %>
+    </div>
+    
+    
+      
+      <h3 class="text-xl mb-2 text-center">習慣化して、グッスリと睡眠ができるように頑張りましょう！</h3>
+    </div>
   </div>
 </section>

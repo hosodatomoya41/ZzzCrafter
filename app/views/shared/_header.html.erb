@@ -1,8 +1,9 @@
 <div class="mb-10 py-5 navbar bg-blue-700">
-<%= link_to root_path, class: 'flex items-center btn btn-ghost normal-case text-4xl text-green-500' do %>
-  <%= image_tag 'logo.png', class: 'w-14 h-15 rounded-full mr-2' %>
-  ZzzCrafter
+<%= link_to root_path, class: 'flex items-center text-blue-400' do %>
+  <%= image_tag 'logo.png', class: 'h-12 mr-3 rounded-full mr-1' %>
+  <span class="self-center text-3xl font-semibold whitespace-nowrap">ZzzCrafter</span>
 <% end %>
+
   <div class="flex-grow"></div>
   <%= link_to '睡眠の記録', sleep_records_path, class: 'btn btn-outline btn-accent text-2xl mr-4' %>
   <%= link_to 'ルーティーン一覧', routines_path, class: 'btn btn-ghost btn-outline btn-secondary text-2xl mr-4' %>

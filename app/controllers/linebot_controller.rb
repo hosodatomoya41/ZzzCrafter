@@ -39,6 +39,7 @@ end
   def handle_message(event)
     line_user_id = event['source']['userId']
     user = User.find_by(line_user_id: line_user_id)
+    
     received_text = event.message['text']
   
     if received_text == "調子は良い" || received_text == "調子は普通" || received_text == "調子は悪い"
@@ -49,8 +50,7 @@ end
   end
   
   def register_routine(user, received_text, event)
-    sleep_record = SleepRecord.where(user_id: user&.id).order("created_at DESC").first
-    bedtime = sleep_record&.bedtime
+    bedtime = user&.bedtime
     routine = Routine.find_by(line_text: received_text)
 
     UserRoutine.create(
@@ -59,7 +59,7 @@ end
       choose_date: Date.today
     )
     
-    SleepRecord.create(
+    SleepRecord.find_or_create_by(
       user_id: user.id,
       record_date: Date.today,
       morning_condition: nil
@@ -94,7 +94,8 @@ end
 
     record = SleepRecord.find_by(user_id: user.id, record_date: Date.yesterday, morning_condition: nil)
     if record
-      record.update(morning_condition: condition)
+      current_time = Time.current
+      record.update(morning_condition: condition, wake_up_time: current_time)
     end
   
     message = {

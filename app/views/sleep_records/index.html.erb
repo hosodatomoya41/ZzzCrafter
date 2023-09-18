@@ -22,7 +22,13 @@
         <tr>
           <td class="border px-4 py-2"><%= record.record_date.strftime %></td>
           <td class="border px-4 py-2"><%= record.wake_up_time ? record.wake_up_time.in_time_zone("Tokyo").strftime("%H:%M") : '未設定' %></td>
-          <td class="border px-4 py-2"><%= record.morning_condition ? ['良い', '普通', '悪い'][record.morning_condition - 1] : '未設定' %></td>
+          <td class="border px-4 py-2">
+          <% if record.morning_condition %>
+            <%= ['良い！', '普通', '悪い・・・'][SleepRecord.morning_conditions[record.morning_condition]] %>
+          <% else %>
+            未設定
+          <% end %>
+        </td>
         </tr>
       <% end %>
     </tbody>

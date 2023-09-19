@@ -3,9 +3,6 @@ class UsersController < ApplicationController
   require 'uri'
   
   def new
-    if session[:line_user_id]
-      redirect_to root_path
-    end
   end
 
   def show

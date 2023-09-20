@@ -1,10 +1,25 @@
-<div class="py-5 navbar bg-blue-700">
-<%= link_to root_path, class: 'flex items-center text-blue-400' do %>
-  <%= image_tag 'logo.png', class: 'h-12 mr-3 rounded-full mr-1' %>
-  <span class="self-center text-3xl font-semibold whitespace-nowrap">ZzzCrafter</span>
-<% end %>
+<div class="py-5 navbar bg-blue-600">
+  <%= link_to root_path, class: 'flex items-center text-blue-400' do %>
+    <%= image_tag 'logo.png', class: 'h-12 mr-3 rounded-full mr-1' %>
+    <span class="self-center text-3xl font-bold whitespace-nowrap hidden md:inline">ZzzCrafter</span>
+  <% end %>
 
   <div class="flex-grow"></div>
-  <%= link_to 'ルーティーン一覧', routines_path, class: 'btn btn-ghost btn-outline btn-secondary text-xl mr-4' %>
-<%= link_to 'ログイン', new_user_path, data: { turbo: false }, class: 'btn btn-ghost btn btn-outline text-xl' %>
+
+  <!-- レスポンシブ対応のためのドロップダウンメニュー -->
+  <div class="md:hidden dropdown dropdown-end">
+    <label tabindex="0" class="btn btn-outline btn-info text-xl">Menu</label>
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+      <li><%= link_to 'ルーティーン一覧', routines_path %></li>
+      <li><%= link_to 'ログイン', new_user_path %></li>
+    </ul>
+  </div>
+
+  <!-- デスクトップ用のメニュー -->
+  <div class="hidden md:flex">
+    <%= link_to 'ルーティーン一覧', routines_path, class: 'btn btn-outline btn-info text-xl mr-4' %>
+    <%= link_to 'ログイン', new_user_path, data: { turbo: false }, class: 'btn btn-outline btn-info text-xl' %>
+  </div>
+</div>
+
 </div>

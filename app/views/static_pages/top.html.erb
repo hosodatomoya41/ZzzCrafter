@@ -16,11 +16,17 @@
     <!-- アプリの使い方 -->
     <div class="w-full mb-10">
       <h2 class="text-2xl mb-4">アプリの使い方</h2>
-      <p class="text-2xl mb-5">①まずは、右上のログインからLINEログインと、下のQRコードから友達登録をお願いします</p>
-      <%= image_tag 'lineQR.png', class: 'w-48 h-48 mb-5 mx-auto' %>
+      <p class="text-2xl">①まずは、下の友だち追加ボタンから友達登録をお願いします。</p>
+      <p class="text-2xl mb-5">デスクトップブラウザをご利用の場合は、右上のログインボタンからでもご利用可能です！</p>
+
+      <div class="line-it-button" data-lang="ja" data-type="friend" data-env="REAL" data-lineId="@112nzsun" style="display: none;"></div>
+    <%= javascript_include_tag 'https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js', 'data-turbolinks-track': 'reload', async: true, defer: true %>
+    
+    
+      <!-- <%= image_tag 'lineQR.png', class: 'w-48 h-48 mb-5 mx-auto' %> -->
 
       
-      <h3 class="text-2xl mb-2">②ルーティーン追加</h3>
+      <h3 class="text-2xl mt-10 mb-2">②ルーティーン追加</h3>
       <p class="text-xl">次に、ルーティーンを追加しましょう。</p>
       <p class="text-xl mb-5">ルーティーン一覧から気になるルーティーンをクリックすると、詳細が確認できます。</p>
       <p class="text-xl">例：</p>
@@ -32,7 +38,7 @@
     </div>
     
     <div class="flex justify-between items-center flex-row-reverse">
-      <h3 class="text-2xl mb-2 ml-10 flex-1">③翌朝にLINE通知が来るので、今の気分を記録</h3>
+      <h3 class="text-2xl mb-2 ml-10 flex-1">③翌朝にLINE通知が来るので、今の調子を記録</h3>
       <%= image_tag 'line_morning.jpg', style: 'width: 312px; height: 564px;', class: "mb-10 mr-10 flex-shrink-0" %>
     </div>
     

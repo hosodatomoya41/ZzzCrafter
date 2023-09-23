@@ -50,6 +50,10 @@ class UsersController < ApplicationController
                                         .group_by { |record| record.record_date }
   end
   
+  def recommend_routines
+    @issue_types = SleepIssue.issue_types.keys
+  end
+  
   private
 
   def user_params

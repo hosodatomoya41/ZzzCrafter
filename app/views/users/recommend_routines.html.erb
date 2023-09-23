@@ -1,0 +1,28 @@
+<h1>おすすめのルーティーン</h1>
+
+<!-- 睡眠の悩みを選択するドロップダウン -->
+<%= select_tag :issue_type, options_for_select(@issue_types), id: 'issue_type_selector' %>
+
+<!-- 睡眠の悩みを解決するポイントと、悩みに合わせたルーティーン -->
+<div id="issue_content">
+  <!-- JavaScriptで内容を動的に変更 -->
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const issueTypeSelector = document.getElementById('issue_type_selector');
+    const issueContent = document.getElementById('issue_content');
+
+    issueTypeSelector.addEventListener('change', function() {
+      const selectedIssue = this.value;
+
+      // ここでAjaxを使ってサーバーからデータを取得、またはJavaScriptで内容を動的に変更
+      // 例:
+      issueContent.innerHTML = `
+        <h2>${selectedIssue}</h2>
+        <p>解決のポイント</p>
+        <p>おすすめのルーティーン</p>
+      `;
+    });
+  });
+</script>

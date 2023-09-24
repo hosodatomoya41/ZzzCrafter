@@ -1,10 +1,13 @@
+<section class="text-gray-700">
 <h1>おすすめのルーティーン</h1>
 
 <!-- 睡眠の悩みを選択するドロップダウン -->
-<%= select_tag :issue_type, options_for_select(@issue_types), id: 'issue_type_selector' %>
+<div class="mb-10">
+<%= select_tag :issue_type, options_for_select(@issue_types), id: 'issue_type_selector', class: "text-white" %>
+</div>
 
 <!-- 睡眠の悩みを解決するポイントと、悩みに合わせたルーティーン -->
-<div id="issue_content">
+<div id="issue_content mt-10">
   <!-- JavaScriptで内容を動的に変更 -->
 </div>
 
@@ -26,3 +29,4 @@
     });
   });
 </script>
+</section>

@@ -1,9 +1,9 @@
 <section class="text-gray-700">
-<h1>おすすめのルーティーン</h1>
+<h1 class="text-3xl my-10 text-center">睡眠の悩みを選択してください</h1>
 
 <!-- 睡眠の悩みを選択するドロップダウン -->
-<div class="mb-10">
-<%= select_tag :issue_type, options_for_select(@issue_types), id: 'issue_type_selector', class: "text-white" %>
+<div class="mb-20 flex justify-center">
+<%= select_tag :issue_type, options_for_select(@issue_types), id: 'issue_type_selector', class: "text-white text-center text-xl" %>
 </div>
 
 <!-- 睡眠の悩みを解決するポイントと、悩みに合わせたルーティーン -->

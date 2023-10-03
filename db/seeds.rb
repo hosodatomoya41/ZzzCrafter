@@ -1,4 +1,3 @@
-Routine.delete_all
 routines = [
   { name: "瞑想", description: "腹式呼吸を意識して瞑想をしましょう。寝ながらでも問題ありません。最初は5分間を目標に、徐々に時間を伸ばしていってみましょう。", line_text: "そのまま送信してください。\n[瞑想]を追加しました", recommend_time: :before0 },
   { name: "ストレッチ", line_text: "そのまま送信してください。\n[ストレッチ]を追加しました", recommend_time: :before0, description:
@@ -14,5 +13,5 @@ routines = [
 ]
 
 routines.each do |routine|
-  Routine.create(routine)
+  Routine.find_or_create_by!(routine)
 end

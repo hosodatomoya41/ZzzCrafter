@@ -27,6 +27,7 @@ def calculate_recommend_time(bedtime, recommend_time)
   offset = case recommend_time
           when :before0 then 0
           when :before1 then 1 * 60 * 60
+          when :before1_5 then 1.5 * 60 * 60
           when :before3 then 3 * 60 * 60
           when :before10 then 10 * 60 * 60
           else 0

@@ -6,10 +6,24 @@
   </div>
 
   <turbo-frame id="issue_content" data-target="turbo-frame.frame">
-  <% @routines.each do |routine| %>
-    <p><%= routine.name %></p>  <!-- nameはRoutineモデルの属性に合わせてください -->
-  <% end %>
-  
-    <!-- routine一覧がここに表示される -->
-  </turbo-frame>
+  <div class="container mx-auto p-20 text-gray-600">
+    <div class="grid grid-cols-3 gap-4">
+      <% [@routines_before0, @routines_before1, @routines_before3].zip(['就寝直前におすすめのルーティーン', '就寝1時間前におすすめのルーティーン', '就寝3時間以上前におすすめのルーティーン']).each do |routines, title| %>
+        <div>
+          <h2 class="font-semibold mb-2"><%= title %></h2>
+          <% routines.each do |routine| %>
+            <div class="card bordered mb-5">
+              <%= link_to routine_path(routine), data: { turbo: "false" } do %>
+                <div class="card-body">
+                  <h2 class="card-title"><%= routine.name %></h2>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>
+
 </section>

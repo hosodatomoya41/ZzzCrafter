@@ -1,8 +1,8 @@
 <section class="text-gray-700" data-controller="turbo-frame">
   <h1 class="text-4xl my-10 text-center">睡眠の悩みを選択してください</h1>
 
-  <div class="my-20 flex justify-center">
-    <%= select_tag :issue_type, options_for_select([['選択してください', '']].concat(@issue_types.map { |t| [t, t] }), @selected_issue_type), id: 'issue_type_selector', class: "text-white text-center text-2xl py-3", data: { action: "change->turbo-frame#reload", target: "turbo-frame.selector" } %>
+  <div class="my-20 flex justify-center text-white text-2xl">
+  <%= select_tag :issue_type, options_for_select([['選択してください', '']].concat(SleepIssue.issue_types.keys.map { |key| [I18n.t("enums.sleep_issue.issue_type.#{key}"), key] })), id: 'issue_type_selector', class: "text-gray-900 text-center text-2xl py-3", data: { action: "change->turbo-frame#reload", target: "turbo-frame.selector" } %>
   </div>
 
   <turbo-frame id="issue_content" data-target="turbo-frame.frame">

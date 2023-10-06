@@ -10,7 +10,7 @@ routines = [
   { name: "読書", description: "買ったのはいいけどなかなか読む機会がなかった本、この機会に読んでみるのもいいかもしれません！ 紙の本ならデジタル・デトックスの効果もあります。", line_text: "そのまま送信してください。\n[読書]を追加しました", recommend_time: :before1 },
   { name: "ホットドリンク", line_text: "そのまま送信してください。\n[ホットドリンクを飲む]を追加しました", recommend_time: :before1, description:
   "温かい飲み物を飲むと、体温が一時的に上がり、その後体温が下がっていくタイミングで眠気を促す効果があります。牛乳を温めたホットミルクや、白湯がおすすめです。※カフェインを含む飲み物は飲まないように注意してください！" },
-  { name: "暗闇で過ごす", line_text: "そのまま送信してください。\n[暗闇で過ごす]を追加しました。", recommend_time: :before1, description: 
+  { name: "部屋の明かりを暗くする", line_text: "そのまま送信してください。\n[部屋の明かりを暗くする]を追加しました。", recommend_time: :before1, description: 
   "寝る1時間前からは、部屋の明るさを抑えるようにしましょう。暗い環境はメラトニンの分泌を促し、眠りにつきやすくなります。" },
   { name: "デジタル・デトックス", description: "ブルーライトを浴びないように気をつけましょう。現代人にとっては一番難しいかもしれません。しかし、効果は高いです。スマホやパソコンを物理的に遠くへ置いておくのもおすすめです。", line_text: "そのまま送信してください。\n[デジタル・デトックス]を追加しました", recommend_time: :before1 },
   { name: "運動", description: "運動習慣がある人には不眠が少ないと言われています。ジョギングやウォーキング、筋トレなど適度な運動を行うことにより、睡眠ホルモンのメラトニンの材料となるセロトニンの分泌が増え、寝る頃にはメラトニンがしっかり分泌されて、安眠へと繋がります。", line_text: "そのまま送信してください。\n[運動]を追加しました", recommend_time: :before3 },
@@ -20,6 +20,31 @@ routines = [
   "家事や整理整頓をすることで、心地よい環境を作り出し、それがリラックスと安心感につながります。また、身体を軽く動かすことで、適度な疲れを感じやすくなります。" }
 ]
 
+sleep_issues = [
+  { issue_type: 'night_life' },
+  { issue_type: 'late_falling_asleep' },
+  { issue_type: 'waking_up_in_the_middle' }
+]
+
 routines.each do |routine|
   Routine.find_or_create_by!(routine)
 end
+
+sleep_issues.each do |issue|
+  SleepIssue.find_or_create_by!(issue)
+end
+
+issue_routine_mappings = {
+  night_life: [1, 3, 5, 8, 11, 12],
+  late_falling_asleep: [1, 4, 8, 10, 11, 14],
+  waking_up_in_the_middle: [2, 3, 9, 10, 11, 14]
+}
+
+issue_routine_mappings.each do |issue_type, routine_ids|
+  sleep_issue = SleepIssue.find_by(issue_type: issue_type)
+  routine_ids.each do |routine_id|
+    routine = Routine.find(routine_id)
+    sleep_issue.routines << routine unless sleep_issue.routines.include?(routine)
+  end
+end
+

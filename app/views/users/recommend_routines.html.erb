@@ -1,32 +1,15 @@
-<section class="text-gray-700">
-<h1 class="text-3xl my-10 text-center">睡眠の悩みを選択してください</h1>
+<section class="text-gray-700" data-controller="turbo-frame">
+  <h1 class="text-4xl my-10 text-center">睡眠の悩みを選択してください</h1>
 
-<!-- 睡眠の悩みを選択するドロップダウン -->
-<div class="mb-20 flex justify-center">
-<%= select_tag :issue_type, options_for_select(@issue_types), id: 'issue_type_selector', class: "text-white text-center text-xl" %>
-</div>
+  <div class="my-20 flex justify-center">
+    <%= select_tag :issue_type, options_for_select([['選択してください', '']].concat(@issue_types.map { |t| [t, t] }), @selected_issue_type), id: 'issue_type_selector', class: "text-white text-center text-2xl py-3", data: { action: "change->turbo-frame#reload", target: "turbo-frame.selector" } %>
+  </div>
 
-<!-- 睡眠の悩みを解決するポイントと、悩みに合わせたルーティーン -->
-<div id="issue_content mt-10">
-  <!-- JavaScriptで内容を動的に変更 -->
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const issueTypeSelector = document.getElementById('issue_type_selector');
-    const issueContent = document.getElementById('issue_content');
-
-    issueTypeSelector.addEventListener('change', function() {
-      const selectedIssue = this.value;
-
-      // ここでAjaxを使ってサーバーからデータを取得、またはJavaScriptで内容を動的に変更
-      // 例:
-      issueContent.innerHTML = `
-        <h2>${selectedIssue}</h2>
-        <p>解決のポイント</p>
-        <p>おすすめのルーティーン</p>
-      `;
-    });
-  });
-</script>
+  <turbo-frame id="issue_content" data-target="turbo-frame.frame">
+  <% @routines.each do |routine| %>
+    <p><%= routine.name %></p>  <!-- nameはRoutineモデルの属性に合わせてください -->
+  <% end %>
+  
+    <!-- routine一覧がここに表示される -->
+  </turbo-frame>
 </section>

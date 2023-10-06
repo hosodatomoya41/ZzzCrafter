@@ -52,6 +52,13 @@ class UsersController < ApplicationController
   
   def recommend_routines
     @issue_types = SleepIssue.issue_types.keys
+    @selected_issue_type = params[:issue_type].presence
+    @routines = if @selected_issue_type
+                  sleep_issue = SleepIssue.find_by(issue_type: @selected_issue_type)
+                  sleep_issue ? sleep_issue.routines : Routine.none
+                else
+                  Routine.all
+                end
   end
   
   private

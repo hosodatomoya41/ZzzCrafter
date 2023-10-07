@@ -1,11 +1,11 @@
 class SleepIssue < ApplicationRecord
-  belongs_to :user, optional: true
+  has_one :user
   has_many :issue_routines, dependent: :destroy
   has_many :routines, through: :issue_routines
   
   enum issue_type: {
-    night_life: 0, 
-    late_falling_asleep: 1, 
-    waking_up_in_the_middle: 2 
+    night_life: 0,  #ポイント： 昼夜逆転しがちで朝起きれなくなった体内時計がズレしてしまっているので、朝頑張って起きて、昼寝しないようにし、よる早めに寝る。一例として、眠気が限界ならパワーナップを行い、日記で夜型生活を抜けるという決意を固め、アロマを焚きながら眠りにつく
+    late_falling_asleep: 1, # ポイント： 普段運動する習慣がない人は、運動を始めるのがおすすめです。軽い有酸素運動だけでも、眠気を引き起こす作用があります。ホットドリンクを飲むんだりデジタル・デトックスをすると、更に入眠作用があるのでおすすめです。寝る直前にリラックス効果のある音楽を聴きながら寝てみてはいかがでしょうか。
+    waking_up_in_the_middle: 2  # ポイント： ストレスやアルコール、カフェインが原因だと言われています。例えばカフェインを夜に摂ってしまっている場合、眠りを浅くしてしまう原因になるので18時以降は摂ってしまわないように注意が必要です。デジタル・デトックスや部屋の明かりを早めに暗くしておくことで寝る準備を行っておき、もし夜中に目が覚めてしまって眠れなくても、焦らずにストレッチや読書をして眠たくなったら再び眠りについてみてください。
   }
 end

@@ -51,17 +51,41 @@ class UsersController < ApplicationController
   end
   
   def recommend_routines
+    user = User.find_by(line_user_id: session[:line_user_id])
+    issue_type = params[:issue_type].presence || user&.sleep_issue&.issue_type
+  
+    # issue_typeがparamsから来ている場合、それを@current_issue_typeに設定
+    if params[:issue_type].present?
+      @current_issue_type = params[:issue_type]
+    # それ以外の場合、ユーザーが設定しているsleep_issue.idに対応するissue_typeを@current_issue_typeに設定
+    elsif user.sleep_issue_id
+      sleep_issue = SleepIssue.find_by(id: user.sleep_issue_id)
+      @current_issue_type = sleep_issue.issue_type
+    end
+  
+    if issue_type.present?
+      sleep_issue = SleepIssue.find_by(issue_type: SleepIssue.issue_types[issue_type])
+      if sleep_issue
+        user.update!(sleep_issue_id: sleep_issue.id)
+      end
+    end
+  
     @issue_types = SleepIssue.issue_types.keys
-    @selected_issue_type = params[:issue_type].presence
-    @routines = if @selected_issue_type
-                  sleep_issue = SleepIssue.find_by(issue_type: @selected_issue_type)
-                  sleep_issue ? sleep_issue.routines : Routine.none
-                else
-                  Routine.all
-                end
+    @routines = if user.sleep_issue_id
+      sleep_issue = SleepIssue.find_by(id: user.sleep_issue_id)
+      sleep_issue ? sleep_issue.routines : Routine.none
+    else
+      Routine.all
+    end
+  
     @routines_before0 = @routines.where(recommend_time: 'before0')
     @routines_before1 = @routines.where(recommend_time: ['before1', 'before1_5'])
     @routines_before3 = @routines.where(recommend_time: ['before3', 'before10'])
+  
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
   
   private

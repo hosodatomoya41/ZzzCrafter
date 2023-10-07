@@ -1,8 +1,11 @@
-<section class="text-gray-700" data-controller="turbo-frame">
+<section class="text-gray-700">
   <h1 class="text-4xl my-10 text-center">睡眠の悩みを選択してください</h1>
 
-  <div class="my-20 flex justify-center text-white text-2xl">
-  <%= select_tag :issue_type, options_for_select([['選択してください', '']].concat(SleepIssue.issue_types.keys.map { |key| [I18n.t("enums.sleep_issue.issue_type.#{key}"), key] })), id: 'issue_type_selector', class: "text-gray-900 text-center text-2xl py-3", data: { action: "change->turbo-frame#reload", target: "turbo-frame.selector" } %>
+  <div class="my-20 flex justify-center text-2xl">
+  <%= form_with url: recommend_routines_users_path, method: :post, id: 'issue_form', data: { controller: "issue-form" } do |f| %>
+    <%= f.select :issue_type, options_for_select([['選択してください', '']].concat(SleepIssue.issue_types.keys.map { |key| [I18n.t("enums.sleep_issue.issue_type.#{key}"), key] }), @current_issue_type), {}, id: 'issue_type_selector', class: "text-gray-900 text-center text-2xl text-white py-3", data: { target: "issue-form.selector" } %>
+    <%= f.submit "登録", data: { action: "click->issue-form#submitForm" } %>
+  <% end %>
   </div>
 
   <turbo-frame id="issue_content" data-target="turbo-frame.frame">
@@ -25,5 +28,4 @@
     </div>
   </div>
 </turbo-frame>
-
 </section>

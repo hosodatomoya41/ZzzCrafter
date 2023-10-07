@@ -3,8 +3,8 @@
 
   <div class="my-20 flex justify-center text-2xl">
   <%= form_with url: recommend_routines_users_path, method: :post, id: 'issue_form', data: { controller: "issue-form" } do |f| %>
-    <%= f.select :issue_type, options_for_select([['選択してください', '']].concat(SleepIssue.issue_types.keys.map { |key| [I18n.t("enums.sleep_issue.issue_type.#{key}"), key] }), @current_issue_type), {}, id: 'issue_type_selector', class: "text-gray-900 text-center text-2xl text-white py-3", data: { target: "issue-form.selector" } %>
-    <%= f.submit "登録", data: { action: "click->issue-form#submitForm" } %>
+    <%= f.select :issue_type, options_for_select([['選択してください', '']].concat(SleepIssue.issue_types.keys.map { |key| [I18n.t("enums.sleep_issue.issue_type.#{key}"), key] }), @current_issue_type), {}, id: 'issue_type_selector', class: "bg-black text-white text-center text-2xl py-3", data: { target: "issue-form.selector" } %>
+    <%= f.submit "登録", class: "btn btn-primary ml-10 text-2xl", data: { action: "click->issue-form#submitForm" } %>
   <% end %>
   </div>
 

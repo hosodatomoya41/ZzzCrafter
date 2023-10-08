@@ -83,8 +83,10 @@ class UsersController < ApplicationController
     @routines_before3 = @routines.where(recommend_time: ['before3', 'before10'])
   
     respond_to do |format|
-      format.turbo_stream
       format.html
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace("issue_content", partial: "users/recommend_routines")
+      end
     end
   end
   

@@ -16,6 +16,21 @@ export default class extends Controller {
     hiddenInput.setAttribute('value', selectedIssueType);
     form.appendChild(hiddenInput);
 
-    form.submit(); // フォームを送信
+    // 非同期通信でフォームを送信
+    fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',  // RailsがAjaxリクエストとして認識するために必要
+      },
+    })
+    .then(response => response.text())
+    .then(html => {
+      // Turboフレームの内容を更新
+      const turboFrame = document.getElementById("issue_content");
+      if (turboFrame) {
+        turboFrame.innerHTML = html;
+      }
+    });
   }
 }

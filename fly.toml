@@ -1,7 +1,4 @@
 # fly.toml app configuration file generated for zzzcrafter on 2023-08-06T15:47:36+09:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
 
 app = "zzzcrafter"
 primary_region = "nrt"
@@ -9,7 +6,7 @@ primary_region = "nrt"
 [build]
   local = true
   builtin = "ruby"
-  
+
 [build.args]
   RUBY_VERSION = "3.0.2" 
 
@@ -19,4 +16,8 @@ primary_region = "nrt"
   auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ["app", "cron"]
+
+[processes]
+  app = ""
+  cron = "cron -f" 

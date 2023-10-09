@@ -1,0 +1,32 @@
+<turbo-frame id="issue_content" data-target="turbo-frame.frame">
+  <% if @selected_issue_point.present? %>
+<div class="card bordered w-4/5 mx-auto">
+  <div class="card-body">
+    <h2 class="card-title">
+    ポイント
+    </h2>
+    <p>
+    <%= @selected_issue_point.html_safe %>
+    </p>
+  </div>
+</div>
+  <% end %>
+  <div class="container mx-auto p-20 text-gray-600">
+    <div class="grid grid-cols-3 gap-4">
+      <% [@routines_before0, @routines_before1, @routines_before3].zip(['就寝直前におすすめのルーティーン', '就寝1時間前におすすめのルーティーン', '就寝3時間以上前におすすめのルーティーン']).each do |routines, title| %>
+        <div>
+          <h2 class="font-semibold mb-2"><%= title %></h2>
+          <% routines.each do |routine| %>
+            <div class="card bordered mb-5">
+              <%= link_to routine_path(routine), data: { turbo: "false" } do %>
+                <div class="card-body">
+                  <h2 class="card-title"><%= routine.name %></h2>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

@@ -3,9 +3,24 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = ["selector"];
+  isSubmitted = false;  // 二重送信を防ぐフラグを追加
 
   submitForm(event) {
     event.preventDefault();
+    console.log("issueFormTarget:", this.selectorTarget);
+
+    
+    if (!this.selectorTarget) { 
+      console.error("selectorTarget is undefined");
+      return;
+    }
+
+    // 二重送信を防ぐ
+    if (this.isSubmitted) {
+      return;
+    }
+    this.isSubmitted = true;
+
     const selectedIssueType = this.selectorTarget.value;
     const form = document.getElementById('issue_form');
 
@@ -26,11 +41,21 @@ export default class extends Controller {
     })
     .then(response => response.text())
     .then(html => {
-      // Turboフレームの内容を更新
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const content = doc.querySelector("#issue_content");
+      
       const turboFrame = document.getElementById("issue_content");
-      if (turboFrame) {
-        turboFrame.innerHTML = html;
+      if (turboFrame && content) {
+        turboFrame.innerHTML = content.innerHTML;
       }
+      else {
+        console.error("turboFrame or content is not found");
+        return;
+      }
+    })
+    .finally(() => {
+      this.isSubmitted = false;  // リクエストが完了したらフラグをリセット
     });
   }
 }

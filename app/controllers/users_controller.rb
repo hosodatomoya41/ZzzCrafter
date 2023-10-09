@@ -70,6 +70,10 @@ class UsersController < ApplicationController
       end
     end
   
+    sleep_issue = current_user.sleep_issue 
+    @selected_issue_type = sleep_issue.issue_type if sleep_issue.present?
+    @selected_issue_point = SleepIssue::ISSUE_POINTS[@selected_issue_type.to_sym] if @selected_issue_type.present?
+    
     @issue_types = SleepIssue.issue_types.keys
     @routines = if user.sleep_issue_id
       sleep_issue = SleepIssue.find_by(id: user.sleep_issue_id)

@@ -1,4 +1,14 @@
 <turbo-frame id="issue_content" data-target="turbo-frame.frame">
+<div class="card bordered w-4/5 mx-auto">
+  <div class="card-body">
+    <h2 class="card-title">
+    ポイント
+    </h2>
+    <p>
+    <%= @selected_issue_point.html_safe %>
+    </p>
+  </div>
+</div>
   <div class="container mx-auto p-20 text-gray-600">
     <div class="grid grid-cols-3 gap-4">
       <% [@routines_before0, @routines_before1, @routines_before3].zip(['就寝直前におすすめのルーティーン', '就寝1時間前におすすめのルーティーン', '就寝3時間以上前におすすめのルーティーン']).each do |routines, title| %>

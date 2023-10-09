@@ -3,23 +3,9 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = ["selector"];
-  isSubmitted = false;  // 二重送信を防ぐフラグを追加
 
   submitForm(event) {
     event.preventDefault();
-    console.log("issueFormTarget:", this.selectorTarget);
-
-    
-    if (!this.selectorTarget) { 
-      console.error("selectorTarget is undefined");
-      return;
-    }
-
-    // 二重送信を防ぐ
-    if (this.isSubmitted) {
-      return;
-    }
-    this.isSubmitted = true;
 
     const selectedIssueType = this.selectorTarget.value;
     const form = document.getElementById('issue_form');
@@ -54,8 +40,5 @@ export default class extends Controller {
         return;
       }
     })
-    .finally(() => {
-      this.isSubmitted = false;  // リクエストが完了したらフラグをリセット
-    });
   }
 }

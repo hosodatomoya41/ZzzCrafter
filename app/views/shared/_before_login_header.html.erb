@@ -1,5 +1,5 @@
 <div class="py-5 navbar bg-blue-600">
-  <%= link_to root_path, class: 'flex items-center text-blue-400' do %>
+  <%= link_to root_path, data: { turbo: false }, class: 'flex items-center text-blue-400' do %>
     <%= image_tag 'logo.png', class: 'h-12 mr-3 rounded-full mr-1' %>
     <span class="self-center text-3xl font-bold whitespace-nowrap hidden md:inline">ZzzCrafter</span>
   <% end %>

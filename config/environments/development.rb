@@ -3,7 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   config.hosts << "zzzcrafter.fly.dev"
-  config.hosts << "f23f-2001-f74-6460-1300-1187-817a-83f3-69ee.ngrok-free.app"
+  config.hosts << "d378-2001-f74-6460-1300-1187-817a-83f3-69ee.ngrok-free.app"
   
   # CSSの自動反映
   config.assets.debug = true

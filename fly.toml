@@ -16,7 +16,7 @@ primary_region = "nrt"
   auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 1
-  processes = ["app", "cron"]
+  processes = ["app"]
 
 [processes]
   app = "bundle exec puma -C config/puma.rb"

@@ -8,8 +8,8 @@ namespace :wakeup_notify do
       notification_time = user.notification_time.in_time_zone("Tokyo")  # ユーザーの通知時間を取得
 
       # 時、分、秒だけを取得
-      current_time_str = current_time.strftime("%M")
-      notification_time_str = notification_time.strftime("%M")
+      current_time_str = current_time.strftime("%H:%M")
+      notification_time_str = notification_time.strftime("%H:%M")
       has_registered_routine = user.user_routines.exists?(choose_date: today - 1)
 
       if current_time_str == notification_time_str && has_registered_routine

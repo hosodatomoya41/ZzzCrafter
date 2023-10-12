@@ -15,9 +15,9 @@ primary_region = "nrt"
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
-  min_machines_running = 0
-  processes = ["app", "cron"]
+  min_machines_running = 1
+  processes = ["app"]
 
 [processes]
-  app = ""
-  cron = "cron -f" 
+  app = "bundle exec puma -C config/puma.rb"
+  cron = "supercronic /app/crontab"

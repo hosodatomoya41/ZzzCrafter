@@ -1,5 +1,5 @@
-<div class="container mt-20 mx-auto text-gray-600">
-  <div class="grid grid-cols-2 gap-4 card bordered my-20">
+<div class="container mx-auto text-gray-600">
+  <div class="grid grid-cols-2 gap-4 card bordered my-30">
     <div class="card-body">
       <h2 class="card-title text-2xl font-semibold">
         <%= @routine.name %>
@@ -13,8 +13,8 @@
   </div>
 
 <% if logged_in? %>
-  <div class="flex justify-center my-20 "> 
-    <button class="btn btn-success text-lg" onclick="modal.showModal()">
+  <div class="flex justify-center mb-50"> 
+    <button class="btn btn-success text-2xl" onclick="modal.showModal()">
     LINEへの追加はこちら
     </button>
   </div>

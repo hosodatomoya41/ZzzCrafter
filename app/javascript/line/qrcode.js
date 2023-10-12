@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   } else {
 /// 画像埋め込みされたQRコード生成
-const qrCode = new QRCodeStyling({
+  const qrCode = new QRCodeStyling({
   width: 250,
   height: 250,
   type: "canvas",

@@ -3,20 +3,23 @@ class UsersController < ApplicationController
   require 'uri'
   
   def new
+    if current_user
+      redirect_to root_path
+    end
   end
 
   def show
-    @user = User.find_by(line_user_id: session[:line_user_id])
+    @user = User.find(session[:user_id])
     @total_routine_count = @user.user_routines.count
     @total_date_count = @user.sleep_records.count
   end
   
   def edit
-    @user = User.find_by(line_user_id: session[:line_user_id])
+    @user = User.find(session[:user_id])
   end
 
   def update
-    @user = User.find_by(line_user_id: session[:line_user_id])
+    @user = User.find(session[:user_id])
     if @user.update(user_params)
       flash[:success] = "睡眠記録が保存されました"
       redirect_to sleep_records_path
@@ -34,13 +37,13 @@ class UsersController < ApplicationController
     user = User.find_by(line_user_id: line_user_id)
     if user.nil?
       user = User.create(line_user_id: line_user_id)
+    elsif (session[:user_id] = user.id)
+      render json: user
     end
-    session[:line_user_id] = line_user_id
-    render json: user
   end
   
   def routine_records
-    @user = User.find_by(line_user_id: session[:line_user_id])
+    @user = User.find(session[:user_id])
     
     @grouped_user_routines = UserRoutine.order('choose_date DESC')
                                         .group_by { |ur| ur.choose_date }
@@ -51,7 +54,7 @@ class UsersController < ApplicationController
   end
   
   def recommend_routines
-    user = User.find_by(line_user_id: session[:line_user_id])
+    user = User.find(session[:user_id])
     issue_type = params[:issue_type].presence || user&.sleep_issue&.issue_type
   
     # issue_typeがparamsから来ている場合、それを@current_issue_typeに設定

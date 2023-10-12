@@ -1,5 +1,6 @@
-<section class="text-gray-600 body-font overflow-hidden">
-  <h1 class='py-3 mb-10 text-4xl text-center'>登録したルーティーン一覧</h1>
+<section class="text-gray-600 body-font overflow-hidden mb-20">
+  <h1 class='py-3 my-10 text-4xl text-center'>登録したルーティーン一覧</h1>
+  <% if @grouped_user_routines.present? %>
   <div class="container mx-auto py-4">
     <% @grouped_user_routines.each do |date, routines| %>
       <div class="mb-8">
@@ -29,4 +30,10 @@
       </div>
     <% end %>
   </div>
+  <% else %>
+  <p class="text-center text-2xl my-20">まずはルーティーン一覧からルーティーンを登録してみましょう！</p>
+  <div class="flex justify-center">
+  <%= link_to 'ルーティーン一覧を見てみる', routines_path, class: "btn btn-info mb-50 text-2xl" %>
+  </div>
+  <% end %>
 </section>

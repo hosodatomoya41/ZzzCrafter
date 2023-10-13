@@ -81,7 +81,7 @@ end
     if bedtime.nil?
       message = {
         type: "text",
-        text: "登録が完了しました！\nまだ就寝時間の設定が完了していないようです！\nぜひ公式ページから設定をお願いします！"
+        text: "登録が完了しました！\nまだ就寝時間の設定が完了していないようです！\nぜひ公式ページから設定をお願いします！\n設定ページ:\nhttps://zzzcrafter.fly.dev/users/edit"
       }
       client.reply_message(event['replyToken'], message)
       return

@@ -109,11 +109,14 @@ end
     if record
       current_time = Time.current
       record.update(morning_condition: condition, wake_up_time: current_time)
+      message_text = "調子を記録しました。今日も一日頑張りましょう！"
+    else
+      message_text = "調子は記録済みです！今日も一日頑張りましょう！"
     end
   
     message = {
       type: "text",
-      text: "調子を記録しました。今日も一日頑張りましょう！"
+      text: message_text
     }
     client.reply_message(event['replyToken'], message)
   end

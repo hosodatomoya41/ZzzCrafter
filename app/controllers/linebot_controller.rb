@@ -53,8 +53,20 @@ end
   def register_routine(user, received_text, event)
     bedtime = user&.bedtime
     routine = Routine.find_by(line_text: received_text)
+    
+  # 既に当日に同じroutineが登録されているか確認
+  existing_routine = UserRoutine.exists?(user_id: user.id, routine_id: routine.id, choose_date: Date.today)
 
-    UserRoutine.create(
+  if existing_routine
+    message = {
+      type: "text",
+      text: "既にそのルーティーンは本日登録されたようです！\n継続は力なり、がんばってくださいね！"
+    }
+    client.reply_message(event['replyToken'], message)
+    return
+  end
+
+    UserRoutine.find_or_create_by(
       user_id: user.id,
       routine_id: routine.id,
       choose_date: Date.today

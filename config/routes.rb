@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   
   get '/users', to: 'users#show', as: 'users'
   get '/users/edit', to: 'users#edit', as: 'users_edit'
-  get '/profile/routine_records', to: 'users#routine_records', as: 'profile_routine_records'
   
   resources :users, only: %i[new create update] do
     collection do

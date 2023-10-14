@@ -4,7 +4,15 @@ class SleepRecordsController < ApplicationController
 
   def index
     @user = User.find(session[:user_id])
-    @sleep_records = current_user.sleep_records.order(record_date: :desc)
+    
+    if params[:month].present?
+      @date = Date.parse(params[:month])
+      @sleep_records = SleepRecord.where(record_date: @date.beginning_of_month..@date.end_of_month)
+    else
+      @sleep_records = SleepRecord.all
+    end
+    
+    @sleep_records = current_user.sleep_records.order(record_date: :desc).page(params[:page]).per(31)
     @last_record = @user.bedtime
   end
 

@@ -9,6 +9,13 @@
       <p>目標の起床時間: <%= @user.notification_time&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
     </div>
   <% end %>
+  
+  <%= form_with url: sleep_records_path, method: :get, local: true, class: "text-white" do |f| %>
+    <%= f.date_select :month, { discard_day: true, selected: Date.new(@year, @month, 1) } %>
+    <%= f.submit "フィルター", class: "btn btn-primary" %>
+  <% end %>
+  
+  
   <table class="text-2xl bg-white rounded-md shadow overflow-hidden mx-auto">
     <thead class="bg-gray-100">
       <tr>

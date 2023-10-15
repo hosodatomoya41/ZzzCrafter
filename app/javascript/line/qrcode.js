@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   if (isMobile) {
     // スマホの場合、buttonに直接URL遷移を設定
-    document.querySelector(".btn.btn-success.text-lg").addEventListener("click", function() {
+    document.querySelector(".btn.btn-success.text-2xl").addEventListener("click", function() {
       window.location.href = `https://line.me/R/oaMessage/${encodedLineId}/?${encodedLineText}`;
     });
   } else {

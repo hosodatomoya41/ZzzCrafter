@@ -53,8 +53,20 @@ end
   def register_routine(user, received_text, event)
     bedtime = user&.bedtime
     routine = Routine.find_by(line_text: received_text)
+    
+  # 既に当日に同じroutineが登録されているか確認
+  existing_routine = UserRoutine.exists?(user_id: user.id, routine_id: routine.id, choose_date: Date.today)
 
-    UserRoutine.create(
+  if existing_routine
+    message = {
+      type: "text",
+      text: "既にそのルーティーンは本日登録されたようです！\n継続は力なり、がんばってくださいね！"
+    }
+    client.reply_message(event['replyToken'], message)
+    return
+  end
+
+    UserRoutine.find_or_create_by(
       user_id: user.id,
       routine_id: routine.id,
       choose_date: Date.today
@@ -69,7 +81,7 @@ end
     if bedtime.nil?
       message = {
         type: "text",
-        text: "登録が完了しました！\nまだ就寝時間の設定が完了していないようです！\nぜひ公式ページから設定をお願いします！"
+        text: "登録が完了しました！\nまだ就寝時間の設定が完了していないようです！\nぜひ公式ページから設定をお願いします！\n設定ページ:\nhttps://zzzcrafter.fly.dev/users/edit"
       }
       client.reply_message(event['replyToken'], message)
       return
@@ -97,11 +109,14 @@ end
     if record
       current_time = Time.current
       record.update(morning_condition: condition, wake_up_time: current_time)
+      message_text = "調子を記録しました。今日も一日頑張りましょう！"
+    else
+      message_text = "調子は記録済みです！今日も一日頑張りましょう！"
     end
   
     message = {
       type: "text",
-      text: "調子を記録しました。今日も一日頑張りましょう！"
+      text: message_text
     }
     client.reply_message(event['replyToken'], message)
   end

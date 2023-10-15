@@ -7,6 +7,7 @@ ruby "3.0.2"
 gem "rails", "~> 7.0.6"
 gem 'line-bot-api'
 gem 'kaminari'
+gem 'rails-i18n'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"

@@ -1,13 +1,18 @@
 <section class="text-gray-600 body-font overflow-hidden mb-20">
   <h1 class='py-3 my-10 text-4xl text-center'>登録したルーティーン一覧</h1>
   <% if @grouped_user_routines.present? %>
+  
+  <%= form_with url: routine_records_users_path, method: :get, local: true, class: "text-center mb-10" do |f| %>
+    <%= f.date_select :month, { discard_day: true, selected: Date.new(@year, @month, 1) }, class: "border border-black bg-white text-2xl" %>
+    <%= f.submit "フィルター", class: "btn btn-primary ml-10" %>
+  <% end %>
+  
   <div class="container mx-auto py-4">
     <% @grouped_user_routines.each do |date, routines| %>
       <div class="mb-8">
         <div class="flex items-start">
           <div class="w-1/4">
             <div class="font-semibold text-gray-700 text-2xl mb-2"><%= date %></div>
-            <!-- morning_conditionの表示 -->
             <div>
             <% if @grouped_sleep_records[date]&.first&.morning_condition %>
               <span class="text-gray-700">翌朝のコンディション: <%= ['良い！', '普通', '悪い・・・'][SleepRecord.morning_conditions[@grouped_sleep_records[date].first.morning_condition]] %></span>
@@ -31,7 +36,7 @@
     <% end %>
   </div>
   <% else %>
-  <p class="text-center text-2xl my-20">まずはルーティーン一覧からルーティーンを登録してみましょう！</p>
+<p class="text-center text-2xl my-20">ルーティーンが登録されていません。<br>まずはルーティーン一覧からルーティーンを登録してみましょう！</p>
   <div class="flex justify-center">
   <%= link_to 'ルーティーン一覧を見てみる', routines_path, class: "btn btn-info mb-50 text-2xl" %>
   </div>

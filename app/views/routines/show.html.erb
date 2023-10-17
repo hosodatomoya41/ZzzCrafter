@@ -20,11 +20,11 @@
   </div>
   <dialog id="modal" class="modal">
     <div class="modal-box w-11/12 max-w-3xl h-[500px] flex flex-col">
-      <div class=" text-center flex-grow">
+      <div class="text-center flex-grow">
       <h3 class="font-bold text-lg">LINEで追加する</h3>
       <p class="py-10 text-center">お手持ちのスマートフォンで読み取ってください</p>
       </div>
-      <div id="qrCode" data-line-text="<%= @routine.line_text %>", class="flex justify-center"></div>
+      <div id="qrCode" data-line-text="<%= @routine.line_text %>" class="flex justify-center"></div>
       <div class="modal-action self-end justify-self-end">
         <form method="dialog">
           <button class="btn">Close</button>

@@ -11,7 +11,7 @@
     <label tabindex="0" class="btn btn-outline btn-info text-xl">Menu</label>
     <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
       <li><%= link_to '睡眠の記録', sleep_records_path %></li>
-      <li><%= link_to 'ルーティーン一覧', routines_path %></li>
+      <li><%= link_to 'ルーティーン一覧', routines_path, data: { turbo: false } %></li>
       <li><%= link_to 'ユーザーページ', users_path %></li>
     </ul>
   </div>

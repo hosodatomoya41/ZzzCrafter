@@ -27,7 +27,33 @@
       <p class="text-xl">次に、ルーティーンを追加しましょう。</p>
       <p class="text-xl mb-5">ルーティーン一覧から気になるルーティーンをクリックすると、詳細が確認できます。</p>
       <p class="text-xl">例：</p>
-      <%= image_tag 'routine_sample.png', class: "mb-5" %>
+
+      <div class="grid grid-cols-2 gap-4 card bordered my-10">
+        <div class="card-body">
+          <h2 class="card-title text-2xl font-semibold"><%= @routine.name %></h2>
+        </div>
+      <div class="card-body">
+        <p class="text-lg"><%= @routine.description %></p>
+      </div>
+    </div>
+
+    <div class="flex justify-center mb-20"> 
+      <button class="btn btn-success text-2xl" onclick="modal.showModal()">LINEへの追加はこちら</button>
+    </div>
+    <dialog id="modal" class="modal">
+      <div class="modal-box w-11/12 max-w-3xl h-[500px] flex flex-col">
+        <div class="text-center flex-grow">
+          <h3 class="font-bold text-lg">LINEで追加する</h3>
+          <p class="py-10 text-center">お手持ちのスマートフォンで読み取ってください</p>
+        </div>
+      <div id="qrCode" data-line-text="<%= @routine.line_text %>" class="flex justify-center"></div>
+      <div class="modal-action self-end justify-self-end">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
       
       <div class="flex justify-between items-center">
       <p class="text-xl flex-1">[LINEへの追加はこちら]をクリックすると、実践する目安の時間が案内されます。</p>
@@ -38,9 +64,8 @@
     <div>
     <p class="text-3xl font-bold mb-4">STEP3</p>
       <h3 class="text-2xl mb-2">翌朝にLINE通知が来るので、今の調子を記録</h3>
-      <p class="text-2xl">※現在、通知機能は鋭意実装中です...!</p>
     </div>
-    <%= image_tag 'line_morning.jpg', style: 'width: 300px; height: 580px;', class: "mb-10 flex-shrink-0" %>
+    <%= image_tag 'line_morning.jpg', style: 'width: 300px; height: 580px;', class: "mb-20 flex-shrink-0" %>
   </div>
       
       <h3 class="text-xl mb-2 text-center">質の良い睡眠ができるように、自分に合った習慣を見つけてみましょう！</h3>

@@ -1,17 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const regExp = /^\/routines\/\d+$/;  // "/routines/" で始まり、数字で終わるパスにマッチ
   const path = window.location.pathname;
-
-  if (regExp.test(path)) {
-
   const $qrCodeElement = document.getElementById('qrCode');
-  
   const lineId = "@112nzsun";
   const lineText = $qrCodeElement.getAttribute('data-line-text'); 
-
   const encodedLineId = encodeURIComponent(lineId);
   const encodedLineText = encodeURIComponent(lineText);
-
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   if (isMobile) {
@@ -50,6 +43,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /// 要素に生成されたQRコードを表示
 qrCode.append($qrCodeElement);
-}
   }
 });

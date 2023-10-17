@@ -10,11 +10,10 @@
     </div>
   <% end %>
   
-  <%= form_with url: sleep_records_path, method: :get, local: true, class: "text-white" do |f| %>
-    <%= f.date_select :month, { discard_day: true, selected: Date.new(@year, @month, 1) } %>
-    <%= f.submit "フィルター", class: "btn btn-primary" %>
+  <%= form_with url: sleep_records_path, method: :get, local: true, class: "text-center mb-10" do |f| %>
+    <%= f.date_select :month, { discard_day: true, selected: Date.new(@year, @month, 1) }, class: "border border-black bg-white text-2xl" %>
+    <%= f.submit "フィルター", class: "btn btn-primary ml-10" %>
   <% end %>
-  
   
   <table class="text-2xl bg-white rounded-md shadow overflow-hidden mx-auto">
     <thead class="bg-gray-100">

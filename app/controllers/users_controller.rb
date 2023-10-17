@@ -45,13 +45,27 @@ class UsersController < ApplicationController
   def routine_records
     @user = User.find(session[:user_id])
     
-    @grouped_user_routines = UserRoutine.order('choose_date DESC')
+    # 月のパラメータが存在する場合、その月を@yearと@monthにセット。存在しない場合は現在の月をセット。
+    if params["month(1i)"].present? && params["month(2i)"].present?
+      @year = params["month(1i)"].to_i
+      @month = params["month(2i)"].to_i
+    else
+      @year = Date.today.year
+      @month = Date.today.month
+    end
+  
+    start_date = Date.new(@year, @month, 1)
+    end_date = start_date.end_of_month
+  
+    @grouped_user_routines = UserRoutine.where(choose_date: start_date..end_date)
+                                        .order('choose_date DESC')
                                         .group_by { |ur| ur.choose_date }
   
-    @grouped_sleep_records = SleepRecord.where(user_id: current_user.id)
+    @grouped_sleep_records = SleepRecord.where(user_id: current_user.id, record_date: start_date..end_date)
                                         .order('record_date DESC')
                                         .group_by { |record| record.record_date }
   end
+  
   
   def recommend_routines
     user = User.find(session[:user_id])

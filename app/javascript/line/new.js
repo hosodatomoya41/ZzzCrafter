@@ -1,4 +1,3 @@
-// DOMが読み込まれたら処理が走る
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.pathname === '/users/new') {
 

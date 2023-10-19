@@ -22,7 +22,7 @@
           </div>
           <div class="flex flex-wrap w-3/4">
             <% routines.each do |user_routine| %>
-              <%= link_to routine_path(user_routine.routine), data: { turbo: "false" }, class: "card bordered w-1/4 m-2" do %>
+              <%= link_to routine_path(user_routine.routine), data: { turbo: "false" }, class: "card border border-black w-1/4 m-2" do %>
                 <div class="card-body">
                   <h2 class="card-title text-lg"><%= user_routine.routine.name %></h2>
                 </div>

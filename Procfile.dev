@@ -1,2 +1,2 @@
-web: bundle exec puma -C config/puma.rb
+web: bundle exec puma -C config/puma.rb -p 8080
 css: bin/rails tailwindcss:watch

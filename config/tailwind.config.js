@@ -24,6 +24,9 @@ module.exports = {
         '128': '32rem',
         '144': '36rem',
       },
+      backgroundImage: {
+        'nightsky': "url('/assets/beautiful_nightsky.png')",
+      },
   },
   }
 };

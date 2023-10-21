@@ -3,11 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   config.hosts << "zzzcrafter.fly.dev"
-  config.hosts << "c35d-2001-f74-6460-1300-64dd-9378-fd6f-ac60.ngrok-free.app"
-  
-  # CSSの自動反映
-  config.assets.debug = true
-  config.assets.compile = true
+  config.hosts << "826b-2001-f74-6460-1300-b0d8-1ecc-3d30-1bc0.ngrok-free.app"
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development

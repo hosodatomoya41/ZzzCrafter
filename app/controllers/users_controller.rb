@@ -20,13 +20,8 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(session[:user_id])
-    if @user.update(user_params)
-      flash[:success] = "睡眠記録が保存されました"
-      redirect_to sleep_records_path
-    else
-      flash.now[:danger] = "睡眠記録の保存に失敗しました"
-      render :edit, status: :unprocessable_entity
-    end
+    @user.update!(user_params)
+    redirect_to sleep_records_path
   end
 
   def create

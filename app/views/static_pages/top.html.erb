@@ -8,7 +8,7 @@
 
     <!-- イントロダクション -->
       <div class="text-xl text-white mt-10 mb-10 flex flex-col items-center">
-      <p>スマホやゲームなど、現代の娯楽は多様にあり、思うように寝ることができない悩みはありませんか？</p>
+      <p>スマホやゲームなど、現代の娯楽は多様にあり、思うように寝ることができない悩みはありませんか？</p><br>
       <p>ZzzCrafterは、そんなあなたに睡眠に役立つ様々な習慣を紹介し、グッスリ寝られるように睡眠の質の改善をサポートするアプリです。</p>
       </div>
     </div>
@@ -56,20 +56,25 @@
     </div>
   </dialog>
       
-      <div class="flex justify-between items-center">
-      <p class="text-xl flex-1">[LINEへの追加はこちら]をクリックすると、実践する目安の時間が案内されます。</p>
-      <%= image_tag 'line_push.jpg', style: 'width: 300px; height: 580px;', class: "mb-5 flex-shrink-0" %>
-    </div>
-    
-    <div class="flex justify-between items-center flex-row-reverse">
-    <div>
-    <p class="text-3xl font-bold mb-4">STEP3</p>
-      <h3 class="text-2xl mb-2">翌朝にLINE通知が来るので、今の調子を記録</h3>
-    </div>
-    <%= image_tag 'line_morning.jpg', style: 'width: 300px; height: 580px;', class: "mb-20 flex-shrink-0" %>
+  <div class="flex flex-col md:flex-row justify-between items-center">
+  <p class="text-xl flex-1 md:ml-20 mb-10 md:mb-0">[LINEへの追加はこちら]をクリックすると、LINEのトークルームへ移動し、<br>実践する目安の時間が案内されます。</p>
+  <%= image_tag 'push.jpg', class: "md:mr-20 mb-5 flex-shrink-0 w-[300px] h-[580px] md:w-[300px] md:h-[580px]" %>
+</div>
+
+<div class="flex flex-col md:flex-row-reverse justify-between items-center text-center md:text-left">
+  <div>
+    <p class="text-3xl font-bold mb-4 mt-10 md:mt-0">STEP3</p>
+    <h3 class="text-2xl mb-10 md:mr-20 md:mb-0">翌朝にLINE通知が来るので、今の調子を記録</h3>
   </div>
-      
-      <h3 class="text-xl mb-2 text-center">質の良い睡眠ができるように、自分に合った習慣を見つけてみましょう！</h3>
-    </div>
-  </div>
+  <%= image_tag 'morning.jpg', class: "md:ml-20 mb-20 flex-shrink-0 w-[300px] h-[580px] md:w-[300px] md:h-[580px]" %>
+</div>
+
+<p class="text-2xl text-center mb-10">調子を記録すると、睡眠の記録画面に記録が反映されます。</p>
+<%= image_tag 'sleep_record.png', class: "mx-auto border border-black h-[200px] md:h-[580px]" %>
+
+<h3 class="text-xl font-bold mt-20 mb-10 text-center">質の良い睡眠ができるように、自分に合った習慣を見つけてみましょう！</h3>
+</div>
+<%= link_to "さっそくルーティーン一覧を見てみる", routines_path, class: "btn btn-info text-xl mx-auto text-center" %>
+</div>
+
 </section>

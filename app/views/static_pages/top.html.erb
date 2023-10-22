@@ -1,24 +1,25 @@
-<section class="text-gray-700">
-  <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+<section class="text-black">
+    <div class="bg-nightsky bg-cover bg-center h-[725px] w-full">
     <!-- タイトル -->
-    <div class="w-full mb-10">
-      <h1 class="title-font font-medium text-4xl">自分に合う寝る前の習慣を見つけよう！</h1>
+    <div class="w-full flex flex-col items-center text-white">
+      <h1 class="text-6xl font-bold mt-30 text-violet-700">ZzzCrafter</h1>
+      <h1 class="title-font font-medium text-4xl mt-30 mb-20">自分に合う寝る前の習慣を見つけよう！</h1>
     </div>
 
     <!-- イントロダクション -->
-    <div class="w-full">
-      <div class="text-xl mb-10">
-      <p>スマホやゲームなど、現代の娯楽は多様にあり、思うように寝ることができない悩みはありませんか？</p>
+      <div class="text-xl text-white mt-10 mb-10 flex flex-col items-center">
+      <p>スマホやゲームなど、現代の娯楽は多様にあり、思うように寝ることができない悩みはありませんか？</p><br>
       <p>ZzzCrafterは、そんなあなたに睡眠に役立つ様々な習慣を紹介し、グッスリ寝られるように睡眠の質の改善をサポートするアプリです。</p>
       </div>
     </div>
 
+  <div class="container px-5 pb-24 mx-auto flex flex-wrap items-center">
     <!-- アプリの使い方 -->
     <div class="w-full mb-10">
-      <h2 class="text-3xl mb-5">アプリの使い方</h2>
+      <h2 class="text-4xl my-10">アプリの使い方</h2>
       <p class="text-3xl font-bold mb-4">STEP1</p>
       <p class="text-2xl">下の友だち追加ボタンから友達登録をお願いします。</p>
-      <p class="text-2xl mb-5">デスクトップブラウザをご利用の場合は、右上のログインボタンからでもご利用可能です！</p>
+      <p class="text-2xl mb-5">デスクトップブラウザをご利用の場合は、右上のログインボタンからでも、LINEログインが可能です！</p>
 
       <div class="line-it-button" data-lang="ja" data-type="friend" data-env="REAL" data-lineId="@112nzsun" style="display: none;"></div>
       <%= javascript_include_tag 'https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js', 'data-turbolinks-track': 'reload', async: true, defer: true %>
@@ -28,7 +29,7 @@
       <p class="text-xl mb-5">ルーティーン一覧から気になるルーティーンをクリックすると、詳細が確認できます。</p>
       <p class="text-xl">例：</p>
 
-      <div class="grid grid-cols-2 gap-4 card bordered my-10">
+      <div class="grid grid-cols-2 gap-4 card border border-black my-10">
         <div class="card-body">
           <h2 class="card-title text-2xl font-semibold"><%= @routine.name %></h2>
         </div>
@@ -55,20 +56,25 @@
     </div>
   </dialog>
       
-      <div class="flex justify-between items-center">
-      <p class="text-xl flex-1">[LINEへの追加はこちら]をクリックすると、実践する目安の時間が案内されます。</p>
-      <%= image_tag 'line_push.jpg', style: 'width: 300px; height: 580px;', class: "mb-5 flex-shrink-0" %>
-    </div>
-    
-    <div class="flex justify-between items-center flex-row-reverse">
-    <div>
-    <p class="text-3xl font-bold mb-4">STEP3</p>
-      <h3 class="text-2xl mb-2">翌朝にLINE通知が来るので、今の調子を記録</h3>
-    </div>
-    <%= image_tag 'line_morning.jpg', style: 'width: 300px; height: 580px;', class: "mb-20 flex-shrink-0" %>
+  <div class="flex flex-col md:flex-row justify-between items-center">
+  <p class="text-xl flex-1 md:ml-20 mb-10 md:mb-0">[LINEへの追加はこちら]をクリックすると、LINEのトークルームへ移動し、<br>実践する目安の時間が案内されます。</p>
+  <%= image_tag 'push.jpg', class: "md:mr-20 mb-5 flex-shrink-0 w-[300px] h-[580px] md:w-[300px] md:h-[580px]" %>
+</div>
+
+<div class="flex flex-col md:flex-row-reverse justify-between items-center text-center md:text-left">
+  <div>
+    <p class="text-3xl font-bold mb-4 mt-10 md:mt-0">STEP3</p>
+    <h3 class="text-2xl mb-10 md:mr-20 md:mb-0">翌朝にLINE通知が来るので、今の調子を記録</h3>
   </div>
-      
-      <h3 class="text-xl mb-2 text-center">質の良い睡眠ができるように、自分に合った習慣を見つけてみましょう！</h3>
-    </div>
-  </div>
+  <%= image_tag 'morning.jpg', class: "md:ml-20 mb-20 flex-shrink-0 w-[300px] h-[580px] md:w-[300px] md:h-[580px]" %>
+</div>
+
+<p class="text-2xl text-center mb-10">調子を記録すると、睡眠の記録画面に記録が反映されます。</p>
+<%= image_tag 'sleep_record.png', class: "mx-auto border border-black h-[200px] md:h-[580px]" %>
+
+<h3 class="text-xl font-bold mt-20 mb-10 text-center">質の良い睡眠ができるように、自分に合った習慣を見つけてみましょう！</h3>
+</div>
+<%= link_to "さっそくルーティーン一覧を見てみる", routines_path, class: "btn btn-info text-xl mx-auto text-center" %>
+</div>
+
 </section>

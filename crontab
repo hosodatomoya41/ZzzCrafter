@@ -1,1 +1,1 @@
-*/15 20-23,0-3 * * * cd /usr/src/app && bundle exec rake wakeup_notify:send_notifications
+* * * * * cd /usr/src/app && bundle exec rake wakeup_notify:send_notifications

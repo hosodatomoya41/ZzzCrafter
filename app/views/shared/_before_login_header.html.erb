@@ -1,7 +1,7 @@
-<div class="py-5 navbar bg-blue-600">
-  <%= link_to root_path, data: { turbo: false }, class: 'flex items-center text-blue-400' do %>
+<div class="py-5 navbar bg-indigo-700">
+  <%= link_to root_path, data: { turbo: false }, class: 'flex items-center' do %>
     <%= image_tag 'logo.png', class: 'h-12 mr-3 rounded-full mr-1' %>
-    <span class="self-center text-3xl font-bold whitespace-nowrap hidden md:inline">ZzzCrafter</span>
+    <span class="self-center text-2xl font-bold text-cyan-400 md:inline">ZzzCrafter</span>
   <% end %>
 
   <div class="flex-grow"></div>
@@ -10,8 +10,8 @@
   <div class="md:hidden dropdown dropdown-end">
     <label tabindex="0" class="btn btn-outline btn-info text-xl">Menu</label>
     <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-      <li><%= link_to 'ルーティーン一覧', routines_path %></li>
-      <li><%= link_to 'ログイン', new_user_path %></li>
+      <li><%= link_to 'ルーティーン一覧', routines_path, data: { turbo: false } %></li>
+      <li><%= link_to 'ログイン', new_user_path, data: { turbo: false } %></li>
     </ul>
   </div>
 

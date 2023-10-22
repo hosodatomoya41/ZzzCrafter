@@ -1,6 +1,6 @@
 <turbo-frame id="issue_content" data-target="turbo-frame.frame">
   <% if @selected_issue_point.present? %>
-<div class="card bordered w-4/5 mx-auto">
+<div class="card border border-black w-4/5 mx-auto">
   <div class="card-body">
     <h2 class="card-title">
     ポイント
@@ -17,7 +17,7 @@
       <div>
         <h2 class="font-semibold mb-2"><%= title %></h2>
         <% routines.each do |routine| %>
-          <div class="card bordered mb-5">
+          <div class="card border border-black mb-5">
             <%= link_to routine_path(routine), data: { turbo: "false" } do %>
               <div class="card-body">
                 <h2 class="card-title"><%= routine.name %></h2>

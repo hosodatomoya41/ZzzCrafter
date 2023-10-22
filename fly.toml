@@ -18,6 +18,9 @@ primary_region = "nrt"
   min_machines_running = 1
   processes = ["app"]
 
+[env]
+  TZ = "Asia/Tokyo"
+
 [processes]
   app = "bundle exec puma -C config/puma.rb"
   cron = "supercronic /app/crontab"

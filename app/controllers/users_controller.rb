@@ -20,13 +20,8 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(session[:user_id])
-    if @user.update(user_params)
-      flash[:success] = "睡眠記録が保存されました"
-      redirect_to sleep_records_path
-    else
-      flash.now[:danger] = "睡眠記録の保存に失敗しました"
-      render :edit, status: :unprocessable_entity
-    end
+    @user.update!(user_params)
+    redirect_to sleep_records_path
   end
 
   def create
@@ -37,10 +32,11 @@ class UsersController < ApplicationController
     user = User.find_by(line_user_id: line_user_id)
     if user.nil?
       user = User.create(line_user_id: line_user_id)
-    elsif (session[:user_id] = user.id)
-      render json: user
     end
+    session[:user_id] = user.id
+    render json: user
   end
+  
   
   def routine_records
     @user = User.find(session[:user_id])

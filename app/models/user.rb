@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :sleep_issue, optional: true
 
   validates :line_user_id, presence: true, uniqueness: true
-  
+
   # 就寝時間とrecommend_timeに基づいて、推奨実践時間を計算
   def calculate_time(bedtime, recommend_time)
     offset = case recommend_time
@@ -39,9 +39,7 @@ class User < ApplicationRecord
       morning_condition: nil
     )
 
-    if bedtime.nil?
-      return :no_bedtime
-    end
+    return :no_bedtime if bedtime.nil?
 
     recommend_time = calculate_time(bedtime, routine.recommend_time.to_sym)
     { status: :success, recommend_time: recommend_time }

@@ -7,7 +7,7 @@ class SleepRecord < ApplicationRecord
   validates :user_id, presence: true
 
   enum morning_condition: { good: 0, normal: 1, bad: 2 }
-  
+
   CONDITION_MAPPING = {
     '調子は良い' => :good,
     '調子は普通' => :normal,

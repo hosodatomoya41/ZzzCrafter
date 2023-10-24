@@ -4,9 +4,9 @@
   <% if @last_record %>
     <div class="text-3xl mb-10 text-center flex justify-center">
       <div class="mr-10">
-      <p>目標の就寝時間: <%= @user.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
+      <p>目標の就寝時間: <%= current_user.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
       </div>
-      <p>目標の起床時間: <%= @user.notification_time&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
+      <p>目標の起床時間: <%= current_user.notification_time&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
     </div>
   <% end %>
   

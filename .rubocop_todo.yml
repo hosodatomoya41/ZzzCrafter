@@ -8,8 +8,8 @@
 
 # Offense count: 4
 # Configuration parameters: IgnoredMethods, CountRepeatedAttributes.
-Metrics/AbcSize:
-  Max: 52
+# Metrics/AbcSize:
+#   Max: 52
 
 # Offense count: 2
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
@@ -19,13 +19,13 @@ Metrics/BlockLength:
 
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne.
-Metrics/ClassLength:
-  Max: 104
+# Metrics/ClassLength:
+#   Max: 104
 
 # Offense count: 1
 # Configuration parameters: IgnoredMethods.
-Metrics/CyclomaticComplexity:
-  Max: 12
+# Metrics/CyclomaticComplexity:
+#   Max: 12
 
 # Offense count: 8
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
@@ -34,8 +34,8 @@ Metrics/MethodLength:
 
 # Offense count: 1
 # Configuration parameters: IgnoredMethods.
-Metrics/PerceivedComplexity:
-  Max: 14
+# Metrics/PerceivedComplexity:
+#   Max: 14
 
 # Offense count: 3
 # Configuration parameters: EnforcedStyle, CheckMethodNames, CheckSymbols, AllowedIdentifiers.
@@ -54,9 +54,9 @@ Style/Documentation:
 
 # Offense count: 1
 # Configuration parameters: MinBranchesCount.
-Style/HashLikeCase:
-  Exclude:
-    - 'app/controllers/linebot_controller.rb'
+# Style/HashLikeCase:
+#   Exclude:
+#     - 'app/controllers/linebot_controller.rb'
 
 # Offense count: 9
 # Cop supports --auto-correct.

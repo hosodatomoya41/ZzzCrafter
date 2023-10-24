@@ -37,62 +37,15 @@ class UsersController < ApplicationController
   end
 
   def routine_records
-    @user = User.find(session[:user_id])
-
-    # 月のパラメータが存在する場合、その月を@yearと@monthにセット。存在しない場合は現在の月をセット。
-    if params['month(1i)'].present? && params['month(2i)'].present?
-      @year = params['month(1i)'].to_i
-      @month = params['month(2i)'].to_i
-    else
-      @year = Date.today.year
-      @month = Date.today.month
-    end
-
-    start_date = Date.new(@year, @month, 1)
-    end_date = start_date.end_of_month
-
-    @grouped_user_routines = UserRoutine.where(choose_date: start_date..end_date)
-                                        .order('choose_date DESC')
-                                        .group_by(&:choose_date)
-
-    @grouped_sleep_records = SleepRecord.where(user_id: current_user.id, record_date: start_date..end_date)
-                                        .order('record_date DESC')
-                                        .group_by(&:record_date)
+    set_year_and_month
+    @grouped_user_routines = UserRoutine.grouped_by_date(@year, @month)
+    @grouped_sleep_records = SleepRecord.grouped_by_date(@year, @month, current_user.id)
   end
 
   def recommend_routines
     user = User.find(session[:user_id])
-    issue_type = params[:issue_type].presence || user&.sleep_issue&.issue_type
-
-    # issue_typeがparamsから来ている場合、それを@current_issue_typeに設定
-    if params[:issue_type].present?
-      @current_issue_type = params[:issue_type]
-    # それ以外の場合、ユーザーが設定しているsleep_issue.idに対応するissue_typeを@current_issue_typeに設定
-    elsif user.sleep_issue_id
-      sleep_issue = SleepIssue.find_by(id: user.sleep_issue_id)
-      @current_issue_type = sleep_issue.issue_type
-    end
-
-    if issue_type.present?
-      sleep_issue = SleepIssue.find_by(issue_type: SleepIssue.issue_types[issue_type])
-      user.update!(sleep_issue_id: sleep_issue.id) if sleep_issue
-    end
-
-    sleep_issue = current_user.sleep_issue
-    @selected_issue_type = sleep_issue.issue_type if sleep_issue.present?
-    @selected_issue_point = SleepIssue::ISSUE_POINTS[@selected_issue_type.to_sym] if @selected_issue_type.present?
-
-    @issue_types = SleepIssue.issue_types.keys
-    @routines = if user.sleep_issue_id
-                  sleep_issue = SleepIssue.find_by(id: user.sleep_issue_id)
-                  sleep_issue ? sleep_issue.routines : Routine.none
-                else
-                  Routine.all
-                end
-
-    @routines_before0 = @routines.where(recommend_time: 'before0')
-    @routines_before1 = @routines.where(recommend_time: %w[before1 before1_5])
-    @routines_before3 = @routines.where(recommend_time: %w[before3 before10])
+    initialize_issue_type(user)
+    initialize_routines(user)
 
     respond_to do |format|
       format.html
@@ -106,5 +59,34 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:bedtime, :notification_time)
+  end
+
+  def set_year_and_month
+    if params['month(1i)'].present? && params['month(2i)'].present?
+      @year = params['month(1i)'].to_i
+      @month = params['month(2i)'].to_i
+    else
+      @year = Date.today.year
+      @month = Date.today.month
+    end
+  end
+
+  def initialize_issue_type(user)
+    issue_type = params[:issue_type].presence || user&.sleep_issue&.issue_type
+    user.update_issue_type(issue_type) if issue_type.present?
+    @current_issue_type = issue_type
+    _, @selected_issue_point = user.selected_issue_type_and_point
+  end
+
+  def initialize_routines(user)
+    @issue_types = SleepIssue.issue_types.keys
+    @routines = user.routines_based_on_issue
+    set_routines_by_time
+  end
+
+  def set_routines_by_time
+    @routines_before0 = @routines.where(recommend_time: 'before0')
+    @routines_before1 = @routines.where(recommend_time: %w[before1 before1_5])
+    @routines_before3 = @routines.where(recommend_time: %w[before3 before10])
   end
 end

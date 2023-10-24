@@ -23,25 +23,64 @@ class User < ApplicationRecord
 
   def register_routine(received_text)
     routine = Routine.find_by(line_text: received_text)
-    existing_routine = UserRoutine.exists?(user_id: id, routine_id: routine.id, choose_date: Date.today)
+    return :existing_routine if existing_routine?(routine)
 
-    return :existing_routine if existing_routine
-
-    UserRoutine.find_or_create_by(
-      user_id: id,
-      routine_id: routine.id,
-      choose_date: Date.today
-    )
-
-    SleepRecord.find_or_create_by(
-      user_id: id,
-      record_date: Date.today,
-      morning_condition: nil
-    )
+    create_user_routine(routine)
+    create_sleep_record
 
     return :no_bedtime if bedtime.nil?
 
     recommend_time = calculate_time(bedtime, routine.recommend_time.to_sym)
     { status: :success, recommend_time: recommend_time }
+  end
+
+  def routines_based_on_issue
+    if sleep_issue_id
+      sleep_issue = SleepIssue.find_by(id: sleep_issue_id)
+      sleep_issue ? sleep_issue.routines : Routine.none
+    else
+      Routine.all
+    end
+  end
+
+  def update_issue_type(issue_type)
+    sleep_issue = SleepIssue.find_by(issue_type: SleepIssue.issue_types[issue_type])
+    update!(sleep_issue_id: sleep_issue.id) if sleep_issue
+  end
+
+  def current_issue_type(params_issue_type)
+    params_issue_type.presence || sleep_issue&.issue_type
+  end
+
+  def selected_issue_type_and_point
+    if sleep_issue.present?
+      issue_type = sleep_issue.issue_type
+      issue_point = SleepIssue::ISSUE_POINTS[issue_type.to_sym]
+      [issue_type, issue_point]
+    else
+      [nil, nil]
+    end
+  end
+
+  private
+
+  def existing_routine?(routine)
+    UserRoutine.exists?(user_id: id, routine_id: routine.id, choose_date: Date.today)
+  end
+
+  def create_user_routine(routine)
+    UserRoutine.find_or_create_by(
+      user_id: id,
+      routine_id: routine.id,
+      choose_date: Date.today
+    )
+  end
+
+  def create_sleep_record
+    SleepRecord.find_or_create_by(
+      user_id: id,
+      record_date: Date.today,
+      morning_condition: nil
+    )
   end
 end

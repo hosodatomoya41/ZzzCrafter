@@ -42,4 +42,12 @@ class SleepRecord < ApplicationRecord
     end_date = start_date.end_of_month
     [start_date, end_date, year, month]
   end
+
+  def self.grouped_by_date(year, month, user_id)
+    start_date = Date.new(year, month, 1)
+    end_date = start_date.end_of_month
+    where(user_id: user_id, record_date: start_date..end_date)
+      .order('record_date DESC')
+      .group_by(&:record_date)
+  end
 end

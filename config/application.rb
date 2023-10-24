@@ -1,6 +1,8 @@
-require_relative "boot"
+# frozen_string_literal: true
 
-require "rails/all"
+require_relative 'boot'
+
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -16,9 +18,8 @@ module ZzzCrafter
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    config.time_zone = "Tokyo"
+    config.time_zone = 'Tokyo'
     # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.default_locale = :ja
-
   end
 end

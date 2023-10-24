@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IssueRoutine < ApplicationRecord
   belongs_to :sleep_issue
   belongs_to :routine

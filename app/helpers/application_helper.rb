@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def flash_classname(message_type)
     case message_type.to_sym
     when :success
-      "bg-green-500 text-white"
+      'bg-green-500 text-white'
     when :danger
-      "bg-red-500 text-white"
+      'bg-red-500 text-white'
     else
-      "bg-gray-500 text-white"
+      'bg-gray-500 text-white'
     end
   end
-  
+
   def default_meta_tags
     {
       site: 'ZzzCrafter',

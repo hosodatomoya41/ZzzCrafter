@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     liffId: LIFF_ID,
     // 他のブラウザで開いたときは初期化と一緒にログインもさせるオプション
     withLoginOnExternalBrowser: true
-  }).then(() => {
+  })
+  liff.ready.then(() => {
     if (!liff.isLoggedIn()) {
       // ログインしていない場合、ログイン画面に遷移
       liff.login();

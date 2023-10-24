@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Routine < ApplicationRecord
   has_many :user_routines, dependent: :destroy
   has_many :users, through: :user_routines

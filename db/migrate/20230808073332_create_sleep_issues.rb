@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSleepIssues < ActiveRecord::Migration[7.0]
   def change
     create_table :sleep_issues do |t|

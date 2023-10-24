@@ -1,19 +1,17 @@
-<div class="container mx-auto text-gray-600">
-  <div class="grid grid-cols-2 gap-4 card border border-black my-30">
-    <div class="card-body">
-      <h2 class="card-title text-2xl font-semibold">
-        <%= @routine.name %>
-      </h2>
-    </div>
-    <div class="card-body">
-      <p class="text-lg">
-        <%= @routine.description.html_safe %>
-      </p>
-    </div>
+<div class="container mx-auto text-black">
+<div class="card border border-black my-30">
+  <div class="card-body text-center">
+    <h2 class="card-title text-2xl font-semibold mx-auto">
+      <%= @routine.name %>
+    </h2>
+    <p class="text-lg mt-5">
+      <%= @routine.description.html_safe %>
+    </p>
   </div>
+</div>
 
-<% if logged_in? %>
-  <div class="flex justify-center mb-50"> 
+
+  <div class="flex justify-center mb-20"> 
     <button class="btn btn-success text-2xl" onclick="modal.showModal()">
     LINEへの追加はこちら
     </button>
@@ -32,5 +30,4 @@
       </div>
     </div>
   </dialog>
-<% end %>
 </div>

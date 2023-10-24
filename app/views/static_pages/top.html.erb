@@ -27,14 +27,16 @@
       <p class="text-3xl font-bold mt-10 mb-4">STEP2</p>
       <p class="text-xl">次に、ルーティーンを追加しましょう。</p>
       <p class="text-xl mb-5">ルーティーン一覧から気になるルーティーンをクリックすると、詳細が確認できます。</p>
-      <p class="text-xl">例：</p>
+      <p class="text-xl mb-10">例：</p>
 
-      <div class="grid grid-cols-2 gap-4 card border border-black my-10">
-        <div class="card-body">
-          <h2 class="card-title text-2xl font-semibold"><%= @routine.name %></h2>
-        </div>
-      <div class="card-body">
-        <p class="text-lg"><%= @routine.description %></p>
+      <div class="card border border-black mb-20">
+      <div class="card-body text-center">
+        <h2 class="card-title text-2xl font-semibold mx-auto">
+          <%= @routine.name %>
+        </h2>
+        <p class="text-lg mt-5">
+          <%= @routine.description.html_safe %>
+        </p>
       </div>
     </div>
 
@@ -74,7 +76,7 @@
 
 <h3 class="text-xl font-bold mt-20 mb-10 text-center">質の良い睡眠ができるように、自分に合った習慣を見つけてみましょう！</h3>
 </div>
-<%= link_to "さっそくルーティーン一覧を見てみる", routines_path, class: "btn btn-info text-xl mx-auto text-center" %>
+<%= link_to "さっそくルーティーン一覧を見てみる", routines_path, data: { turbo: false }, class: "btn btn-info text-xl mx-auto text-center" %>
 </div>
 
 </section>

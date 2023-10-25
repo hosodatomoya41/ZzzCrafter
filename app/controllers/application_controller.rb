@@ -11,9 +11,14 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
+  # rubocop:disable Style/GuardClause
   def require_login
-    redirect_to root_path unless current_user
+    unless current_user
+      flash[:alert] = '先にログインをお願いします'
+      redirect_to root_path
+    end
   end
+  # rubocop:enable Style/GuardClause
 
   def logged_in?
     !current_user.nil?

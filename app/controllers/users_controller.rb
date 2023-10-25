@@ -3,6 +3,7 @@
 class UsersController < ApplicationController
   require 'net/http'
   require 'uri'
+  before_action :require_login, only: %i[show routine_records recommend_routines]
 
   def new
     redirect_to root_path if current_user
@@ -21,6 +22,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(session[:user_id])
     @user.update!(user_params)
+    flash[:success] = '就寝時間と起床時間を登録しました'
     redirect_to sleep_records_path
   end
 

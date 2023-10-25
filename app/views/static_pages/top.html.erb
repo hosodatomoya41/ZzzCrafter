@@ -1,5 +1,6 @@
 <section class="text-black">
     <div class="bg-nightsky bg-cover bg-center h-[725px] w-full">
+    <%= flash_message(:alert) %>
     <!-- タイトル -->
     <div class="w-full flex flex-col items-center text-white">
       <h1 class="text-6xl font-bold mt-30 text-violet-700">ZzzCrafter</h1>
@@ -41,22 +42,8 @@
     </div>
 
     <div class="flex justify-center mb-20"> 
-      <button class="btn btn-success text-2xl" onclick="modal.showModal()">LINEへの追加はこちら</button>
+      <button class="btn btn-success text-2xl">LINEへの追加はこちら</button>
     </div>
-    <dialog id="modal" class="modal">
-      <div class="modal-box w-11/12 max-w-3xl h-[500px] flex flex-col">
-        <div class="text-center flex-grow">
-          <h3 class="font-bold text-lg">LINEで追加する</h3>
-          <p class="py-10 text-center">お手持ちのスマートフォンで読み取ってください</p>
-        </div>
-      <div id="qrCode" data-line-text="<%= @routine.line_text %>" class="flex justify-center"></div>
-      <div class="modal-action self-end justify-self-end">
-        <form method="dialog">
-          <button class="btn">Close</button>
-        </form>
-      </div>
-    </div>
-  </dialog>
       
   <div class="flex flex-col md:flex-row justify-between items-center">
   <p class="text-xl flex-1 md:ml-20 mb-10 md:mb-0">[LINEへの追加はこちら]をクリックすると、LINEのトークルームへ移動し、<br>実践する目安の時間が案内されます。</p>

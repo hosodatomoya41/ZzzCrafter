@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def flash_classname(message_type)
-    case message_type.to_sym
-    when :success
-      'bg-green-500 text-white'
-    when :danger
-      'bg-red-500 text-white'
-    else
-      'bg-gray-500 text-white'
-    end
+  def flash_message(type)
+    color_mapping = { success: 'green', alert: 'red', notice: 'blue' }
+    content_tag(:div, flash[type], class: "bg-#{color_mapping[type]}-500 text-white p-4 rounded") if flash[type]
   end
 
   def default_meta_tags

@@ -1,11 +1,6 @@
 <section class="text-black">
     <div class="bg-nightsky bg-cover bg-center h-[725px] w-full">
-      <% if flash[:alert] %>
-      <div class="bg-red-500 text-white p-4 rounded">
-        <%= flash[:alert] %>
-      </div>
-      <% end %>
-
+    <%= flash_message(:alert) %>
     <!-- タイトル -->
     <div class="w-full flex flex-col items-center text-white">
       <h1 class="text-6xl font-bold mt-30 text-violet-700">ZzzCrafter</h1>

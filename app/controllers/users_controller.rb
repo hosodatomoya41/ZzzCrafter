@@ -22,6 +22,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(session[:user_id])
     @user.update!(user_params)
+    flash[:success] = '就寝時間と起床時間を登録しました'
     redirect_to sleep_records_path
   end
 

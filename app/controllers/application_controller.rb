@@ -12,7 +12,10 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    redirect_to root_path unless current_user
+    unless current_user
+      flash[:alert] = '先にログインをお願いします'
+      redirect_to root_path
+    end
   end
 
   def logged_in?

@@ -3,6 +3,7 @@
 class UsersController < ApplicationController
   require 'net/http'
   require 'uri'
+  before_action :require_login, only: %i[show routine_records recommend_routines]
 
   def new
     redirect_to root_path if current_user

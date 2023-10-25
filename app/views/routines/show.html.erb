@@ -10,7 +10,7 @@
   </div>
 </div>
 
-
+  <% if logged_in? %>
   <div class="flex justify-center mb-20"> 
     <button class="btn btn-success text-2xl" onclick="modal.showModal()">
     LINEへの追加はこちら
@@ -30,4 +30,10 @@
       </div>
     </div>
   </dialog>
+  <% else %>
+  <p class="text-2xl text-center mb-10">下のボタンからLINEログインをしていただくと、ルーティーンを登録することができるようになります！</p>
+  <div class="text-center">
+  <%= link_to 'ログイン', new_user_path, data: { turbo: false }, class: 'btn btn-accent text-xl mb-20' %>
+  </div>
+  <% end %>
 </div>

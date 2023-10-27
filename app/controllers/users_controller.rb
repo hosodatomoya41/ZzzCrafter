@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 
   def routine_records
     set_year_and_month
-    @grouped_user_routines = UserRoutine.grouped_by_date(@year, @month)
+    @grouped_user_routines = UserRoutine.grouped_by_date(@year, @month, current_user.id)
     @grouped_sleep_records = SleepRecord.grouped_by_date(@year, @month, current_user.id)
   end
 

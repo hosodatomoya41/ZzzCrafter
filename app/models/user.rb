@@ -52,13 +52,12 @@ class User < ApplicationRecord
     params_issue_type.presence || sleep_issue&.issue_type
   end
 
-  def selected_issue_type_and_point
+  def selected_issue_point
     if sleep_issue.present?
       issue_type = sleep_issue.issue_type
-      issue_point = SleepIssue::ISSUE_POINTS[issue_type.to_sym]
-      [issue_type, issue_point]
+      SleepIssue::ISSUE_POINTS[issue_type.to_sym]
     else
-      [nil, nil]
+      nil
     end
   end
 

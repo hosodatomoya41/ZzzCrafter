@@ -77,7 +77,7 @@ class UsersController < ApplicationController
     issue_type = params[:issue_type].presence || user&.sleep_issue&.issue_type
     user.update_issue_type(issue_type) if issue_type.present?
     @current_issue_type = issue_type
-    _, @selected_issue_point = user.selected_issue_type_and_point
+    @selected_issue_point = user.selected_issue_point
   end
 
   def initialize_routines(user)

@@ -16,7 +16,11 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          handle_message(event)
+          if event.message['text'] == '睡眠の記録を送信'
+            Richmenu.postback_emulation(event)
+          else
+            handle_message(event)
+          end
         end
       end
     end

@@ -16,11 +16,7 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          if event.message['text'] == '睡眠の記録を送信'
-            Richmenu.postback_emulation(event)
-          else
-            handle_message(event)
-          end
+          handle_message(event)
         end
       end
     end
@@ -36,6 +32,8 @@ class LinebotController < ApplicationController
 
     if %w[調子は良い 調子は普通 調子は悪い].include?(received_text)
       record_morning_condition(user, received_text, event)
+    elsif %w[睡眠の記録を見る ルーティーン一覧を見る おすすめのルーティーンを教えて アプリの使い方].include?(received_text)
+      Richmenu.postback(event, received_text)
     else
       register_routine(user, received_text, event)
     end

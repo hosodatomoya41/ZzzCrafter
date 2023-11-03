@@ -15,9 +15,78 @@ class Richmenu < ApplicationRecord
   private
 
   def self.handle_sleeprecord(event, user_id)
-    # 必要な処理をここに実装
+    user = User.find_by(line_user_id: event['source']['userId'])
+    sleep_records = SleepRecord.where(user: user)
 
-    send_line_message("睡眠の記録を受け取りました。", event)
+# Flex Messageの内容をsleep_recordから生成
+message = {
+  type: 'flex', 
+  altText: '睡眠の記録一覧',
+  contents: {
+    type: 'bubble',
+    body: {
+      type: 'box',
+      layout: 'vertical',
+      contents: sleep_records.map do |record|
+        {
+          type: 'box',
+          layout: 'horizontal',
+          contents: [
+            {
+              type: 'text',
+              text: record.record_date,
+              size: 'sm',
+              color: '#555555'
+            },
+            {
+              type: 'text', 
+              text: "起床: #{record.wake_up_time&.to_s(:time)}",
+              size: 'sm',
+              color: '#555555'
+            },
+            {
+              type: 'text',
+              text: "調子: #{condition_map[record.morning_condition]}",
+              size: 'sm', 
+              color: '#555555'
+            }
+          ]
+        }
+      end
+    }
+
+  }
+}
+
+  # 就寝時間と起床時間を登録する画面への遷移ボタンを含むメッセージ
+  sleep_registration_message = {
+    type: 'template',
+    altText: '就寝時間と起床時間を登録',
+    template: {
+      type: 'buttons',
+      title: '睡眠記録',
+      text: '記録したい就寝時間と起床時間を選択してください。',
+      actions: [
+        {
+          type: 'datetimepicker',
+          label: '就寝時間',
+          data: 'action=sleep&mode=datettime',
+          mode: 'time'
+        },
+        {
+          type: 'datetimepicker',
+          label: '起床時間',
+          data: 'action=wakeup&mode=datettime',
+          mode: 'time'
+        }
+      ]
+    }
+  }
+
+  # 送信するメッセージ群をclientに渡して送信する
+  client.reply_message(event['replyToken'], [message, sleep_registration_message])
+
+    send_line_message("睡眠の記録が完了しました。", event)
   end
   
   def self.handle_routines(event, user_id)
@@ -38,6 +107,14 @@ class Richmenu < ApplicationRecord
       text: message
     }
     client.reply_message(event['replyToken'], message_content)
+  end
+
+  def self.condition_map
+    {
+      "good" => "良い",
+      "normal" => "普通",
+      "bad" => "悪い"
+    }
   end
 
   def self.client

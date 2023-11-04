@@ -65,7 +65,7 @@ class Richmenu < ApplicationRecord
                   },
                   {
                     type: 'text',
-                    text: "調子: #{condition_map[record.morning_condition] || '未記録'}",
+                    text: "調子: #{SleepRecord::CONDITION_MAPPING[record.morning_condition] || '未記録'}",
                     size: 'sm', 
                     color: '#555555'
                   }
@@ -136,14 +136,6 @@ class Richmenu < ApplicationRecord
       text: message
     }
     client.reply_message(event['replyToken'], message_content)
-  end
-
-  def self.condition_map
-    {
-      "good" => "良い",
-      "normal" => "普通",
-      "bad" => "悪い"
-    }
   end
 
   def self.client

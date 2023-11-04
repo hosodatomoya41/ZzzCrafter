@@ -9,10 +9,10 @@ class SleepRecord < ApplicationRecord
   enum morning_condition: { good: 0, normal: 1, bad: 2 }
 
   CONDITION_MAPPING = {
-    '調子は良い' => :good,
-    '調子は普通' => :normal,
-    '調子は悪い' => :bad
-  }.freeze
+    "good" => '良い',
+    "normal" => '普通',
+    "bad" => '悪い',
+  }
 
   def self.record_condition(user_id, received_text)
     condition = CONDITION_MAPPING[received_text]

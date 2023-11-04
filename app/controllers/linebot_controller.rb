@@ -28,16 +28,21 @@ class LinebotController < ApplicationController
   private
   
   def handle_postback(event, data)
+    user_id = event['source']['userId']
+    user = User.find_by(line_user_id: user_id)
     params = Rack::Utils.parse_nested_query(data)
-    case params['action']
-    when 'select_month'
-      # ユーザーに月の入力を促すメッセージを送信
-      message = {
-        type: 'text',
-        text: "1月から12月までの数字で月を入力してください。\n年度も指定できます。\n例: 10月,  2022年10月"
-      }
-      client.reply_message(event['replyToken'], message)
+    postback_params = event['postback']['params']
+    time = Time.zone.parse(postback_params['time']).strftime('%H:%M')
+
+    if params['action'] == 'wakeup'
+      user.update(notification_time: Time.zone.parse(postback_params['time']))
+      message_text = "起床時間を#{time}に設定しました！"
+    elsif params['action'] == 'sleep'
+      user.update(bedtime: Time.zone.parse(postback_params['time']))
+      message_text = "就寝時間を#{time}に設定しました！"
     end
+
+    send_line_message(event, message_text)
   end
 
   def handle_message(event)
@@ -105,6 +110,15 @@ class LinebotController < ApplicationController
   def record_morning_condition(user, received_text, event)
     message_text = SleepRecord.record_condition(user.id, received_text)
 
+    message = {
+      type: 'text',
+      text: message_text
+    }
+    client.reply_message(event['replyToken'], message)
+  end
+
+  def send_line_message(event, message_text)
+    puts "line_message"
     message = {
       type: 'text',
       text: message_text

@@ -1,12 +1,11 @@
 class Richmenu < ApplicationRecord
-  def self.postback(event, received_text)
-    user_id = event['source']['userId']
+  def self.postback(user, event, received_text)
     if received_text == "睡眠の記録を見る"
-      handle_sleeprecord(event, user_id)
+      handle_sleeprecord(event, user, sleep_records = nil)
     elsif received_text == "ルーティーン一覧を見る"
-      handle_routines(event, user_id)
+      handle_routines(event, user)
     elsif received_text == "おすすめのルーティーンを教えて"
-      handle_recommend_routines(event, user_id)
+      handle_recommend_routines(event, user)
     else
       handle_how_to_use(event)
     end
@@ -14,58 +13,93 @@ class Richmenu < ApplicationRecord
 
   private
 
-  def self.handle_sleeprecord(event, user_id)
-    user = User.find_by(line_user_id: event['source']['userId'])
-    sleep_records = SleepRecord.where(user: user)
+  def self.handle_sleeprecord(event, user, sleep_records = nil)
+    sleep_records ||= SleepRecord.grouped_by_date(Date.today.year, Date.today.month, user.id)
+    puts "Debug: Inside handle_sleeprecord: #{sleep_records.inspect}" 
 
-# Flex Messageの内容をsleep_recordから生成
-message = {
-  type: 'flex', 
-  altText: '睡眠の記録一覧',
-  contents: {
-    type: 'bubble',
-    body: {
-      type: 'box',
-      layout: 'vertical',
-      contents: sleep_records.map do |record|
-        {
+    message = {
+      type: 'flex',
+      altText: '睡眠の記録一覧',
+      contents: {
+        type: 'bubble',
+        header: {
           type: 'box',
-          layout: 'horizontal',
+          layout: 'vertical',
           contents: [
             {
               type: 'text',
-              text: record.record_date,
-              size: 'sm',
-              color: '#555555'
-            },
+              text: "就寝時間: #{user.bedtime&.strftime('%H:%M') || '未記録'}       起床時間: #{user.notification_time&.strftime('%H:%M') || '未記録'}",
+              weight: 'bold',
+            }
+          ]
+        },
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: sleep_records.map { |date, records|
+          puts "Debug: Date: #{date}, Records: #{records.inspect}"  # デバッグ出力
+          record = records.first
+          puts "Debug: First Record: #{record.inspect}"
             {
-              type: 'text', 
-              text: "起床: #{record.wake_up_time&.to_s(:time)}",
-              size: 'sm',
-              color: '#555555'
-            },
+              type: 'box',
+              layout: 'horizontal',
+              contents: [
+                {
+                  type: 'text',
+                  text: date.to_s,
+                  size: 'sm',
+                  color: '#555555'
+                },
+                {
+                  type: 'text', 
+                  text: "起床: #{record.wake_up_time&.strftime('%H:%M') || '未記録'}",
+                  size: 'sm',
+                  color: '#555555'
+                },
+                {
+                  type: 'text',
+                  text: "調子: #{condition_map[record.morning_condition] || '未記録'}",
+                  size: 'sm', 
+                  color: '#555555'
+                }
+              ]
+            }
+          }
+        },
+        footer: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
             {
               type: 'text',
-              text: "調子: #{condition_map[record.morning_condition]}",
-              size: 'sm', 
-              color: '#555555'
+              text: '表示する月を選択してください。',
+              wrap: true
+            },
+            {
+              type: 'button',
+              action: {
+                type: 'postback',
+                label: '月を選択',
+                data: 'action=select_month'
+              },
+              margin: 'sm',
+              height: 'sm',
+              style: 'primary'
             }
           ]
         }
-      end
+      }
     }
 
-  }
-}
 
   # 就寝時間と起床時間を登録する画面への遷移ボタンを含むメッセージ
   sleep_registration_message = {
     type: 'template',
-    altText: '就寝時間と起床時間を登録',
+    altText: '就寝時間と起床時間の一覧',
     template: {
       type: 'buttons',
-      title: '睡眠記録',
-      text: '記録したい就寝時間と起床時間を選択してください。',
+      title: '睡眠時間の記録',
+      text: '目標の就寝時間と起床時間を選択してください。',
       actions: [
         {
           type: 'datetimepicker',
@@ -82,18 +116,14 @@ message = {
       ]
     }
   }
-
-  # 送信するメッセージ群をclientに渡して送信する
   client.reply_message(event['replyToken'], [message, sleep_registration_message])
-
-    send_line_message("睡眠の記録が完了しました。", event)
   end
   
-  def self.handle_routines(event, user_id)
+  def self.handle_routines(event, user)
     send_line_message("ルーティーン一覧を受け取りました。", event)
   end
   
-  def self.handle_recommend_routines(event, user_id)
+  def self.handle_recommend_routines(event, user)
     send_line_message("おすすめのルーティーンを受け取りました。", event)
   end
 

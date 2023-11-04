@@ -42,13 +42,12 @@ class LinebotController < ApplicationController
       message_text = "就寝時間を#{time}に設定しました！"
     end
 
-    send_line_message(event, message_text)
+    LineMessagingService.send_reply(event['replyToken'], message_text)
   end
 
   def handle_message(event)
     line_user_id = event['source']['userId']
     user = User.find_by(line_user_id: line_user_id)
-
     received_text = event.message['text']
 
     if %w[調子は良い 調子は普通 調子は悪い].include?(received_text)
@@ -100,30 +99,13 @@ class LinebotController < ApplicationController
       message_text = "登録が完了しました。\n就寝時間から逆算すると、 #{result[:recommend_time]}頃までには実践するのがオススメです！\n睡眠の質を高められるように頑張ってくださいね！"
     end
 
-    message = {
-      type: 'text',
-      text: message_text
-    }
-    client.reply_message(event['replyToken'], message)
+    LineMessagingService.send_reply(event['replyToken'], message_text)
   end
 
   def record_morning_condition(user, received_text, event)
     message_text = SleepRecord.record_condition(user.id, received_text)
 
-    message = {
-      type: 'text',
-      text: message_text
-    }
-    client.reply_message(event['replyToken'], message)
-  end
-
-  def send_line_message(event, message_text)
-    puts "line_message"
-    message = {
-      type: 'text',
-      text: message_text
-    }
-    client.reply_message(event['replyToken'], message)
+    LineMessagingService.send_reply(event['replyToken'], message_text)
   end
 
   def client

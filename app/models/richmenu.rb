@@ -90,7 +90,6 @@ class Richmenu < ApplicationRecord
       }
     }
 
-
   # 就寝時間と起床時間を登録する画面への遷移ボタンを含むメッセージ
   sleep_registration_message = {
     type: 'template',
@@ -119,7 +118,7 @@ class Richmenu < ApplicationRecord
   end
   
   def self.handle_routines(event, user)
-    send_line_message(event, "ルーティーン一覧を受け取りました。")
+    LineMessagingService.send_reply(event['replyToken'], "ルーティーン一覧を受け取りました")
   end
   
   def self.handle_recommend_routines(event, user)

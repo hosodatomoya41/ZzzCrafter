@@ -34,7 +34,7 @@ class LinebotController < ApplicationController
       # ユーザーに月の入力を促すメッセージを送信
       message = {
         type: 'text',
-        text: '1月から12月までの数字で月を入力してください。例: 1月'
+        text: "1月から12月までの数字で月を入力してください。\n年度も指定できます。\n例: 10月,  2022年10月"
       }
       client.reply_message(event['replyToken'], message)
     end
@@ -50,7 +50,7 @@ class LinebotController < ApplicationController
       record_morning_condition(user, received_text, event)
     elsif %w[睡眠の記録を見る ルーティーン一覧を見る おすすめのルーティーンを教えて アプリの使い方].include?(received_text)
       Richmenu.postback(user, event, received_text)
-    elsif received_text =~ /^(1[0-2]|0?[1-9])月$/
+    elsif received_text =~ /^(\d{4}年)?(1[0-2]|0?[1-9])月$/
       handle_month(user, event, received_text)
     else
       register_routine(user, received_text, event)
@@ -58,10 +58,8 @@ class LinebotController < ApplicationController
   end
   
   def handle_month(user, event, received_text)
-    # 現在の年を取得
     current_year = Date.today.year
   
-    # ユーザーが年を指定しているかチェック
     if received_text.include?("年")
       # ユーザーが年も指定している場合、その年と月を取得
       year, month = received_text.split('年').first.to_i, received_text.split('年').last.split('月').first.to_i
@@ -74,20 +72,13 @@ class LinebotController < ApplicationController
     # 月のデータを取得するための範囲を決定
     start_date = Date.new(year, month, 1)
     end_date = start_date.end_of_month
-    puts "Debug: Start Date: #{start_date}, End Date: #{end_date}"
     
     sleep_records = SleepRecord.fetch_records(user.id, start_date, end_date)
-    puts "Debug: Sleep Records: #{sleep_records.inspect}"
     grouped_sleep_records = sleep_records.group_by(&:record_date)
     
     # 取得したデータをもとにFlex Messageを生成して送信
     message = Richmenu.handle_sleeprecord(event, user, grouped_sleep_records)
-    response_message = {
-      type: 'text',
-      text: "#{year}年#{month}月のデータを取得しました。"
-    }
-    # ユーザーに応答メッセージを送信
-    client.reply_message(event['replyToken'], [message, response_message]) 
+    client.reply_message(event['replyToken'], message) 
   end
   
   

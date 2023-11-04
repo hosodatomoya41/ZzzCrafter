@@ -15,7 +15,6 @@ class Richmenu < ApplicationRecord
 
   def self.handle_sleeprecord(event, user, sleep_records = nil)
     sleep_records ||= SleepRecord.grouped_by_date(Date.today.year, Date.today.month, user.id)
-    puts "Debug: Inside handle_sleeprecord: #{sleep_records.inspect}" 
 
     message = {
       type: 'flex',
@@ -30,62 +29,62 @@ class Richmenu < ApplicationRecord
               type: 'text',
               text: "就寝時間: #{user.bedtime&.strftime('%H:%M') || '未記録'}       起床時間: #{user.notification_time&.strftime('%H:%M') || '未記録'}",
               weight: 'bold',
+            },
+            {
+              type: 'separator',
             }
           ]
         },
         body: {
           type: 'box',
           layout: 'vertical',
-          contents: sleep_records.map { |date, records|
-          puts "Debug: Date: #{date}, Records: #{records.inspect}"  # デバッグ出力
-          record = records.first
-          puts "Debug: First Record: #{record.inspect}"
-            {
-              type: 'box',
-              layout: 'horizontal',
-              contents: [
-                {
-                  type: 'text',
-                  text: date.to_s,
-                  size: 'sm',
-                  color: '#555555'
-                },
-                {
-                  type: 'text', 
-                  text: "起床: #{record.wake_up_time&.strftime('%H:%M') || '未記録'}",
-                  size: 'sm',
-                  color: '#555555'
-                },
-                {
-                  type: 'text',
-                  text: "調子: #{condition_map[record.morning_condition] || '未記録'}",
-                  size: 'sm', 
-                  color: '#555555'
-                }
-              ]
+          contents: sleep_records.empty? ? 
+            [{
+              type: 'text',
+              text: '記録がありません',
+              size: 'sm',
+              color: '#555555'
+            }] : 
+            sleep_records.map { |date, records|
+              record = records.first
+              {
+                type: 'box',
+                layout: 'horizontal',
+                contents: [
+                  {
+                    type: 'text',
+                    text: date.to_s,
+                    size: 'sm',
+                    color: '#555555'
+                  },
+                  {
+                    type: 'text', 
+                    text: "起床: #{record.wake_up_time&.strftime('%H:%M') || '未記録'}",
+                    size: 'sm',
+                    color: '#555555'
+                  },
+                  {
+                    type: 'text',
+                    text: "調子: #{condition_map[record.morning_condition] || '未記録'}",
+                    size: 'sm', 
+                    color: '#555555'
+                  }
+                ]
+              }
             }
-          }
         },
         footer: {
           type: 'box',
           layout: 'vertical',
           contents: [
             {
-              type: 'text',
-              text: '表示する月を選択してください。',
-              wrap: true
+              type: 'separator',
             },
             {
-              type: 'button',
-              action: {
-                type: 'postback',
-                label: '月を選択',
-                data: 'action=select_month'
-              },
-              margin: 'sm',
-              height: 'sm',
-              style: 'primary'
-            }
+              type: 'text',
+              text: "表示する年月をチャットで送信することで選択できます。\n例:10月, 2022年10月",
+              wrap: true
+            },
           ]
         }
       }
@@ -99,7 +98,7 @@ class Richmenu < ApplicationRecord
     template: {
       type: 'buttons',
       title: '睡眠時間の記録',
-      text: '目標の就寝時間と起床時間を選択してください。',
+      text: '目標の就寝時間と起床時間を設定できます。',
       actions: [
         {
           type: 'datetimepicker',

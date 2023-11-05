@@ -4,7 +4,7 @@ class Richmenu < ApplicationRecord
       handle_sleeprecord(event, user, sleep_records = nil)
     elsif received_text == "ルーティーン一覧を見る"
       handle_routines(event, user)
-    elsif received_text == "おすすめのルーティーンを教えて"
+    elsif received_text == "おすすめのルーティーンを教えて！"
       handle_recommend_routines(event, user)
     else
       handle_how_to_use(event)

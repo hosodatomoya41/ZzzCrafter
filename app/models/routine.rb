@@ -10,4 +10,8 @@ class Routine < ApplicationRecord
   validates :name, :description, :recommend_time, presence: true
 
   enum recommend_time: { before0: 0, before1: 1, before1_5: 15, before3: 3, before10: 10 }
+  
+  def self.get_routines(time)
+    Routine.where(recommend_time: time)
+  end
 end

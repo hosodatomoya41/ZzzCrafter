@@ -23,15 +23,15 @@ class User < ApplicationRecord
 
   def register_routine(received_text)
     routine = Routine.find_by(line_text: received_text)
-    return :existing_routine if existing_routine?(routine)
+    return { status: :existing_routine, name: routine.name } if existing_routine?(routine)
 
     create_user_routine(routine)
     create_sleep_record
 
-    return :no_bedtime if bedtime.nil?
+    return { status: :no_bedtime, name: routine.name } if bedtime.nil?
 
     recommend_time = calculate_time(bedtime, routine.recommend_time.to_sym)
-    { status: :success, recommend_time: recommend_time }
+    { status: :success, recommend_time: recommend_time, name: routine.name }
   end
 
   def routines_based_on_issue

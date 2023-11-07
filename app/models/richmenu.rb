@@ -80,7 +80,7 @@ class Richmenu < ApplicationRecord
             },
             {
               type: 'text',
-              text: "表示する年月をチャットで送信することで選択できます。\n例:10月, 2022年10月",
+              text: "表示する年月をメッセージで送信することで選択できます。\n例:10月, 2022年10月",
               wrap: true
             },
           ]
@@ -154,7 +154,6 @@ class Richmenu < ApplicationRecord
       contents: {
         type: 'carousel',
         contents: routines.map do |routine|
-
           {
             type: 'bubble',
             size: 'kilo',
@@ -184,7 +183,7 @@ class Richmenu < ApplicationRecord
                   style: 'primary',
                   action: {
                     type: 'postback',
-                    label: 'このルーティーンを追加',
+                    label: 'このルーティーンを登録する',
                     data: "action=add_routine&routine_id=#{routine.id}"
                   }
                 }
@@ -197,7 +196,7 @@ class Richmenu < ApplicationRecord
   end
   
   def self.handle_recommend_routines(event, user)
-    LineMessagingService.send_reply(event['replyToken'], "おすすめのルーティーンを受け取りました")
+    LineMessagingService.send_reply(event['replyToken'], "鋭意作成中です！実装までしばらくお待ち下さい。")
   end
   
   def self.client

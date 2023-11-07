@@ -4,10 +4,8 @@ class Richmenu < ApplicationRecord
       handle_sleeprecord(event, user, sleep_records = nil)
     elsif received_text == "ルーティーン一覧を見る"
       handle_routines(event, user)
-    elsif received_text == "おすすめのルーティーンを教えて！"
+    elsif received_text == "おすすめのルーティーンを教えて"
       handle_recommend_routines(event, user)
-    else
-      handle_how_to_use(event)
     end
   end
 
@@ -90,7 +88,6 @@ class Richmenu < ApplicationRecord
       }
     }
 
-  # 就寝時間と起床時間を登録する画面への遷移ボタンを含むメッセージ
   sleep_registration_message = {
     type: 'template',
     altText: '起床時間と就寝時間の一覧',
@@ -118,15 +115,89 @@ class Richmenu < ApplicationRecord
   end
   
   def self.handle_routines(event, user)
-    LineMessagingService.send_reply(event['replyToken'], "ルーティーン一覧を受け取りました")
+    buttons = [
+      {
+        type: 'postback',
+        label: '就寝直前のルーティーン',
+        data: 'action=show_routines&times[]=before0'
+      },
+      {
+        type: 'postback',
+        label: '就寝1時間前のルーティーン',
+        data: 'action=show_routines&times[]=before1&times[]=before1_5'
+      },
+      {
+        type: 'postback',
+        label: '就寝3時間以上前のルーティーン',
+        data: 'action=show_routines&times[]=before3&times[]=before10'
+      }
+    ]
+
+    message = {
+      type: 'template',
+      altText: 'ルーティーン一覧',
+      template: {
+        type: 'buttons',
+        title: 'ルーティーン一覧',
+        text: '時間帯を選択してください',
+        actions: buttons
+      }
+    }
+
+    client.reply_message(event['replyToken'], [message])
+  end
+  
+  def self.routines_index(routines, event)
+    message = {
+      type: 'flex',
+      altText: 'ルーティーン一覧',
+      contents: {
+        type: 'carousel',
+        contents: routines.map do |routine|
+
+          {
+            type: 'bubble',
+            size: 'kilo',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  text: routine.name,
+                  weight: 'bold',
+                  size: 'xl'
+                },
+                {
+                  type: 'text',
+                  text: routine.description,
+                  wrap: true
+                }
+              ]
+            },
+            footer: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'button',
+                  style: 'primary',
+                  action: {
+                    type: 'postback',
+                    label: 'このルーティーンを追加',
+                    data: "action=add_routine&routine_id=#{routine.id}"
+                  }
+                }
+              ]
+            }
+          }
+        end
+      }
+    }
   end
   
   def self.handle_recommend_routines(event, user)
-    send_line_message("おすすめのルーティーンを受け取りました。", event)
-  end
-
-  def self.handle_how_to_use(event)
-    send_line_message("使い方", event)
+    LineMessagingService.send_reply(event['replyToken'], "おすすめのルーティーンを受け取りました")
   end
   
   def self.client

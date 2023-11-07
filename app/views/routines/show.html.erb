@@ -5,7 +5,7 @@
       <%= @routine.name %>
     </h2>
     <p class="text-lg mt-5">
-      <%= @routine.description.html_safe %>
+      <%= simple_format(@routine.description) %>
     </p>
   </div>
 </div>

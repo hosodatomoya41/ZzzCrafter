@@ -122,7 +122,8 @@ class LinebotController < ApplicationController
 
   def record_morning_condition(user, received_text, event)
     message_text = SleepRecord.record_condition(user.id, received_text)
-    client.reply_message(event['replyToken'], message_text)
+    puts "調子を記録しました #{message_text}"
+    LineMessagingService.send_reply(event['replyToken'], message_text)
   end
 
   def client

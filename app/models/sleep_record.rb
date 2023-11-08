@@ -16,7 +16,7 @@ class SleepRecord < ApplicationRecord
 
   def self.record_condition(user_id, received_text)
     condition = received_text
-    record = find_by(user_id: user_id, record_date: Date.yesterday, morning_condition: nil)
+    record = find_by(user_id: user_id, record_date: Date.today, morning_condition: nil)
 
     if record
       record.update(morning_condition: condition, wake_up_time: Time.current)

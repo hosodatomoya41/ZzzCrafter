@@ -32,9 +32,7 @@ class LinebotController < ApplicationController
     user = User.find_by(line_user_id: line_user_id)
     received_text = event.message['text']
 
-    if %w[調子は良い 調子は普通 調子は悪い].include?(received_text)
-      record_morning_condition(user, received_text, event)
-    elsif %w[睡眠の記録を見る ルーティーン一覧を見る おすすめのルーティーンを教えて].include?(received_text)
+    if %w[睡眠の記録を見る ルーティーン一覧を見る おすすめのルーティーンを教えて].include?(received_text)
       Richmenu.postback(user, event, received_text)
     elsif received_text =~ /^(\d{4}年)?(1[0-2]|0?[1-9])月$/
       handle_month(user, event, received_text)
@@ -48,6 +46,8 @@ class LinebotController < ApplicationController
     user = User.find_by(line_user_id: user_id)
     params = Rack::Utils.parse_nested_query(data)
     case params['action']
+    when 'good', 'normal', 'bad'
+      handle_morning_condition(user, event, params)
     when 'wakeup', 'sleep'
       handle_sleeptime(user, event, params)
     when 'show_routines'
@@ -120,8 +120,8 @@ class LinebotController < ApplicationController
     LineMessagingService.send_reply(event['replyToken'], message_text)
   end
 
-  def record_morning_condition(user, received_text, event)
-    message_text = SleepRecord.record_condition(user.id, received_text)
+  def handle_morning_condition(user, event, params)
+    message_text = SleepRecord.record_condition(user.id, params['action'])
     LineMessagingService.send_reply(event['replyToken'], message_text)
   end
 

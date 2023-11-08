@@ -20,12 +20,28 @@ class Notification < ApplicationRecord
         type: 'buttons',
         text: '調子はどうですか？',
         actions: [
-          { type: 'message', label: '調子は良い', text: '調子は良い' },
-          { type: 'message', label: '調子は普通', text: '調子は普通' },
-          { type: 'message', label: '調子は悪い', text: '調子は悪い' }
+          {
+            type: 'postback',
+            label: '良い',
+            data: 'action=good',
+            displayText: '良い'
+          },
+          {
+            type: 'postback',
+            label: '普通',
+            data: 'action=normal',
+            displayText: '普通'
+          },
+          {
+            type: 'postback',
+            label: '悪い',
+            data: 'action=bad',
+            displayText: '悪い'
+          }
         ]
       }
     }
+
 
     messages = [
       { type: 'text', text: line_text },

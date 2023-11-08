@@ -19,12 +19,14 @@
     <div class="w-full mb-10">
       <h2 class="text-4xl my-10">アプリの使い方</h2>
       <p class="text-3xl font-bold mb-4">STEP1</p>
-      <p class="text-2xl">下の友だち追加ボタンから友達登録をお願いします。</p>
-      <p class="text-2xl mb-5">デスクトップブラウザをご利用の場合は、右上のログインボタンからでも、LINEログインが可能です！</p>
+      <p class="text-2xl">下の友だち追加ボタン、又はQRコードから公式LINEの友達登録をお願いします。</p>
+      <p class="text-2xl mb-5">デスクトップブラウザをご利用の場合は、右上のログインボタンからでも、LINEログインを通じてご利用が可能です。</p>
 
-      <div class="line-it-button" data-lang="ja" data-type="friend" data-env="REAL" data-lineId="@112nzsun" style="display: none;"></div>
-      <%= javascript_include_tag 'https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js', 'data-turbolinks-track': 'reload', async: true, defer: true %>
-
+      <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <div class="line-it-button" data-lang="ja" data-type="friend" data-env="REAL" data-lineId="@112nzsun" style="display: none;"></div>
+        <%= javascript_include_tag 'https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js', 'data-turbolinks-track': 'reload', async: true, defer: true %>
+        <%= image_tag 'lineqr.png', class: "w-[200px] h-[200px]" %>
+      </div>
       <p class="text-3xl font-bold mt-10 mb-4">STEP2</p>
       <p class="text-xl">次に、ルーティーンを追加しましょう。</p>
       <p class="text-xl mb-5">ルーティーン一覧から気になるルーティーンをクリックすると、詳細が確認できます。</p>

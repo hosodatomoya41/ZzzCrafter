@@ -4,7 +4,7 @@
 <div class="w-auto">
   <h1 class="text-4xl my-10 text-center">睡眠の記録</h1>
   <% if @last_record %>
-    <div class="text-3xl mb-10 text-center flex justify-center">
+    <div class="text-xl md:text-3xl mb-10 text-center flex justify-center">
       <div class="mr-10">
       <p>目標の就寝時間: <%= current_user.bedtime&.in_time_zone("Tokyo").strftime("%H:%M") %></p>
       </div>
@@ -14,25 +14,25 @@
   
   <%= form_with url: sleep_records_path, method: :get, local: true, class: "text-center mb-10" do |f| %>
     <%= f.date_select :month, { discard_day: true, selected: Date.new(@year, @month, 1) }, class: "border border-black bg-white text-2xl" %>
-    <%= f.submit "フィルター", class: "btn btn-primary ml-10" %>
+    <%= f.submit "フィルター", class: "btn btn-primary ml-5 md:ml-10" %>
   <% end %>
   
   <table class="text-2xl bg-white rounded-md shadow overflow-hidden mx-auto">
     <thead class="bg-gray-100">
       <tr>
-        <th class="px-10 py-2">日付</th>
-        <th class="px-10 py-2">朝の記録時間</th>
-        <th class="px-10 py-2">調子</th>
+        <th class="md:px-10 py-4">日付</th>
+        <th class="md:px-10 py-4">朝の記録</th>
+        <th class="md:px-10 py-4">調子</th>
       </tr>
     </thead>
     <tbody>
       <% @sleep_records.each do |record| %>
         <tr>
-          <td class="border px-4 py-2"><%= record.record_date.strftime %></td>
+          <td class="border px-4 py-2"><%= format_date_for_device(record.record_date) %></td>
           <td class="border px-4 py-2"><%= record.wake_up_time ? record.wake_up_time.in_time_zone("Tokyo").strftime("%H:%M") : '未記録' %></td>
           <td class="border px-4 py-2">
           <% if record.morning_condition %>
-            <%= ['良い！', '普通', '悪い・・・'][SleepRecord.morning_conditions[record.morning_condition]] %>
+            <%= ['良い', '普通', '悪い'][SleepRecord.morning_conditions[record.morning_condition]] %>
           <% else %>
             未記録
           <% end %>

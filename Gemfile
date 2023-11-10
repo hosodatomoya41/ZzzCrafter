@@ -13,6 +13,7 @@ gem 'rails', '~> 7.0.6'
 gem 'rails-i18n'
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
+gem 'browser'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'

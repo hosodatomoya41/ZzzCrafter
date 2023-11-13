@@ -78,8 +78,15 @@ class User < ApplicationRecord
   def create_sleep_record
     SleepRecord.find_or_create_by(
       user_id: id,
-      record_date: Date.tomorrow,
+      record_date: Date.today,
       morning_condition: nil
     )
+  end
+  
+  def self.get_today_routine
+    joins(:user_routines)
+      .where(user_routines: { choose_date: Date.today })
+      .where.not(bedtime: nil)
+      .distinct
   end
 end

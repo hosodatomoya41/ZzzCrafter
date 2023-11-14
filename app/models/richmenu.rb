@@ -178,6 +178,31 @@ class Richmenu < ApplicationRecord
               type: 'box',
               layout: 'vertical',
               contents: [
+                if routine.id == 1
+                  {
+                    type: 'button',
+                    style: 'primary',
+                    action: {
+                      type: 'uri',
+                      label: '動画を見る',
+                      uri: 'https://www.youtube.com/watch?v=5bKFnxe9TU8'
+                    }
+                  }
+                elsif routine.id == 2
+                  {
+                    type: 'button',
+                    style: 'primary',
+                    action: {
+                      type: 'uri',
+                      label: '動画を見る',
+                      uri: 'https://www.youtube.com/watch?v=kwDtQwrLD0Q'
+                    }
+                  }
+                end,
+                {
+                  type: 'separator',
+                  margin: 'md',
+                },
                 {
                   type: 'button',
                   style: 'primary',
@@ -187,14 +212,14 @@ class Richmenu < ApplicationRecord
                     data: "action=add_routine&routine_id=#{routine.id}"
                   }
                 }
-              ]
+              ].compact
             }
           }
         end
       }
     }
   end
-  
+
   def self.handle_recommend_routines(event, user)
     LineMessagingService.send_reply(event['replyToken'], "鋭意作成中です！実装までしばらくお待ち下さい。")
   end

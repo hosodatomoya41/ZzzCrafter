@@ -108,16 +108,7 @@ class LinebotController < ApplicationController
       received_text = routine.line_text
     end
     result = user.register_routine(received_text)
-
-    case result[:status]
-    when :existing_routine
-      message_text = "既に【#{result[:name]}】は本日登録されたようです！\n継続は力なり、がんばってくださいね！"
-    when :no_bedtime
-      message_text = "【#{result[:name]}】を登録しました。\n就寝時間の設定をして頂くと、ルーティーンの実践に適正な時間が分かります！\nぜひ、メニューの【睡眠の記録】から就寝時間の設定をしてみてください！"
-    when :success
-      message_text = "【#{result[:name]}】を登録しました。\n就寝時間から逆算すると、 #{result[:recommend_time]}頃に実践するのがオススメです！\n睡眠の質を高められるように頑張ってくださいね！"
-    end
-    LineMessagingService.send_reply(event['replyToken'], message_text)
+    Routine.get_messages(routine, result, event)
   end
 
   def handle_morning_condition(user, event, params)

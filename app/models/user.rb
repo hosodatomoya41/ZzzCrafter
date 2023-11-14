@@ -78,7 +78,7 @@ class User < ApplicationRecord
   def create_sleep_record
     SleepRecord.find_or_create_by(
       user_id: id,
-      record_date: Date.today,
+      record_date: Date.tomorrow,
       morning_condition: nil
     )
   end

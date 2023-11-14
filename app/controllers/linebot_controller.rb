@@ -106,6 +106,8 @@ class LinebotController < ApplicationController
       routine_id = received_text['routine_id']
       routine = Routine.find_by(id: routine_id)
       received_text = routine.line_text
+    else
+      routine = Routine.find_by(line_text: received_text)
     end
     result = user.register_routine(received_text)
     Routine.get_messages(routine, result, event)

@@ -1,7 +1,7 @@
 <div class="container mx-auto p-10 text-black">
-  <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
-    <% [@routines_before0, @routines_before1, @routines_before3].zip(['就寝直前におすすめのルーティーン', '就寝1時間前におすすめのルーティーン', '就寝3時間以上前におすすめのルーティーン']).each do |routines, title| %>
-      <div>
+  <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-4 text-center">
+    <% [@routines_before0, @routines_before1, @routines_before3].zip(['就寝直前のルーティーン', '就寝1時間前のルーティーン', '就寝3時間以上前のルーティーン']).each do |routines, title| %>
+      <div class="text-xl">
         <!-- モバイルブラウザ用の表示 -->
         <button class="lg:hidden dropdown-toggle btn mb-4 w-full font-semibold bg-blue-500 hover:bg-blue-300 text-left text-black">
           <%= title %>

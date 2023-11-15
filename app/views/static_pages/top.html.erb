@@ -17,9 +17,7 @@
   <div class="container px-5 pb-24 mx-auto flex flex-wrap items-center">
     <!-- アプリの使い方 -->
     <div class="w-full mb-10">
-      <h2 class="text-4xl my-10">アプリの使い方</h2>
-      <p class="text-3xl font-bold mb-4">STEP1</p>
-      <p class="text-2xl">下の友だち追加ボタン、又はQRコードから公式LINEの友達登録をお願いします。</p>
+      <p class="text-2xl mt-10">まずは下の友だち追加ボタン、又はQRコードから公式LINEの友達登録をお願いします。</p>
       <p class="text-2xl mb-5">デスクトップブラウザをご利用の場合は、右上のログインボタンからでも、LINEログインを通じてご利用が可能です。</p>
 
       <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -27,8 +25,10 @@
         <%= javascript_include_tag 'https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js', 'data-turbolinks-track': 'reload', async: true, defer: true %>
         <%= image_tag 'lineqr.png', class: "w-[200px] h-[200px]" %>
       </div>
-      <p class="text-3xl font-bold mt-10 mb-4">STEP2</p>
-      <p class="text-xl">次に、ルーティーンを追加しましょう。</p>
+
+      <h2 class="text-4xl my-10">アプリの使い方(ブラウザ版)</h2>
+      <p class="text-3xl font-bold mb-4">STEP1</p>
+      <p class="text-xl">始めに、ルーティーンを追加しましょう。</p>
       <p class="text-xl mb-5">ルーティーン一覧から気になるルーティーンをクリックすると、詳細が確認できます。</p>
       <p class="text-xl mb-10">例：</p>
 
@@ -38,7 +38,7 @@
           <%= @routine.name %>
         </h2>
         <p class="text-lg mt-5">
-          <%= @routine.description.html_safe %>
+        <%= simple_format(@routine.description) %>
         </p>
       </div>
     </div>
@@ -54,7 +54,7 @@
 
 <div class="flex flex-col md:flex-row-reverse justify-between items-center text-center md:text-left">
   <div>
-    <p class="text-3xl font-bold mb-4 mt-10 md:mt-0">STEP3</p>
+    <p class="text-3xl font-bold mb-4 mt-10 md:mt-0">STEP2</p>
     <h3 class="text-2xl mb-10 md:mr-20 md:mb-0">翌朝にLINE通知が来るので、今の調子を記録</h3>
   </div>
   <%= image_tag 'morning.jpg', class: "md:ml-20 mb-20 flex-shrink-0 w-[300px] h-[580px] md:w-[300px] md:h-[580px]" %>

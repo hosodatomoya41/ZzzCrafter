@@ -6,6 +6,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   config.hosts << 'zzzcrafter.fly.dev'
   config.hosts << 'b253-2001-f74-6460-1300-48-3f02-7c95-8260.ngrok-free.app'
+  config.hosts << "zzzcrafter.com"
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development

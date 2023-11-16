@@ -2,6 +2,7 @@ ja:
   enums:
     sleep_issue:
       issue_type:
+        all_routine: "全てのルーティーンを見る"
         night_life: "夜型生活を直したい"
         late_falling_asleep: "寝付きが悪い"
         waking_up_in_the_middle: "夜中に目が覚めてしまう"

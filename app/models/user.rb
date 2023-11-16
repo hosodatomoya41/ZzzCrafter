@@ -35,6 +35,7 @@ class User < ApplicationRecord
   end
 
   def routines_based_on_issue
+    return Routine.all if sleep_issue_id == 1
     if sleep_issue_id
       sleep_issue = SleepIssue.find_by(id: sleep_issue_id)
       sleep_issue ? sleep_issue.routines : Routine.none

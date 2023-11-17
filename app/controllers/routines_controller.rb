@@ -6,6 +6,9 @@ class RoutinesController < ApplicationController
     user = User.find(session[:user_id])
     initialize_issue_type(user)
     initialize_routines(user)
+    else
+      @routines = Routine.all
+      set_routines
     end
 
     respond_to do |format|

@@ -4,17 +4,19 @@
       <h1 class="title-font text-center font-medium text-4xl">ユーザーページ</h1>
     </div>
 
-    <div class="w-full">
-      <div class="flex flex-col md:flex-row mb-20">
-        <div class="grid h-20 card bg-orange-300 rounded-box place-items-center mb-5 md:mb-0 flex-grow">
-          <p class="text-2xl">ルーティーンを実施した回数: <%= @total_routine_count %>回</p>
-        </div>
-        <div class="mx-5 divider divider-horizonal md:mx-5"></div>
-        <div class="grid h-20 card bg-orange-300 rounded-box place-items-center flex-grow">
-          <p class="text-2xl">ルーティーンを実施した日数: <%= @total_date_count %>日</p>
-        </div>
-      </div>
+    <div class="stats bg-accent w-full flex flex-col md:flex-row">
+    <div class="stat place-items-center text-white flex-grow">
+      <div class="stat-title text-xl text-black">ルーティーンを実施した回数</div>
+      <div class="stat-value text-black"><%= @total_routine_count %>回</div>
     </div>
+    
+    <div class="stat place-items-center flex-grow">
+      <div class="stat-title text-xl text-black">ルーティーンを実施した日数</div>
+      <div class="stat-value text-black"><%= @total_date_count %>日</div>
+    </div>
+  </div>
+  
+
   </div>
   
   <div class="text-black body-font overflow-hidden mb-20">
@@ -40,14 +42,15 @@
           </div>
           </div>
           <div class="flex flex-wrap w-3/4">
-            <% routines.each do |user_routine| %>
-              <%= link_to routine_path(user_routine.routine), data: { turbo: "false" }, class: "card border border-black w-1/4 m-2" do %>
-                <div class="card-body">
-                  <h2 class="card-title text-lg"><%= user_routine.routine.name %></h2>
-                </div>
-              <% end %>
+          <% routines.each do |user_routine| %>
+            <%= link_to routine_path(user_routine.routine), data: { turbo: "false" }, class: "card border border-black md:w-1/4 w-full m-2" do %>
+              <div class="card-body">
+                <h2 class="card-title text-lg"><%= user_routine.routine.name %></h2>
+              </div>
             <% end %>
-          </div>
+          <% end %>
+        </div>
+        
         </div>
         <hr class="my-4">
       </div>

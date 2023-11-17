@@ -8,7 +8,6 @@ class RoutinesController < ApplicationController
     initialize_routines(user)
     end
 
-    puts "issue_type= #{@current_issue_type}"
     respond_to do |format|
       format.html
       format.turbo_stream do

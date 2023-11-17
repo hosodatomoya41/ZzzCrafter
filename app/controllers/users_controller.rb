@@ -13,6 +13,10 @@ class UsersController < ApplicationController
     @user = User.find(session[:user_id])
     @total_routine_count = @user.user_routines.count
     @total_date_count = @user.sleep_records.count
+
+    set_year_and_month
+    @grouped_user_routines = UserRoutine.grouped_by_date(@year, @month, current_user.id)
+    @grouped_sleep_records = SleepRecord.grouped_by_date(@year, @month, current_user.id)
   end
 
   def edit
@@ -36,12 +40,6 @@ class UsersController < ApplicationController
     user = User.create(line_user_id: line_user_id) if user.nil?
     session[:user_id] = user.id
     render json: user
-  end
-
-  def routine_records
-    set_year_and_month
-    @grouped_user_routines = UserRoutine.grouped_by_date(@year, @month, current_user.id)
-    @grouped_sleep_records = SleepRecord.grouped_by_date(@year, @month, current_user.id)
   end
 
   private

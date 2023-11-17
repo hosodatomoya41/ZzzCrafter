@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/users', to: 'users#show', as: 'users'
   get '/users/edit', to: 'users#edit', as: 'users_edit'
 
-  post 'recommend_routines', to: 'routines#index'
+  post 'routines', to: 'routines#index'
 
   resources :users, only: %i[new create update]
   resources :routines, only: %i[index show]

@@ -35,7 +35,7 @@
             <div class="font-semibold text-gray-700 text-2xl mb-2"><%= date %></div>
             <div>
             <% if @grouped_sleep_records[date]&.first&.morning_condition %>
-              <span class="text-gray-700">翌朝のコンディション: <br><span class="font-bold"><%= ['良い！', '普通', '悪い・・・'][SleepRecord.morning_conditions[@grouped_sleep_records[date].first.morning_condition]] %></span></span>
+              <span class="text-gray-700">翌朝のコンディション: <br><span class="font-bold"><%= ['良い', '普通', '悪い'][SleepRecord.morning_conditions[@grouped_sleep_records[date].first.morning_condition]] %></span></span>
             <% else %>
               <span class="text-gray-700">翌朝のコンディション: <br><span class="font-bold">記録なし</span></span>
             <% end %>

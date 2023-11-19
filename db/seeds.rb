@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'json'
 
 routines = [
   { name: '瞑想', description: "腹式呼吸を意識して瞑想をしましょう。\n寝ながらでも問題ありません。\n最初は5分間を目標に、徐々に時間を伸ばしていってみましょう。",
@@ -59,16 +58,4 @@ issue_routine_mappings.each do |issue_type, routine_ids|
     routine = Routine.find(routine_id)
     sleep_issue.routines << routine unless sleep_issue.routines.include?(routine)
   end
-
-routine = Routine.all
-  json_output = routine.map do |routine|
-    {
-      id: routine.id.to_s,
-      title: routine.name,
-      description: routine[:description].gsub("\n", " "),
-      categories: ["睡眠改善"]
-    }
-  end.to_json
-  
-  File.write('routines_catalog.json', json_output)
 end

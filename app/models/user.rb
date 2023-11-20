@@ -62,6 +62,25 @@ class User < ApplicationRecord
     end
   end
 
+  # ユーザーのルーティンと調子を組み合わせて取得するメソッド
+  def routine_and_condition_data(start_date, end_date)
+    # 期間内の UserRoutine のデータを取得
+    user_routines = UserRoutine.includes(:routine)
+                               .where(user_id: id, choose_date: start_date..end_date)
+                               .group_by(&:choose_date)
+  
+    # 期間内の SleepRecord のデータを取得
+    sleep_records = SleepRecord.where(user_id: id, record_date: start_date..end_date)
+  
+    sleep_records.map do |record|
+      {
+        date: record.record_date,
+        condition: record.morning_condition,
+        routines: user_routines[record.record_date]&.map(&:routine) || []
+      }
+    end
+  end
+
   private
 
   def existing_routine?(routine)

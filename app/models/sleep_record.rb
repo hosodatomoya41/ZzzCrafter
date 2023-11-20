@@ -52,4 +52,8 @@ class SleepRecord < ApplicationRecord
       .order('record_date DESC')
       .group_by(&:record_date)
   end
+  
+  def user_routines
+    user.user_routines.where(choose_date: record_date)
+  end
 end

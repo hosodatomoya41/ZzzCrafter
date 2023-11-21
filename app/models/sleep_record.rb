@@ -19,8 +19,8 @@ class SleepRecord < ApplicationRecord
     record = find_by(user_id: user_id, record_date: Date.today, morning_condition: nil)
 
     if record
-      if morning_condition.keys.include?(condition)
-        record.update(morning_condition: condition, wake_up_time: Time.current)
+      if morning_conditions.keys.include?(condition)
+        record.update(morning_condition: morning_conditions[condition], wake_up_time: Time.current)
         "調子を記録しました。今日も一日頑張りましょう！"
       end
     else

@@ -67,10 +67,10 @@ class User < ApplicationRecord
     # 期間内の UserRoutine のデータを取得
     user_routines = UserRoutine.includes(:routine)
                                .where(user_id: id, choose_date: start_date..end_date)
-                               .group_by(&:choose_date)
+                               .group_by { |ur| ur.choose_date + 1.day }
   
     # 期間内の SleepRecord のデータを取得
-    sleep_records = SleepRecord.where(user_id: id, record_date: start_date..end_date)
+    sleep_records = SleepRecord.where(user_id: id, record_date: start_date + 1.day..end_date + 1.day)
   
     sleep_records.map do |record|
       {
@@ -79,6 +79,55 @@ class User < ApplicationRecord
         routines: user_routines[record.record_date]&.map(&:routine) || []
       }
     end
+  end
+  
+  def update_routine_scores
+    # ルーティーンの初期スコアを0に設定
+    scores = Routine.all.each_with_object({}) { |routine, hash| hash[routine.id] = 0 }
+
+    # 最近のルーティーンと調子を取得
+    recent_data = routine_and_condition_data(Date.today - 30, Date.today)
+
+    # ルーティーンごとにスコアを計算
+    recent_data.each do |data|
+      data[:routines].each do |routine|
+        case data[:condition]
+        when 'good'
+          scores[routine.id] += 1
+        when 'bad'
+          scores[routine.id] -= 1
+        end
+      end
+    end
+    scores
+  end
+
+  def recommend_routines
+    scores = update_routine_scores
+    valid_recommend_times = ['before0', 'before1', 'before3']
+    recommendations = valid_recommend_times.each_with_object({}) { |time, hash| hash[time] = [] }
+    mid_recommendations = {}
+
+    # 'before10' のルーティーンを 'before3' に追加
+    Routine.all.each do |routine|
+      recommend_time = routine.recommend_time == 'before10' ? 'before3' : routine.recommend_time
+      next unless valid_recommend_times.include?(recommend_time)
+
+      recommendations[recommend_time] << { routine: routine, score: scores[routine.id] }
+    end
+
+    recommendations.each do |time, routines|
+      # 高評価のルーティーンを1つ選択
+      top_routine = routines.select { |r| r[:score] >= 1 }.max_by { |r| r[:score] }
+      recommendations[time] = top_routine ? [top_routine[:routine]] : []
+
+      # 中間評価のルーティーンを選択（スコアが0以上でトップに含まれないもの）
+      mid_routines = routines.select { |r| r[:score] >= 0 && (!top_routine || top_routine[:routine] != r[:routine]) }
+                            .sample(2)
+      mid_recommendations["mid_#{time}"] = mid_routines.map { |r| r[:routine] }
+    end
+
+    { top: recommendations, mid: mid_recommendations }
   end
 
   private

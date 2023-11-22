@@ -19,8 +19,10 @@ class SleepRecord < ApplicationRecord
     record = find_by(user_id: user_id, record_date: Date.today, morning_condition: nil)
 
     if record
-      record.update(morning_condition: condition, wake_up_time: Time.current)
-      "調子を記録しました。今日も一日頑張りましょう！"
+      if morning_conditions.keys.include?(condition)
+        record.update(morning_condition: morning_conditions[condition], wake_up_time: Time.current)
+        "調子を記録しました。今日も一日頑張りましょう！"
+      end
     else
       "調子は記録済みです！今日も一日頑張りましょう！"
     end
@@ -49,5 +51,9 @@ class SleepRecord < ApplicationRecord
     where(user_id: user_id, record_date: start_date..end_date)
       .order('record_date DESC')
       .group_by(&:record_date)
+  end
+  
+  def user_routines
+    user.user_routines.where(choose_date: record_date)
   end
 end

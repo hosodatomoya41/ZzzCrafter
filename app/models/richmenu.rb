@@ -146,7 +146,7 @@ class Richmenu < ApplicationRecord
 
     client.reply_message(event['replyToken'], [message])
   end
-  
+
   def self.routines_index(routines, event)
     message = {
       type: 'flex',
@@ -221,9 +221,138 @@ class Richmenu < ApplicationRecord
   end
 
   def self.handle_recommend_routines(event, user)
-    LineMessagingService.send_reply(event['replyToken'], "鋭意作成中です！実装までしばらくお待ち下さい。")
-  end
+    recommendations = user.recommend_routines
+    messages = []
   
+    # 最も高評価のルーティーンカルーセルを作成
+    recommend_times = ['before0', 'before1', 'before3']
+    recommend_times.each do |time|
+      next if recommendations[:top][time].nil? || recommendations[:top][time].empty?
+  
+      title = get_time_title(time)
+      top_routines_message = create_routines_carousel({ time => recommendations[:top][time] }, title)
+      messages << top_routines_message
+    end
+    
+    puts "result= #{recommendations[:top]}"
+  
+    if recommendations[:top].values.all?(&:empty?)
+      text = "翌朝の調子が良かった日に実践したルーティーンをオススメします！\n現在ではまだ記録がないようです。\n下記にいくつかルーティーンをご提案するので、取り組みやすそうなものがあったら取り組んでみてください！"
+    else
+      text = "上記が今までに実践して翌朝の調子が良かったルーティーンです！参考までに、下記のルーティーンも実践をご検討ください！"
+    end
+    text_message = {
+      type: 'text',
+      text: text
+    }
+    messages << text_message
+
+    # [悪い]評価以外のルーティーンカルーセルを作成
+    mid_routines_carousel_items = recommend_times.flat_map do |time|
+      mid_key = "mid_#{time}"
+  
+      title = get_time_title(time)
+      recommendations[:mid][mid_key].map { |routine| create_routine_item(routine, title) }
+    end
+  
+    unless mid_routines_carousel_items.empty?
+      mid_routines_message = {
+        type: 'flex',
+        altText: 'おすすめのルーティーン',
+        contents: {
+          type: 'carousel',
+          contents: mid_routines_carousel_items
+        }
+      }
+      messages << mid_routines_message
+    end
+  
+    client.reply_message(event['replyToken'], messages) if messages.any?
+  end
+
+  def self.create_routines_carousel(routines, title)
+    puts "create_routines_carousel called with: #{routines.inspect}"
+    carousel_items = routines.map do |time, routine_list|
+      routine_list.map { |routine| create_routine_item(routine, title) }
+    end.flatten
+
+    {
+      type: 'flex',
+      altText: title,
+      contents: {
+        type: 'carousel',
+        contents: carousel_items
+      }
+    }
+  end
+
+  def self.create_routine_item(routine, title)
+    {
+      type: 'bubble',
+      header: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: title,
+            weight: 'bold',
+            size: 'md'
+          }
+        ]
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: routine.name,
+            weight: 'bold',
+            wrap: true
+          },
+          {
+            type: 'text',
+            text: routine.description,
+            wrap: true,
+            flex: 1,
+            margin: 'md'
+          }
+        ],
+        spacing: 'md',
+        paddingAll: '12px'
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'button',
+            style: 'primary',
+            action: {
+              type: 'postback',
+              label: 'このルーティーンを登録する',
+              data: "action=add_routine&routine_id=#{routine.id}"
+            }
+          }
+        ]
+      }
+    }
+  end
+
+  def self.get_time_title(time)
+    case time
+    when 'before0'
+      '就寝直前のルーティーン'
+    when 'before1'
+      '就寝1時間前のルーティーン'
+    when 'before3'
+      '就寝3時間以上前のルーティーン'
+    else
+      'ルーティーン'
+    end
+  end
+
   def self.client
     @client ||= Line::Bot::Client.new do |config|
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']

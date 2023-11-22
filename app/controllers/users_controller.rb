@@ -13,6 +13,10 @@ class UsersController < ApplicationController
     @user = User.find(session[:user_id])
     @total_routine_count = @user.user_routines.count
     @total_date_count = @user.sleep_records.count
+
+    set_year_and_month
+    @grouped_user_routines = UserRoutine.grouped_by_date(@year, @month, current_user.id)
+    @grouped_sleep_records = SleepRecord.grouped_by_date(@year, @month, current_user.id)
   end
 
   def edit
@@ -37,24 +41,15 @@ class UsersController < ApplicationController
     session[:user_id] = user.id
     render json: user
   end
-
-  def routine_records
-    set_year_and_month
-    @grouped_user_routines = UserRoutine.grouped_by_date(@year, @month, current_user.id)
-    @grouped_sleep_records = SleepRecord.grouped_by_date(@year, @month, current_user.id)
-  end
-
-  def recommend_routines
-    user = User.find(session[:user_id])
-    initialize_issue_type(user)
-    initialize_routines(user)
-
-    respond_to do |format|
-      format.html
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace('issue_content', partial: 'users/recommend_routines')
-      end
-    end
+  
+  def recommend_routine
+    @user = current_user
+    @recommendations = @user.recommend_routines
+    @time_titles = {
+      'before0' => '就寝直前のルーティーン',
+      'before1' => '就寝1時間前のルーティーン',
+      'before3' => '就寝3時間以上前のルーティーン'
+    }
   end
 
   private
@@ -71,24 +66,5 @@ class UsersController < ApplicationController
       @year = Date.today.year
       @month = Date.today.month
     end
-  end
-
-  def initialize_issue_type(user)
-    issue_type = params[:issue_type].presence || user&.sleep_issue&.issue_type
-    user.update_issue_type(issue_type) if issue_type.present?
-    @current_issue_type = issue_type
-    @selected_issue_point = user.selected_issue_point
-  end
-
-  def initialize_routines(user)
-    @issue_types = SleepIssue.issue_types.keys
-    @routines = user.routines_based_on_issue
-    set_routines_by_time
-  end
-
-  def set_routines_by_time
-    @routines_before0 = @routines.where(recommend_time: 'before0')
-    @routines_before1 = @routines.where(recommend_time: %w[before1 before1_5])
-    @routines_before3 = @routines.where(recommend_time: %w[before3 before10])
   end
 end

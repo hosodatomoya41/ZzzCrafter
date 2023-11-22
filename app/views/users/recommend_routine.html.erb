@@ -1,0 +1,47 @@
+<div class="container mx-auto p-10 text-black">
+  <h1 class="text-center text-3xl font-bold mb-6">あなたにおすすめのルーティーン</h1>
+
+  <% if @recommendations[:top].values.any?(&:present?) %>
+    <div class="text-center text-xl grid lg:grid-cols-3 gap-4">
+      <% @recommendations[:top].each do |time, routines| %>
+        <% next if routines.empty? %>
+        <div>
+          <h2 class="font-semibold mb-2"><%= @time_titles[time] %></h2>
+          <% routines.each do |routine| %>
+            <div class="card border border-black mb-5">
+              <%= link_to routine_path(routine), data: { turbo: "false" } do %>
+                <div class="card-body">
+                  <h3 class="card-title"><%= routine.name %></h3>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center text-xl font-bold mt-10">翌朝の調子が良かった日に実践したルーティーンをご提案します！現在ではまだ記録がないようです。</p>
+    <p class="text-center text-xl font-bold mt-5">様々なルーティーンを試してみて、自分に合うものを探してみてください！</p>
+  <% end %>
+
+  <p class="text-2xl font-bold my-20 text-center">下記のルーティーンも実践をご検討ください！</p>
+  <div class="text-center text-xl grid lg:grid-cols-3 gap-4">
+    <% @recommendations[:mid].each do |time_key, routines| %>
+      <% next if routines.empty? %>
+      <% time = time_key.to_s.gsub('mid_', '') %>
+      <% title = @time_titles[time] || 'ルーティーン' %>
+      <div>
+        <h2 class="font-semibold mb-2"><%= title %></h2>
+        <% routines.each do |routine| %>
+          <div class="card border border-black mb-5">
+            <%= link_to routine_path(routine), data: { turbo: "false" } do %>
+              <div class="card-body">
+                <h3 class="card-title"><%= routine.name %></h3>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

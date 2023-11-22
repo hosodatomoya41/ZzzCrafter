@@ -6,9 +6,10 @@ class SleepIssue < ApplicationRecord
   has_many :routines, through: :issue_routines
 
   enum issue_type: {
-    night_life: 0,
-    late_falling_asleep: 1,
-    waking_up_in_the_middle: 2
+    all_routine: 0,
+    night_life: 1,
+    late_falling_asleep: 2,
+    waking_up_in_the_middle: 3,
   }
 
   ISSUE_POINTS = {

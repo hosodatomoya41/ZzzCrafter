@@ -8,14 +8,11 @@ Rails.application.routes.draw do
 
   get '/users', to: 'users#show', as: 'users'
   get '/users/edit', to: 'users#edit', as: 'users_edit'
+  get 'recommend_routines', to: 'users#recommend_routine'
 
-  resources :users, only: %i[new create update] do
-    collection do
-      get :recommend_routines
-      post :recommend_routines
-      get :routine_records
-    end
-  end
+  post 'routines', to: 'routines#index'
+
+  resources :users, only: %i[new create update]
   resources :routines, only: %i[index show]
   resources :sleep_records, only: %i[index new create]
 end

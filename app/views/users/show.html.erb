@@ -5,20 +5,22 @@
     </div>
 
     <div class="stats bg-accent w-full flex flex-col md:flex-row">
-    <div class="stat place-items-center text-white flex-grow">
-      <div class="stat-title text-xl text-black">ルーティーンを実施した回数</div>
-      <div class="stat-value text-black"><%= @total_routine_count %>回</div>
-    </div>
-    
-    <div class="stat place-items-center flex-grow">
-      <div class="stat-title text-xl text-black">ルーティーンを実施した日数</div>
-      <div class="stat-value text-black"><%= @total_date_count %>日</div>
+      <div class="stat place-items-center text-white flex-grow">
+        <div class="stat-title text-xl text-black">ルーティーンを実施した回数</div>
+        <div class="stat-value text-black"><%= @total_routine_count %>回</div>
+      </div>
+      
+      <div class="stat place-items-center flex-grow">
+        <div class="stat-title text-xl text-black">ルーティーンを実施した日数</div>
+        <div class="stat-value text-black"><%= @total_date_count %>日</div>
+      </div>
     </div>
   </div>
-  
 
+  <div class="flex justify-center mt-15">
+  <%= link_to "あなたにおすすめのルーティーンはこちら", recommend_routines_path, class: "btn btn-primary text-xl" %>
   </div>
-  
+
   <div class="text-black body-font overflow-hidden mb-20">
   <h1 class='py-3 my-10 text-4xl text-center'>登録したルーティーン一覧</h1>
   <%= form_with url: users_path, method: :get, local: true, class: "text-center mb-10" do |f| %>

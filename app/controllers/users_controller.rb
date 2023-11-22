@@ -41,6 +41,16 @@ class UsersController < ApplicationController
     session[:user_id] = user.id
     render json: user
   end
+  
+  def recommend_routine
+    @user = current_user
+    @recommendations = @user.recommend_routines
+    @time_titles = {
+      'before0' => '就寝直前のルーティーン',
+      'before1' => '就寝1時間前のルーティーン',
+      'before3' => '就寝3時間以上前のルーティーン'
+    }
+  end
 
   private
 
@@ -57,5 +67,4 @@ class UsersController < ApplicationController
       @month = Date.today.month
     end
   end
-
 end

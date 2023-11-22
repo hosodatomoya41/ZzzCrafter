@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get '/users', to: 'users#show', as: 'users'
   get '/users/edit', to: 'users#edit', as: 'users_edit'
+  get 'recommend_routines', to: 'users#recommend_routine'
 
   post 'routines', to: 'routines#index'
 

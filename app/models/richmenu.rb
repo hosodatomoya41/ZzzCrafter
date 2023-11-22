@@ -226,18 +226,28 @@ class Richmenu < ApplicationRecord
   
     # 最も高評価のルーティーンカルーセルを作成
     recommend_times = ['before0', 'before1', 'before3']
+    top_routines_carousel_items = []
     recommend_times.each do |time|
       next if recommendations[:top][time].nil? || recommendations[:top][time].empty?
   
       title = get_time_title(time)
-      top_routines_message = create_routines_carousel({ time => recommendations[:top][time] }, title)
-      messages << top_routines_message
+      top_routines_carousel_items += recommendations[:top][time].map { |routine| create_routine_item(routine, title) }
     end
-    
-    puts "result= #{recommendations[:top]}"
   
+    unless top_routines_carousel_items.empty?
+      top_routines_carousel_message = {
+        type: 'flex',
+        altText: '最も効果的だったルーティーン',
+        contents: {
+          type: 'carousel',
+          contents: top_routines_carousel_items
+        }
+      }
+      messages << top_routines_carousel_message
+    end
+
     if recommendations[:top].values.all?(&:empty?)
-      text = "翌朝の調子が良かった日に実践したルーティーンをオススメします！\n現在ではまだ記録がないようです。\n下記にいくつかルーティーンをご提案するので、取り組みやすそうなものがあったら取り組んでみてください！"
+      text = "翌朝の調子が良かった日に実践したルーティーンをご提案します！\n現在ではまだ記録がないようです。\n下記にいくつかルーティーンをご提案するので、取り組みやすそうなものがあったら取り組んでみてください！"
     else
       text = "上記が今までに実践して翌朝の調子が良かったルーティーンです！参考までに、下記のルーティーンも実践をご検討ください！"
     end

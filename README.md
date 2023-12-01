@@ -30,10 +30,5 @@ https://zzzcrafter.com
 | API            | LINE Messaging API|
 
 
-## 実装を予定している機能
-
-* 行ったルーティーンや翌朝の調子を掲示板で投稿できる機能
-* 管理画面の追加
-
 ### ER図
 <img src="app/assets/images/er_diagram.png">

@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.pathname === '/users/new') {
-
-  let data_id;
-  
   // csrf-tokenを取得
   const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  
+    const LIFF_ID = "2000630332-kyP2ldrK";
+
   // LIFF_IDを使ってLIFFの初期化
   liff.init({
     liffId: LIFF_ID,
@@ -39,9 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(response => {
         console.log(response);
         return response.json();
-      })
-      .then(data => {
-        data_id = data;
       })
       .then(() => {
         window.location = '/';

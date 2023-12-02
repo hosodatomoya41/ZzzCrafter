@@ -36,6 +36,7 @@ class User < ApplicationRecord
 
   def routines_based_on_issue
     return Routine.all if sleep_issue_id == 1
+
     if sleep_issue_id
       sleep_issue = SleepIssue.find_by(id: sleep_issue_id)
       sleep_issue ? sleep_issue.routines : Routine.none
@@ -54,12 +55,10 @@ class User < ApplicationRecord
   end
 
   def selected_issue_point
-    if sleep_issue.present?
-      issue_type = sleep_issue.issue_type
-      SleepIssue::ISSUE_POINTS[issue_type.to_sym]
-    else
-      nil
-    end
+    return unless sleep_issue.present?
+
+    issue_type = sleep_issue.issue_type
+    SleepIssue::ISSUE_POINTS[issue_type.to_sym]
   end
 
   # ユーザーのルーティンと調子を組み合わせて取得するメソッド
@@ -68,10 +67,10 @@ class User < ApplicationRecord
     user_routines = UserRoutine.includes(:routine)
                                .where(user_id: id, choose_date: start_date..end_date)
                                .group_by { |ur| ur.choose_date + 1.day }
-  
+
     # 期間内の SleepRecord のデータを取得
     sleep_records = SleepRecord.where(user_id: id, record_date: start_date + 1.day..end_date + 1.day)
-  
+
     sleep_records.map do |record|
       {
         date: record.record_date,
@@ -80,7 +79,7 @@ class User < ApplicationRecord
       }
     end
   end
-  
+
   def update_routine_scores
     # ルーティーンの初期スコアを0に設定
     scores = Routine.all.each_with_object({}) { |routine, hash| hash[routine.id] = 0 }
@@ -102,35 +101,62 @@ class User < ApplicationRecord
     scores
   end
 
+  def self.today_routine
+    joins(:user_routines)
+      .where(user_routines: { choose_date: Date.today })
+      .where.not(bedtime: nil)
+      .distinct
+  end
+
   def recommend_routines
     scores = update_routine_scores
-    valid_recommend_times = ['before0', 'before1', 'before3']
-    recommendations = valid_recommend_times.each_with_object({}) { |time, hash| hash[time] = [] }
-    mid_recommendations = {}
+    valid_recommend_times = %w[before0 before1 before3]
+    recommendations = setup_recommendations(valid_recommend_times)
 
-    # 'before10' のルーティーンを 'before3' に追加
+    # ルーティーンの分類
+    classify_routines(scores, valid_recommend_times, recommendations)
+
+    # 評価に基づくルーティーンの選択
+    select_routines_by_score(recommendations)
+  end
+
+  private
+
+  def setup_recommendations(valid_recommend_times)
+    valid_recommend_times.each_with_object({}) { |time, hash| hash[time] = [] }
+  end
+
+  def classify_routines(scores, valid_recommend_times, recommendations)
     Routine.all.each do |routine|
       recommend_time = routine.recommend_time == 'before10' ? 'before3' : routine.recommend_time
       next unless valid_recommend_times.include?(recommend_time)
 
       recommendations[recommend_time] << { routine: routine, score: scores[routine.id] }
     end
+  end
+
+  def select_routines_by_score(recommendations)
+    mid_recommendations = {}
 
     recommendations.each do |time, routines|
-      # 高評価のルーティーンを1つ選択
-      top_routine = routines.select { |r| r[:score] >= 1 }.max_by { |r| r[:score] }
+      top_routine = select_top_routine(routines)
       recommendations[time] = top_routine ? [top_routine[:routine]] : []
 
-      # 中間評価のルーティーンを選択（スコアが0以上でトップに含まれないもの）
-      mid_routines = routines.select { |r| r[:score] >= 0 && (!top_routine || top_routine[:routine] != r[:routine]) }
-                            .sample(2)
+      mid_routines = select_mid_routines(routines, top_routine)
       mid_recommendations["mid_#{time}"] = mid_routines.map { |r| r[:routine] }
     end
 
     { top: recommendations, mid: mid_recommendations }
   end
 
-  private
+  def select_top_routine(routines)
+    routines.select { |r| r[:score] >= 1 }.max_by { |r| r[:score] }
+  end
+
+  def select_mid_routines(routines, top_routine)
+    routines.select { |r| r[:score] >= 0 && (!top_routine || top_routine[:routine] != r[:routine]) }
+            .sample(2)
+  end
 
   def existing_routine?(routine)
     UserRoutine.exists?(user_id: id, routine_id: routine.id, choose_date: Date.today)
@@ -150,12 +176,5 @@ class User < ApplicationRecord
       record_date: Date.tomorrow,
       morning_condition: nil
     )
-  end
-  
-  def self.get_today_routine
-    joins(:user_routines)
-      .where(user_routines: { choose_date: Date.today })
-      .where.not(bedtime: nil)
-      .distinct
   end
 end

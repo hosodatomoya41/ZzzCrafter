@@ -37,7 +37,6 @@ class Notification < ApplicationRecord
       }
     }
 
-
     messages = [
       { type: 'text', text: line_text },
       buttons
@@ -45,18 +44,16 @@ class Notification < ApplicationRecord
 
     client.push_message(user.line_user_id, messages)
   end
-  
+
   def self.send_routine_notification(user, user_routine, recommend_time, bedtime)
     routines = user_routine.join(', ')
 
-    if recommend_time == bedtime
-      line_text = 
-        "【#{routines}】の実践時間となりました！\nそして、就寝時間となったので、【#{routines}】の実践が完了したら就寝し、翌朝の調子を観察してみてください。\n本日もお疲れ様でした！"
-    else
-      line_text =
-        "【#{routines}】の実践時間となりました！\n取り組みやすいものは習慣化させ、睡眠の質を高めていけるように頑張ってくださいね！"
-    end
-    
+    line_text = if recommend_time == bedtime
+                  "【#{routines}】の実践時間となりました！\nそして、就寝時間となったので、【#{routines}】の実践が完了したら就寝し、翌朝の調子を観察してみてください。\n本日もお疲れ様でした！"
+                else
+                  "【#{routines}】の実践時間となりました！\n取り組みやすいものは習慣化させ、睡眠の質を高めていけるように頑張ってくださいね！"
+                end
+
     messages = [
       { type: 'text', text: line_text }
     ]

@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     session[:user_id] = user.id
     render json: user
   end
-  
+
   def recommend_routine
     @user = current_user
     @recommendations = @user.recommend_routines

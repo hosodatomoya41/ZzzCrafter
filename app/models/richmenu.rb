@@ -1,17 +1,18 @@
+# frozen_string_literal: true
+
 class Richmenu < ApplicationRecord
   def self.postback(user, event, received_text)
-    if received_text == "睡眠の記録を見る"
-      handle_sleeprecord(event, user, sleep_records = nil)
-    elsif received_text == "ルーティーン一覧を見る"
+    case received_text
+    when '睡眠の記録を見る'
+      handle_sleeprecord(event, user)
+    when 'ルーティーン一覧を見る'
       handle_routines(event, user)
-    elsif received_text == "おすすめのルーティーンを教えて"
+    when 'おすすめのルーティーンを教えて'
       handle_recommend_routines(event, user)
     end
   end
 
-  private
-
-  def self.handle_sleeprecord(event, user, sleep_records = nil)
+  def self.handle_sleeprecord(event, user)
     sleep_records ||= SleepRecord.grouped_by_date(Date.today.year, Date.today.month, user.id)
 
     message = {
@@ -26,95 +27,97 @@ class Richmenu < ApplicationRecord
             {
               type: 'text',
               text: "起床時間: #{user.notification_time&.strftime('%H:%M') || '未記録'}       就寝時間: #{user.bedtime&.strftime('%H:%M') || '未記録'}",
-              weight: 'bold',
+              weight: 'bold'
             },
             {
-              type: 'separator',
+              type: 'separator'
             }
           ]
         },
         body: {
           type: 'box',
           layout: 'vertical',
-          contents: sleep_records.empty? ? 
-            [{
-              type: 'text',
-              text: '記録がありません',
-              size: 'sm',
-              color: '#555555'
-            }] : 
-            sleep_records.map { |date, records|
-              record = records.first
-              {
-                type: 'box',
-                layout: 'horizontal',
-                contents: [
-                  {
-                    type: 'text',
-                    text: date.to_s,
-                    size: 'sm',
-                    color: '#555555'
-                  },
-                  {
-                    type: 'text', 
-                    text: "起床: #{record.wake_up_time&.strftime('%H:%M') || '未記録'}",
-                    size: 'sm',
-                    color: '#555555'
-                  },
-                  {
-                    type: 'text',
-                    text: "調子: #{SleepRecord::CONDITION_MAPPING[record.morning_condition] || '未記録'}",
-                    size: 'sm', 
-                    color: '#555555'
-                  }
-                ]
-              }
-            }
+          contents: if sleep_records.empty?
+                      [{
+                        type: 'text',
+                        text: '記録がありません',
+                        size: 'sm',
+                        color: '#555555'
+                      }]
+                    else
+                      sleep_records.map do |date, records|
+                        record = records.first
+                        {
+                          type: 'box',
+                          layout: 'horizontal',
+                          contents: [
+                            {
+                              type: 'text',
+                              text: date.to_s,
+                              size: 'sm',
+                              color: '#555555'
+                            },
+                            {
+                              type: 'text',
+                              text: "起床: #{record.wake_up_time&.strftime('%H:%M') || '未記録'}",
+                              size: 'sm',
+                              color: '#555555'
+                            },
+                            {
+                              type: 'text',
+                              text: "調子: #{SleepRecord::CONDITION_MAPPING[record.morning_condition] || '未記録'}",
+                              size: 'sm',
+                              color: '#555555'
+                            }
+                          ]
+                        }
+                      end
+                    end
         },
         footer: {
           type: 'box',
           layout: 'vertical',
           contents: [
             {
-              type: 'separator',
+              type: 'separator'
             },
             {
               type: 'text',
               text: "表示する年月をメッセージで送信することで選択できます。\n例:10月, 2022年10月",
               wrap: true
-            },
+            }
           ]
         }
       }
     }
 
-  sleep_registration_message = {
-    type: 'template',
-    altText: '起床時間と就寝時間の一覧',
-    template: {
-      type: 'buttons',
-      title: '睡眠時間の記録',
-      text: '目標の起床時間と就寝時間を設定できます。',
-      actions: [
-        {
-          type: 'datetimepicker',
-          label: '起床時間',
-          data: 'action=wakeup&mode=datetime',
-          mode: 'time'
-        },
-        {
-          type: 'datetimepicker',
-          label: '就寝時間',
-          data: 'action=sleep&mode=datetime',
-          mode: 'time'
-        }
-      ]
+    sleep_registration_message = {
+      type: 'template',
+      altText: '起床時間と就寝時間の一覧',
+      template: {
+        type: 'buttons',
+        title: '睡眠時間の記録',
+        text: '目標の起床時間と就寝時間を設定できます。',
+        actions: [
+          {
+            type: 'datetimepicker',
+            label: '起床時間',
+            data: 'action=wakeup&mode=datetime',
+            mode: 'time'
+          },
+          {
+            type: 'datetimepicker',
+            label: '就寝時間',
+            data: 'action=sleep&mode=datetime',
+            mode: 'time'
+          }
+        ]
+      }
     }
-  }
-  client.reply_message(event['replyToken'], [message, sleep_registration_message])
+    client.reply_message(event['replyToken'], [message, sleep_registration_message])
   end
-  
-  def self.handle_routines(event, user)
+
+  def self.handle_routines(event, _user)
     buttons = [
       {
         type: 'postback',
@@ -147,8 +150,8 @@ class Richmenu < ApplicationRecord
     client.reply_message(event['replyToken'], [message])
   end
 
-  def self.routines_index(routines, event)
-    message = {
+  def self.routines_index(routines, _event)
+    {
       type: 'flex',
       altText: 'ルーティーン一覧',
       contents: {
@@ -178,7 +181,8 @@ class Richmenu < ApplicationRecord
               type: 'box',
               layout: 'vertical',
               contents: [
-                if routine.id == 1
+                case routine.id
+                when 1
                   {
                     type: 'button',
                     style: 'primary',
@@ -188,7 +192,7 @@ class Richmenu < ApplicationRecord
                       uri: 'https://www.youtube.com/watch?v=5bKFnxe9TU8'
                     }
                   }
-                elsif routine.id == 2
+                when 2
                   {
                     type: 'button',
                     style: 'primary',
@@ -201,7 +205,7 @@ class Richmenu < ApplicationRecord
                 end,
                 {
                   type: 'separator',
-                  margin: 'md',
+                  margin: 'md'
                 },
                 {
                   type: 'button',
@@ -223,17 +227,17 @@ class Richmenu < ApplicationRecord
   def self.handle_recommend_routines(event, user)
     recommendations = user.recommend_routines
     messages = []
-  
+
     # 最も高評価のルーティーンカルーセルを作成
-    recommend_times = ['before0', 'before1', 'before3']
+    recommend_times = %w[before0 before1 before3]
     top_routines_carousel_items = []
     recommend_times.each do |time|
       next if recommendations[:top][time].nil? || recommendations[:top][time].empty?
-  
+
       title = get_time_title(time)
       top_routines_carousel_items += recommendations[:top][time].map { |routine| create_routine_item(routine, title) }
     end
-  
+
     unless top_routines_carousel_items.empty?
       top_routines_carousel_message = {
         type: 'flex',
@@ -246,11 +250,11 @@ class Richmenu < ApplicationRecord
       messages << top_routines_carousel_message
     end
 
-    if recommendations[:top].values.all?(&:empty?)
-      text = "翌朝の調子が良かった日に実践したルーティーンをご提案します！\n現在ではまだ記録がないようです。\n下記にいくつかルーティーンをご提案するので、取り組みやすそうなものがあったら取り組んでみてください！"
-    else
-      text = "上記が今までに実践して翌朝の調子が良かったルーティーンです！参考までに、下記のルーティーンも実践をご検討ください！"
-    end
+    text = if recommendations[:top].values.all?(&:empty?)
+             "翌朝の調子が良かった日に実践したルーティーンをご提案します！\n現在ではまだ記録がないようです。\n下記にいくつかルーティーンをご提案するので、取り組みやすそうなものがあったら取り組んでみてください！"
+           else
+             '上記が今までに実践して翌朝の調子が良かったルーティーンです！参考までに、下記のルーティーンも実践をご検討ください！'
+           end
     text_message = {
       type: 'text',
       text: text
@@ -260,11 +264,11 @@ class Richmenu < ApplicationRecord
     # [悪い]評価以外のルーティーンカルーセルを作成
     mid_routines_carousel_items = recommend_times.flat_map do |time|
       mid_key = "mid_#{time}"
-  
+
       title = get_time_title(time)
       recommendations[:mid][mid_key].map { |routine| create_routine_item(routine, title) }
     end
-  
+
     unless mid_routines_carousel_items.empty?
       mid_routines_message = {
         type: 'flex',
@@ -276,13 +280,13 @@ class Richmenu < ApplicationRecord
       }
       messages << mid_routines_message
     end
-  
+
     client.reply_message(event['replyToken'], messages) if messages.any?
   end
 
   def self.create_routines_carousel(routines, title)
     puts "create_routines_carousel called with: #{routines.inspect}"
-    carousel_items = routines.map do |time, routine_list|
+    carousel_items = routines.map do |_time, routine_list|
       routine_list.map { |routine| create_routine_item(routine, title) }
     end.flatten
 

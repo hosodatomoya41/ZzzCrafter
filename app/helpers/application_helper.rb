@@ -5,12 +5,12 @@ module ApplicationHelper
     color_mapping = { success: 'green', alert: 'red', notice: 'blue' }
     content_tag(:div, flash[type], class: "bg-#{color_mapping[type]}-500 text-white p-4 rounded") if flash[type]
   end
-  
+
   def format_date_for_device(record_date)
     if browser.device.mobile?
-      record_date.strftime("%-m/%-d") # スマホでは月日のみ
+      record_date.strftime('%-m/%-d') # スマホでは月日のみ
     else
-      record_date.strftime("%Y/%m/%d") # デスクトップでは年月日
+      record_date.strftime('%Y/%m/%d') # デスクトップでは年月日
     end
   end
 

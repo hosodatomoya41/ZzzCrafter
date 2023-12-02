@@ -3,9 +3,9 @@
 class RoutinesController < ApplicationController
   def index
     if session[:user_id].present?
-    user = User.find(session[:user_id])
-    initialize_issue_type(user)
-    initialize_routines(user)
+      user = User.find(session[:user_id])
+      initialize_issue_type(user)
+      initialize_routines(user)
     else
       @routines = Routine.all
       set_routines
@@ -22,9 +22,9 @@ class RoutinesController < ApplicationController
   def show
     @routine = Routine.find(params[:id])
   end
-  
+
   private
-  
+
   def initialize_issue_type(user)
     issue_type = params[:issue_type].presence || user&.sleep_issue&.issue_type
     user.update_issue_type(issue_type) if issue_type.present?

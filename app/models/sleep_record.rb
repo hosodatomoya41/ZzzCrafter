@@ -9,10 +9,10 @@ class SleepRecord < ApplicationRecord
   enum morning_condition: { good: 0, normal: 1, bad: 2 }
 
   CONDITION_MAPPING = {
-    "good" => '良い',
-    "normal" => '普通',
-    "bad" => '悪い',
-  }
+    'good' => '良い',
+    'normal' => '普通',
+    'bad' => '悪い'
+  }.freeze
 
   def self.record_condition(user_id, received_text)
     condition = received_text
@@ -21,10 +21,10 @@ class SleepRecord < ApplicationRecord
     if record
       if morning_conditions.keys.include?(condition)
         record.update(morning_condition: morning_conditions[condition], wake_up_time: Time.current)
-        "調子を記録しました。今日も一日頑張りましょう！"
+        '調子を記録しました。今日も一日頑張りましょう！'
       end
     else
-      "調子は記録済みです！今日も一日頑張りましょう！"
+      '調子は記録済みです！今日も一日頑張りましょう！'
     end
   end
 
@@ -52,7 +52,7 @@ class SleepRecord < ApplicationRecord
       .order('record_date DESC')
       .group_by(&:record_date)
   end
-  
+
   def user_routines
     user.user_routines.where(choose_date: record_date)
   end

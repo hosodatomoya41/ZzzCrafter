@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LineMessagingService
   def self.send_reply(token, message_text)
     message = {

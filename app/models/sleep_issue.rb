@@ -9,7 +9,7 @@ class SleepIssue < ApplicationRecord
     all_routine: 0,
     night_life: 1,
     late_falling_asleep: 2,
-    waking_up_in_the_middle: 3,
+    waking_up_in_the_middle: 3
   }
 
   ISSUE_POINTS = {

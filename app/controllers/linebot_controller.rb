@@ -13,10 +13,10 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
     events.each do |event|
       case event
-        when Line::Bot::Event::Postback
-          data = event['postback']['data']
-          handle_postback(event, data)
-        when Line::Bot::Event::Message
+      when Line::Bot::Event::Postback
+        data = event['postback']['data']
+        handle_postback(event, data)
+      when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
           handle_message(event)
@@ -26,7 +26,7 @@ class LinebotController < ApplicationController
   end
 
   private
-  
+
   def handle_message(event)
     line_user_id = event['source']['userId']
     user = User.find_by(line_user_id: line_user_id)
@@ -40,7 +40,7 @@ class LinebotController < ApplicationController
       handle_register_routine(user, event, received_text)
     end
   end
-  
+
   def handle_postback(event, data)
     user_id = event['source']['userId']
     user = User.find_by(line_user_id: user_id)
@@ -59,23 +59,24 @@ class LinebotController < ApplicationController
 
   def handle_month(user, event, received_text)
     current_year = Date.today.year
-  
-    if received_text.include?("年")
+
+    if received_text.include?('年')
       # ユーザーが年も指定している場合、その年と月を取得
-      year, month = received_text.split('年').first.to_i, received_text.split('年').last.split('月').first.to_i
+      year = received_text.split('年').first.to_i
+      month = received_text.split('年').last.split('月').first.to_i
     else
       # ユーザーが月だけを指定している場合、現在の年を使用
       year = current_year
       month = received_text.split('月').first.to_i
     end
-  
+
     # 月のデータを取得するための範囲を決定
     start_date = Date.new(year, month, 1)
     end_date = start_date.end_of_month
-    
+
     sleep_records = SleepRecord.fetch_records(user.id, start_date, end_date)
     grouped_sleep_records = sleep_records.group_by(&:record_date)
-    
+
     # 取得したデータをもとにFlex Messageを生成して送信
     message_text = Richmenu.handle_sleeprecord(event, user, grouped_sleep_records)
     client.reply_message(event['replyToken'], message_text)
@@ -84,23 +85,23 @@ class LinebotController < ApplicationController
   def handle_sleeptime(user, event, params)
     time = event['postback']['params']['time']
     if params['action'] == 'wakeup'
-    user.update(notification_time: Time.zone.parse(time))
-    message_text = "起床時間を#{time}に設定しました！"
+      user.update(notification_time: Time.zone.parse(time))
+      message_text = "起床時間を#{time}に設定しました！"
     else
-    user.update(bedtime: Time.zone.parse(time))
-    message_text = "就寝時間を#{time}に設定しました！"
+      user.update(bedtime: Time.zone.parse(time))
+      message_text = "就寝時間を#{time}に設定しました！"
     end
     LineMessagingService.send_reply(event['replyToken'], message_text)
   end
-  
-  def handle_show_routines(user, event, params)
+
+  def handle_show_routines(_user, event, params)
     times = params['times']
     routine_ids = times.map { |time| Routine.recommend_times[time] }
     routines = Routine.where(recommend_time: routine_ids)
     message_text = Richmenu.routines_index(routines, event)
     client.reply_message(event['replyToken'], message_text)
   end
-  
+
   def handle_register_routine(user, event, received_text)
     if received_text.is_a?(Hash)
       routine_id = received_text['routine_id']

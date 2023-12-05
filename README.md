@@ -29,5 +29,9 @@ https://zzzcrafter.fly.dev
 | API            | LINE Messaging API|
 
 
+
 ### ER図
-<img src="app/assets/images/er_diagram.png">
+![er_diagram](https://github.com/hosodatomoya41/ZzzCrafter/assets/123244117/5498f8a9-fb24-4db1-b4bf-6452292e812b)
+
+
+

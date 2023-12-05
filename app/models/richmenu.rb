@@ -6,7 +6,7 @@ class Richmenu < ApplicationRecord
     when '睡眠の記録を見る'
       handle_sleeprecord(event, user)
     when 'ルーティーン一覧を見る'
-      handle_routines(event, user)
+      handle_routines(event)
     when 'おすすめのルーティーンを教えて'
       handle_recommend_routines(event, user)
     end
@@ -117,7 +117,7 @@ class Richmenu < ApplicationRecord
     client.reply_message(event['replyToken'], [message, sleep_registration_message])
   end
 
-  def self.handle_routines(event, _user)
+  def self.handle_routines(event)
     buttons = [
       {
         type: 'postback',
@@ -150,7 +150,7 @@ class Richmenu < ApplicationRecord
     client.reply_message(event['replyToken'], [message])
   end
 
-  def self.routines_index(routines, _event)
+  def self.routines_index(routines)
     {
       type: 'flex',
       altText: 'ルーティーン一覧',
@@ -285,7 +285,6 @@ class Richmenu < ApplicationRecord
   end
 
   def self.create_routines_carousel(routines, title)
-    puts "create_routines_carousel called with: #{routines.inspect}"
     carousel_items = routines.map do |_time, routine_list|
       routine_list.map { |routine| create_routine_item(routine, title) }
     end.flatten

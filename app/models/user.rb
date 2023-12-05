@@ -103,10 +103,11 @@ class User < ApplicationRecord
 
   def self.today_routine
     joins(:user_routines)
-      .where(user_routines: { choose_date: Date.today })
+      .where(user_routines: { choose_date: [Date.today, Date.yesterday] })
       .where.not(bedtime: nil)
       .distinct
   end
+  
 
   def recommend_routines
     scores = update_routine_scores

@@ -98,7 +98,7 @@ class LinebotController < ApplicationController
     times = params['times']
     routine_ids = times.map { |time| Routine.recommend_times[time] }
     routines = Routine.where(recommend_time: routine_ids)
-    message_text = Richmenu.routines_index(routines, event)
+    message_text = Richmenu.routines_index(routines)
     client.reply_message(event['replyToken'], message_text)
   end
 

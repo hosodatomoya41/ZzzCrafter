@@ -5,7 +5,7 @@ require 'active_support/core_ext/integer/time'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   config.hosts << 'zzzcrafter.fly.dev'
-  config.hosts << '639a-2001-f74-6460-1300-2802-b2c0-82a5-6153.ngrok-free.app'
+  config.hosts << 'bf96-2001-f74-6460-1300-f9bb-9cc6-a0c0-b8c9.ngrok-free.app'
   config.hosts << 'zzzcrafter.com'
 
   # In the development environment your application's code is reloaded any time

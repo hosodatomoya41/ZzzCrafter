@@ -6,7 +6,7 @@ ZzzCraferは睡眠に役立つルーティーンを選んで実践していた�
 どのルーティーンを実践したら朝の調子が良くなるかを可視化し、自分に合ったルーティーンを探すことができます。
 
 ## サービスのURL
-https://zzzcrafter.com
+https://zzzcrafter.fly.dev
 
 ## 主な機能
 

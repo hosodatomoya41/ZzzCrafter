@@ -62,8 +62,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_05_053052) do
     t.time "notification_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.time "bedtime"
     t.string "line_user_id", null: false
+    t.time "bedtime"
     t.integer "sleep_issue_id"
   end
 

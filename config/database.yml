@@ -20,10 +20,15 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  template: template0
 
 development:
   <<: *default
-  database: ZzzCrafter_development
+  database: zzzcrafter_development
+  username: zzzcrafter
+  password: "lzzf4819"  # ここに直接パスワードを記入
+  host: 127.0.0.1
+  port: 5432
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +62,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: ZzzCrafter_test
+  database: zzzcrafter_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +86,8 @@ test:
 #
 production:
   <<: *default
-  database: ZzzCrafter_production
-  username: ZzzCrafter
-  password: <%= ENV["ZZZCRAFTER_DATABASE_PASSWORD"] %>
+  database: zzzcrafter_production
+  username: zzzcrafter
+  password: "lzzf4819"  # ここに直接パスワードを記入
+  host: 127.0.0.1
+  port: 5432
